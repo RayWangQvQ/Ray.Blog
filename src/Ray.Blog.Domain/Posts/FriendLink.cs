@@ -1,7 +1,7 @@
 ﻿using System;
 using Volo.Abp.Domain.Entities.Auditing;
 
-namespace Ray.Blog.Blog
+namespace Ray.Blog.Posts
 {
     public class FriendLink : FullAuditedEntity<Guid>
     {

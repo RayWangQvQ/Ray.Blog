@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Ray.Blog.Blog;
+using Ray.Blog.Categories;
 using Ray.Blog.Hots;
 using Ray.Blog.Messages;
+using Ray.Blog.Posts;
 using Ray.Blog.Sayings;
 using Ray.Blog.Signatures;
+using Ray.Blog.Tags;
 using Volo.Abp;
 using Volo.Abp.EntityFrameworkCore.Modeling;
 
@@ -24,16 +26,22 @@ namespace Ray.Blog.EntityFrameworkCore
             //    //...
             //});
 
-            builder.Entity<Post>(b =>
-            {
-                b.ToTable(BlogConsts.DbTablePrefix + "Posts", BlogConsts.DbSchema);
-                b.ConfigureByConvention();
-            });
-
             builder.Entity<Category>(b =>
             {
                 b.ToTable(BlogConsts.DbTablePrefix + "Categories", BlogConsts.DbSchema);
                 b.ConfigureByConvention();
+            });
+
+            builder.Entity<Post>(b =>
+            {
+                b.ToTable(BlogConsts.DbTablePrefix + "Posts", BlogConsts.DbSchema);
+                b.ConfigureByConvention();
+
+                b.HasOne<Category>()
+                    .WithMany()
+                    .IsRequired()
+                    .HasForeignKey(p => p.CategoryId)
+                    .OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<Tag>(b =>
@@ -44,7 +52,7 @@ namespace Ray.Blog.EntityFrameworkCore
 
             builder.Entity<RelatePostTag>(b =>
             {
-                b.ToTable(BlogConsts.DbTablePrefix + "RelatePostTag", BlogConsts.DbSchema);
+                b.ToTable(BlogConsts.DbTablePrefix + "RelatePostTags", BlogConsts.DbSchema);
                 b.ConfigureByConvention();
             });
             builder.Entity<RelatePostTag>()

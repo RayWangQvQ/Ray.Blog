@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using Volo.Abp.Domain.Entities.Auditing;
+using System.ComponentModel.DataAnnotations;
+using System.Text;
+using Volo.Abp.Application.Dtos;
 
-namespace Ray.Blog.Blog
+namespace Ray.Blog.Posts
 {
-    public class Post : FullAuditedAggregateRoot<Guid>
+    public class CreatePostDto
     {
         /// <summary>
         /// 标题
         /// </summary>
+        [Required]
         public string Title { get; set; }
 
         /// <summary>
@@ -27,14 +30,15 @@ namespace Ray.Blog.Blog
         public string Markdown { get; set; }
 
         public Guid CategoryId { get; set; }
-        /// <summary>
-        /// 分类
-        /// </summary>
-        public Category Category { get; set; }
 
         /// <summary>
         /// 标签列表
         /// </summary>
-        public List<RelatePostTag> RelatePostTags { get; set; }
+        public List<CreateRelatePostTagDto> RelatePostTags { get; set; }
+    }
+
+    public class CreateRelatePostTagDto
+    {
+        public Guid TagId { get; set; }
     }
 }

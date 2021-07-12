@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ray.Blog.Categories;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Volo.Abp.Application.Dtos;
@@ -28,10 +29,11 @@ namespace Ray.Blog.Posts
         public string Markdown { get; set; }
 
         public Guid CategoryId { get; set; }
+        public CategoryDto Category { get; protected set; }
 
         /// <summary>
         /// 标签列表
         /// </summary>
-        public List<RelatePostTagDto> RelatePostTags { get; set; }
+        public List<RelatePostTagDto> RelatePostTags { get; protected set; }
     }
 }

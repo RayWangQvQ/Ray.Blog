@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Ray.Blog.Posts;
+using System;
+using System.Collections.Generic;
 using Volo.Abp.Domain.Entities.Auditing;
 
-namespace Ray.Blog.Blog
+namespace Ray.Blog.Categories
 {
     public class Category : FullAuditedEntity<Guid>
     {

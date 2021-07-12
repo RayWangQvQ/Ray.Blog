@@ -1,5 +1,4 @@
-﻿using Ray.Blog.Blog;
-using Ray.Blog.Categories;
+﻿using Ray.Blog.Categories;
 using System;
 using System.Collections.Generic;
 using System.Linq;

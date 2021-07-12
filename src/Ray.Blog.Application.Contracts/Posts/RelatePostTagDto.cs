@@ -8,9 +8,7 @@ namespace Ray.Blog.Posts
 {
     public class RelatePostTagDto : AuditedEntityDto<Guid>
     {
-        public Guid PostId { get; set; }
-
         public Guid TagId { get; set; }
-        public TagDto Tag { get; set; }
+        public TagDto Tag { get; }
     }
 }

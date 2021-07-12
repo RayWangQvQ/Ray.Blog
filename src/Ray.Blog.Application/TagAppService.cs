@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
-using Ray.Blog.Blog;
 using Ray.Blog.Tags;
 using System;
 using System.Collections.Generic;

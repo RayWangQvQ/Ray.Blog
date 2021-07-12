@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Ray.Blog.Blog;
 using Ray.Blog.Categories;
 using Ray.Blog.Posts;
 using Ray.Blog.Tags;
@@ -21,6 +20,8 @@ namespace Ray.Blog
             CreateMap<PostDto, Post>();
             CreateMap<RelatePostTag, RelatePostTagDto>();
             CreateMap<RelatePostTagDto, RelatePostTag>();
+            CreateMap<CreatePostDto, Post>();
+            CreateMap<CreateRelatePostTagDto, RelatePostTag>();
 
             CreateMap<Category, CategoryDto>();
             CreateMap<CategoryDto, Category>();

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Ray.Blog.Posts;
 using Volo.Abp.Domain.Entities.Auditing;
 
-namespace Ray.Blog.Blog
+namespace Ray.Blog.Tags
 {
     public class Tag : FullAuditedEntity<Guid>
     {
