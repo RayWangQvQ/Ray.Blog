@@ -40,8 +40,7 @@ namespace Ray.Blog.EntityFrameworkCore
                 b.HasOne<Category>()
                     .WithMany()
                     .IsRequired()
-                    .HasForeignKey(p => p.CategoryId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .HasForeignKey(p => p.CategoryId);
             });
 
             builder.Entity<Tag>(b =>
@@ -54,16 +53,17 @@ namespace Ray.Blog.EntityFrameworkCore
             {
                 b.ToTable(BlogConsts.DbTablePrefix + "RelatePostTags", BlogConsts.DbSchema);
                 b.ConfigureByConvention();
-            });
-            builder.Entity<RelatePostTag>()
-                .HasOne(pt => pt.Post)
-                .WithMany(p => p.RelatePostTags)
-                .HasForeignKey(pt => pt.PostId);
-            builder.Entity<RelatePostTag>()
-                .HasOne(pt => pt.Tag)
-                .WithMany(t => t.RelatePostTags)
-                .HasForeignKey(pt => pt.TagId);
 
+                b.HasKey(x => new { x.PostId, x.TagId });//联合主键
+
+                b.HasOne<Post>()
+                .WithMany(p => p.RelatePostTags)
+                .HasForeignKey(r => r.PostId);
+
+                b.HasOne<Tag>()
+                .WithMany(t => t.RelatePostTags)
+                .HasForeignKey(r => r.TagId);
+            });
 
             builder.Entity<FriendLink>(b =>
             {

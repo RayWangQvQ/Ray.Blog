@@ -260,3 +260,5 @@ src/Ray.Blog.HttpApi.HostWithIds/Logs/*
 src/Ray.Blog.DbMigrator/Logs/*
 src/Ray.Blog.Blazor.Server/Logs/*
 src/Ray.Blog.Blazor.Server.Tiered/Logs/*
+
+src/Ray.Blog.DbMigrator/appsettings.Development.json

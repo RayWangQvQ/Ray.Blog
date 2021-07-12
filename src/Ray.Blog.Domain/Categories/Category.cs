@@ -5,7 +5,7 @@ using Volo.Abp.Domain.Entities.Auditing;
 
 namespace Ray.Blog.Categories
 {
-    public class Category : FullAuditedEntity<Guid>
+    public class Category : FullAuditedAggregateRoot<Guid>
     {
         /// <summary>
         /// 名称

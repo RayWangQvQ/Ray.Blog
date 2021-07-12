@@ -4,7 +4,7 @@ using Volo.Abp.Domain.Entities.Auditing;
 
 namespace Ray.Blog.Posts
 {
-    public class RelatePostTag : FullAuditedEntity<Guid>
+    public class RelatePostTag : CreationAuditedEntity
     {
         protected RelatePostTag()
         {
@@ -15,10 +15,13 @@ namespace Ray.Blog.Posts
             TagId = tagId;
         }
 
-        public Guid PostId { get; protected set; }
-        public Post Post { get; set; }
+        public virtual Guid PostId { get; protected set; }
 
-        public Guid TagId { get; protected set; }
-        public Tag Tag { get; set; }
+        public virtual Guid TagId { get; protected set; }
+
+        public override object[] GetKeys()
+        {
+            return new object[] { PostId, TagId };
+        }
     }
 }
