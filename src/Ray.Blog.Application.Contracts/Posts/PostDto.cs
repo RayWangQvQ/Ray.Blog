@@ -1,4 +1,5 @@
 ﻿using Ray.Blog.Categories;
+using Ray.Blog.Tags;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -29,11 +30,13 @@ namespace Ray.Blog.Posts
         public string Markdown { get; set; }
 
         public Guid CategoryId { get; set; }
-        public CategoryDto Category { get; protected set; }
+        //public CategoryDto Category { get; protected set; }
 
         /// <summary>
         /// 标签列表
         /// </summary>
         public List<RelatePostTagDto> RelatePostTags { get; protected set; }
+
+        public List<TagDto> Tags { get; set; }
     }
 }

@@ -13,7 +13,9 @@ using Volo.Abp.Domain.Repositories;
 namespace Ray.Blog
 {
     //[Authorize("Blog_Tag")]
-    public class TagAppService : CrudAppService<Tag, TagDto, Guid, PagedAndSortedResultRequestDto>, ITagAppService
+    public class TagAppService : CrudAppService<Tag, TagDto, Guid,
+        PagedAndSortedResultRequestDto, CreateTagDto>,
+        ITagAppService
     {
         public TagAppService(IRepository<Tag, Guid> repository) : base(repository)
         {
@@ -25,8 +27,8 @@ namespace Ray.Blog
             return await base.GetListAsync(input);
         }
 
-        [Authorize("Blog_Tag_Create")]
-        public override async Task<TagDto> CreateAsync(TagDto input)
+        //[Authorize("Blog_Tag_Create")]
+        public override async Task<TagDto> CreateAsync(CreateTagDto input)
         {
             return await base.CreateAsync(input);
         }

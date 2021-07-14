@@ -1,4 +1,5 @@
 ﻿using Ray.Blog.Posts;
+using Ray.Blog.Tags;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,19 +15,38 @@ namespace Ray.Blog
         PagedAndSortedResultRequestDto, CreatePostDto>,
         IPostAppService
     {
-        public PostAppService(IRepository<Post, Guid> repository) : base(repository)
+        private readonly IRepository<Tag, Guid> _tagRepository;
+
+        public PostAppService(
+            IRepository<Post, Guid> repository,
+            IRepository<Tag, Guid> tagRepository
+            ) : base(repository)
         {
+            _tagRepository = tagRepository;
         }
 
         public override async Task<PostDto> GetAsync(Guid id)
         {
-            //return base.GetAsync(id);
-
             await CheckGetPolicyAsync();
 
             var entity = await GetEntityByIdAsync(id);
 
-            return await MapToGetOutputDtoAsync(entity);
+            var dto = await MapToGetOutputDtoAsync(entity);
+
+            await SetTagsOfPost(dto);
+
+            return dto;
+
+            return await base.GetAsync(id);
+        }
+
+        private async Task SetTagsOfPost(PostDto postDto)
+        {
+            var tagIds = postDto.RelatePostTags.Select(x => x.TagId);
+
+            var tags = (await _tagRepository.GetQueryableAsync()).Where(t => tagIds.Contains(t.Id)).ToList();
+
+            postDto.Tags = ObjectMapper.Map<List<Tag>, List<TagDto>>(tags);
         }
     }
 }

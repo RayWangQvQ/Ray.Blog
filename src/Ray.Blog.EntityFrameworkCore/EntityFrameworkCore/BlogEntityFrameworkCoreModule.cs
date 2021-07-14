@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Ray.Blog.Posts;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
@@ -39,6 +41,9 @@ namespace Ray.Blog.EntityFrameworkCore
                 /* Remove "includeAllEntities: true" to create
                  * default repositories only for aggregate roots */
                 options.AddDefaultRepositories(includeAllEntities: true);
+
+                options.Entity<Post>(o =>
+                    o.DefaultWithDetailsFunc = q => q.Include(p => p.RelatePostTags));
             });
 
             Configure<AbpDbContextOptions>(options =>

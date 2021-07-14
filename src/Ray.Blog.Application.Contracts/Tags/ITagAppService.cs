@@ -6,7 +6,8 @@ using Volo.Abp.Application.Services;
 
 namespace Ray.Blog.Tags
 {
-    public interface ITagAppService : ICrudAppService<TagDto, Guid, PagedAndSortedResultRequestDto>
+    public interface ITagAppService : ICrudAppService<TagDto, Guid,
+        PagedAndSortedResultRequestDto, CreateTagDto>
     {
     }
 }

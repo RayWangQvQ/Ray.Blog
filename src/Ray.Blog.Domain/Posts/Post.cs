@@ -44,7 +44,7 @@ namespace Ray.Blog.Posts
         }
 
         /// <summary>
-        /// 移除所有标签
+        /// 移除标签
         /// </summary>
         /// <param name="tagId"></param>
         public virtual void RemoveTag(Guid tagId)

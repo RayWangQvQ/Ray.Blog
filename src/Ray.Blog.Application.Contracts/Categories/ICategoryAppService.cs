@@ -6,7 +6,8 @@ using Volo.Abp.Application.Services;
 
 namespace Ray.Blog.Categories
 {
-    public interface ICategoryAppService : ICrudAppService<CategoryDto, Guid, PagedAndSortedResultRequestDto>
+    public interface ICategoryAppService : ICrudAppService<CategoryDto, Guid,
+        PagedAndSortedResultRequestDto, CreateCategoryDto>
     {
     }
 }

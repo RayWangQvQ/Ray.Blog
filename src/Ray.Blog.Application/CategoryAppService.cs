@@ -10,7 +10,9 @@ using Volo.Abp.Domain.Repositories;
 
 namespace Ray.Blog
 {
-    public class CategoryAppService : CrudAppService<Category, CategoryDto, Guid, PagedAndSortedResultRequestDto>, ICategoryAppService
+    public class CategoryAppService : CrudAppService<Category, CategoryDto, Guid,
+        PagedAndSortedResultRequestDto, CreateCategoryDto>,
+        ICategoryAppService
     {
         public CategoryAppService(IRepository<Category, Guid> repository) : base(repository)
         {

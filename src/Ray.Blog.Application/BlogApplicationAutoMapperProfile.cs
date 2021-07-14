@@ -15,6 +15,7 @@ namespace Ray.Blog
 
             CreateMap<Tag, TagDto>();
             CreateMap<TagDto, Tag>();
+            CreateMap<CreateTagDto, Tag>();
 
             CreateMap<Post, PostDto>();
             CreateMap<PostDto, Post>();
@@ -25,6 +26,7 @@ namespace Ray.Blog
 
             CreateMap<Category, CategoryDto>();
             CreateMap<CategoryDto, Category>();
+            CreateMap<CreateCategoryDto, Category>();
         }
     }
 }

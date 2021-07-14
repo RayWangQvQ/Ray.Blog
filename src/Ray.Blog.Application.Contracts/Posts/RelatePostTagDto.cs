@@ -6,9 +6,8 @@ using Volo.Abp.Application.Dtos;
 
 namespace Ray.Blog.Posts
 {
-    public class RelatePostTagDto : AuditedEntityDto<Guid>
+    public class RelatePostTagDto : CreationAuditedEntityDto
     {
         public Guid TagId { get; set; }
-        public TagDto Tag { get; }
     }
 }
