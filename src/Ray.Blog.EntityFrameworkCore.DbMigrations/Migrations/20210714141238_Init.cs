@@ -295,117 +295,6 @@ namespace Ray.Blog.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BlogFriendLinks",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    Name = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    Url = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    LastModificationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    LastModifierId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
-                    DeleterId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BlogFriendLinks", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "BlogHots",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    Source = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    ExtraProperties = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "varchar(40) CHARACTER SET utf8mb4", maxLength: 40, nullable: true),
-                    CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    LastModificationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    LastModifierId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
-                    DeleterId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BlogHots", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "BlogMessages",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    UserId = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    Name = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    Avatar = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    Content = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    ReplyMessageId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    ExtraProperties = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "varchar(40) CHARACTER SET utf8mb4", maxLength: 40, nullable: true),
-                    CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    LastModificationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    LastModifierId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
-                    DeleterId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BlogMessages", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "BlogSayings",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    Content = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    ExtraProperties = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "varchar(40) CHARACTER SET utf8mb4", maxLength: 40, nullable: true),
-                    CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    LastModificationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    LastModifierId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
-                    DeleterId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BlogSayings", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "BlogSignatures",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    Name = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    Type = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    Url = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    Ip = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    ExtraProperties = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "varchar(40) CHARACTER SET utf8mb4", maxLength: 40, nullable: true),
-                    CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    LastModificationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    LastModifierId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
-                    DeleterId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BlogSignatures", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "BlogTags",
                 columns: table => new
                 {
@@ -876,33 +765,6 @@ namespace Ray.Blog.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Data",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    Title = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    Url = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    HotId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    LastModificationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    LastModifierId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    DeleterId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Data", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Data_BlogHots_HotId",
-                        column: x => x.HotId,
-                        principalTable: "BlogHots",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "IdentityServerApiResourceClaims",
                 columns: table => new
                 {
@@ -1243,6 +1105,41 @@ namespace Ray.Blog.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "BlogComments",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
+                    PostId = table.Column<Guid>(type: "char(36)", nullable: false),
+                    RepliedCommentId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    Text = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
+                    ExtraProperties = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "varchar(40) CHARACTER SET utf8mb4", maxLength: 40, nullable: true),
+                    CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    CreatorId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    LastModificationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    LastModifierId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
+                    DeleterId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BlogComments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BlogComments_BlogComments_RepliedCommentId",
+                        column: x => x.RepliedCommentId,
+                        principalTable: "BlogComments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_BlogComments_BlogPosts_PostId",
+                        column: x => x.PostId,
+                        principalTable: "BlogPosts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "BlogRelatePostTags",
                 columns: table => new
                 {
@@ -1420,6 +1317,16 @@ namespace Ray.Blog.Migrations
                 column: "UserName");
 
             migrationBuilder.CreateIndex(
+                name: "IX_BlogComments_PostId",
+                table: "BlogComments",
+                column: "PostId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BlogComments_RepliedCommentId",
+                table: "BlogComments",
+                column: "RepliedCommentId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_BlogPosts_CategoryId",
                 table: "BlogPosts",
                 column: "CategoryId");
@@ -1428,11 +1335,6 @@ namespace Ray.Blog.Migrations
                 name: "IX_BlogRelatePostTags_TagId",
                 table: "BlogRelatePostTags",
                 column: "TagId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Data_HotId",
-                table: "Data",
-                column: "HotId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_IdentityServerClients_ClientId",
@@ -1525,22 +1427,10 @@ namespace Ray.Blog.Migrations
                 name: "AbpUserTokens");
 
             migrationBuilder.DropTable(
-                name: "BlogFriendLinks");
-
-            migrationBuilder.DropTable(
-                name: "BlogMessages");
+                name: "BlogComments");
 
             migrationBuilder.DropTable(
                 name: "BlogRelatePostTags");
-
-            migrationBuilder.DropTable(
-                name: "BlogSayings");
-
-            migrationBuilder.DropTable(
-                name: "BlogSignatures");
-
-            migrationBuilder.DropTable(
-                name: "Data");
 
             migrationBuilder.DropTable(
                 name: "IdentityServerApiResourceClaims");
@@ -1619,9 +1509,6 @@ namespace Ray.Blog.Migrations
 
             migrationBuilder.DropTable(
                 name: "BlogTags");
-
-            migrationBuilder.DropTable(
-                name: "BlogHots");
 
             migrationBuilder.DropTable(
                 name: "IdentityServerApiResources");

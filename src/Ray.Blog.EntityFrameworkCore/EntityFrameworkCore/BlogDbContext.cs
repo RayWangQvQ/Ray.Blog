@@ -1,11 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Ray.Blog.Categories;
 using Ray.Blog.Comments;
-using Ray.Blog.Hots;
-using Ray.Blog.Messages;
 using Ray.Blog.Posts;
-using Ray.Blog.Sayings;
-using Ray.Blog.Signatures;
 using Ray.Blog.Tags;
 using Ray.Blog.Users;
 using Volo.Abp.Data;
@@ -37,19 +33,8 @@ namespace Ray.Blog.EntityFrameworkCore
 
         public DbSet<Tag> Tags { get; set; }
 
-
         public DbSet<Comment> Comments { get; set; }
 
-
-        public DbSet<FriendLink> FriendLinks { get; set; }
-
-        public DbSet<Hot> Hots { get; set; }
-
-        public DbSet<Saying> Sayings { get; set; }
-
-        public DbSet<Signature> Signatures { get; set; }
-
-        public DbSet<Message> Messages { get; set; }
 
         public BlogDbContext(DbContextOptions<BlogDbContext> options)
             : base(options)

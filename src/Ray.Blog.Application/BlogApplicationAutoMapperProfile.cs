@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Ray.Blog.Categories;
+using Ray.Blog.Comments;
 using Ray.Blog.Posts;
 using Ray.Blog.Tags;
 
@@ -27,6 +28,9 @@ namespace Ray.Blog
             CreateMap<Category, CategoryDto>();
             CreateMap<CategoryDto, Category>();
             CreateMap<CreateCategoryDto, Category>();
+
+            CreateMap<Comment, CommentDto>();
+            CreateMap<CreateCommentDto, Comment>();
         }
     }
 }

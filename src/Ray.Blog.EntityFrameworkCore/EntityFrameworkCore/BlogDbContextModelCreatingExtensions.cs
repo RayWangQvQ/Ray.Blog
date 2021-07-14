@@ -1,10 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Ray.Blog.Categories;
-using Ray.Blog.Hots;
-using Ray.Blog.Messages;
+using Ray.Blog.Comments;
 using Ray.Blog.Posts;
-using Ray.Blog.Sayings;
-using Ray.Blog.Signatures;
 using Ray.Blog.Tags;
 using Volo.Abp;
 using Volo.Abp.EntityFrameworkCore.Modeling;
@@ -65,34 +62,18 @@ namespace Ray.Blog.EntityFrameworkCore
                 .HasForeignKey(r => r.TagId);
             });
 
-            builder.Entity<FriendLink>(b =>
+            builder.Entity<Comment>(b =>
             {
-                b.ToTable(BlogConsts.DbTablePrefix + "FriendLinks", BlogConsts.DbSchema);
+                b.ToTable(BlogConsts.DbTablePrefix + "Comments", BlogConsts.DbSchema);
                 b.ConfigureByConvention();
-            });
 
-            builder.Entity<Hot>(b =>
-            {
-                b.ToTable(BlogConsts.DbTablePrefix + "Hots", BlogConsts.DbSchema);
-                b.ConfigureByConvention();
-            });
+                b.HasOne<Post>()
+                .WithMany()
+                .HasForeignKey(c => c.PostId);
 
-            builder.Entity<Saying>(b =>
-            {
-                b.ToTable(BlogConsts.DbTablePrefix + "Sayings", BlogConsts.DbSchema);
-                b.ConfigureByConvention();
-            });
-
-            builder.Entity<Signature>(b =>
-            {
-                b.ToTable(BlogConsts.DbTablePrefix + "Signatures", BlogConsts.DbSchema);
-                b.ConfigureByConvention();
-            });
-
-            builder.Entity<Message>(b =>
-            {
-                b.ToTable(BlogConsts.DbTablePrefix + "Messages", BlogConsts.DbSchema);
-                b.ConfigureByConvention();
+                b.HasOne<Comment>()
+                .WithMany()
+                .HasForeignKey(c => c.RepliedCommentId);
             });
         }
     }
