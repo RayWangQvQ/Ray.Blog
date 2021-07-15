@@ -7,6 +7,15 @@ namespace Ray.Blog.Posts
 {
     public class Post : FullAuditedAggregateRoot<Guid>
     {
+        protected Post()
+        {
+        }
+
+        public Post(Guid categoryId, string title)
+        {
+            Title = title;
+        }
+
         /// <summary>
         /// 标题
         /// </summary>
@@ -32,7 +41,7 @@ namespace Ray.Blog.Posts
         /// <summary>
         /// 标签列表
         /// </summary>
-        public virtual List<RelatePostTag> RelatePostTags { get; protected set; }
+        public virtual List<RelatePostTag> RelatePostTags { get; protected set; } = new List<RelatePostTag>();
 
         /// <summary>
         /// 添加标签

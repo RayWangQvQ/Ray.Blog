@@ -17,7 +17,7 @@ namespace Ray.Blog.Migrations
             modelBuilder
                 .HasAnnotation("_Abp_DatabaseProvider", EfCoreDatabaseProvider.MySql)
                 .HasAnnotation("Relational:MaxIdentifierLength", 64)
-                .HasAnnotation("ProductVersion", "5.0.8");
+                .HasAnnotation("ProductVersion", "5.0.7");
 
             modelBuilder.Entity("Ray.Blog.Categories.Category", b =>
                 {

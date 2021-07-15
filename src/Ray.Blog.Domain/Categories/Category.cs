@@ -7,6 +7,16 @@ namespace Ray.Blog.Categories
 {
     public class Category : FullAuditedAggregateRoot<Guid>
     {
+        protected Category()
+        {
+        }
+
+        public Category(string name, string alias)
+        {
+            Name = name;
+            Alias = alias;
+        }
+
         /// <summary>
         /// 名称
         /// </summary>

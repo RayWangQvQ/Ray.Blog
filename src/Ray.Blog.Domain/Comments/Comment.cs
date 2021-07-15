@@ -9,6 +9,17 @@ namespace Ray.Blog.Comments
 {
     public class Comment : FullAuditedAggregateRoot<Guid>
     {
+        protected Comment()
+        {
+        }
+
+        public Comment(Guid postId, string text, Guid? repliedCommentId = null)
+        {
+            PostId = postId;
+            Text = text;
+            RepliedCommentId = repliedCommentId;
+        }
+
         public Guid PostId { get; set; }
 
         public Guid? RepliedCommentId { get; set; }

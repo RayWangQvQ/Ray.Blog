@@ -7,6 +7,17 @@ namespace Ray.Blog.Tags
 {
     public class Tag : FullAuditedAggregateRoot<Guid>
     {
+        protected Tag()
+        {
+
+        }
+
+        public Tag(string name, string alias)
+        {
+            Name = name;
+            Alias = alias;
+        }
+
         /// <summary>
         /// 名称
         /// </summary>
