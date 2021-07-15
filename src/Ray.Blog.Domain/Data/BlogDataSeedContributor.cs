@@ -54,8 +54,10 @@ namespace Ray.Blog.Data
             if (post == null)
             {
                 post = new Post(category.Id, "美食日记（1）");
-                post.AddTag(tag.Id);
                 post = await _postRepository.InsertAsync(post, true);
+
+                post.AddTag(tag.Id);
+                await _postRepository.UpdateAsync(post, true);
             }
 
             //评论

@@ -44,6 +44,12 @@ namespace Ray.Blog.Blazor.Menus
                 )
             );
 
+            context.Menu.AddItem(new ApplicationMenuItem(
+                "Categories",
+                l["Menu:Categories"],
+                "/categories"
+                ));
+
             return Task.CompletedTask;
         }
 

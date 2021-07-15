@@ -1,0 +1,42 @@
+﻿@page "/categories"
+@using Volo.Abp.Application.Dtos
+@using Ray.Blog.Categories
+@using Ray.Blog.Localization
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<BlogResource> L
+@inherits AbpCrudPageBase<ICategoryAppService, CategoryDto, Guid, PagedAndSortedResultRequestDto, CreateCategoryDto>
+
+<Card>
+    <CardHeader>
+        <h2>@L["Catetories"]</h2>
+    </CardHeader>
+    <CardBody>
+        <DataGrid TItem="CategoryDto"
+                  Data="Entities"
+                  ReadData="OnDataGridReadAsync"
+                  TotalItems="TotalCount"
+                  ShowPager="true"
+                  PageSize="PageSize">
+            <DataGridColumns>
+                <DataGridColumn TItem="CategoryDto"
+                                Field="@nameof(CategoryDto.Name)"
+                                Caption="@L["Name"]"></DataGridColumn>
+                <DataGridColumn TItem="CategoryDto"
+                                Field="@nameof(CategoryDto.Alias)"
+                                Caption="@L["Alias"]">
+                </DataGridColumn>
+                <DataGridColumn TItem="CategoryDto"
+                                Field="@nameof(CategoryDto.CreationTime)"
+                                Caption="@L["CreationTime"]">
+                    <DisplayTemplate>
+                        @context.CreationTime.ToLongDateString()
+                    </DisplayTemplate>
+                </DataGridColumn>
+            </DataGridColumns>
+        </DataGrid>
+    </CardBody>
+</Card>
+
+@code {
+
+}

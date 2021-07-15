@@ -13,6 +13,7 @@ namespace Ray.Blog.Posts
 
         public Post(Guid categoryId, string title)
         {
+            CategoryId = categoryId;
             Title = title;
         }
 
