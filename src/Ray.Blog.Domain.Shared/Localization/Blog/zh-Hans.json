@@ -4,8 +4,17 @@
     "Menu:Home": "首页",
     "Welcome": "欢迎",
     "LongWelcomeMessage": "欢迎来到该应用程序. 这是一个基于ABP框架的启动项目. 有关更多信息, 请访问 abp.io.",
-    "Permission:Blog_Tag": "标签",
-    "Permission:Blog_Tag_Create": "新增标签",
+
+    "Permission.Blog": "博客",
+    "Permission.Blog.Categories": "分类",
+    "Permission.Blog.Categories.Create": "新建分类",
+    "Permission.Blog.Categories.Edit": "编辑分类",
+    "Permission.Blog.Categories.Delete": "删除分类",
+    "Permission.Blog.Tags": "标签",
+    "Permission.Blog.Tags.Create": "新建标签",
+    "Permission.Blog.Tags.Edit": "编辑标签",
+    "Permission.Blog.Tags.Delete": "删除标签",
+
     "Menu:Categories": "分类"
   }
 }

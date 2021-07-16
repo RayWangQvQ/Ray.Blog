@@ -7,7 +7,22 @@
         //Add your own permission names. Example:
         //public const string MyPermission1 = GroupName + ".MyPermission1";
 
-        public const string Tag = GroupName + "_Tag";
-        public const string Tag_Create = Tag + "_Create";
+        public static class Categories
+        {
+            public const string Default = GroupName + ".Categories";
+
+            public const string Create = Default + ".Create";
+            public const string Edit = Default + ".Edit";
+            public const string Delete = Default + ".Delete";
+        }
+
+        public static class Tags
+        {
+            public const string Default = GroupName + ".Tags";
+
+            public const string Create = Default + ".Create";
+            public const string Edit = Default + ".Edit";
+            public const string Delete = Default + ".Delete";
+        }
     }
 }
