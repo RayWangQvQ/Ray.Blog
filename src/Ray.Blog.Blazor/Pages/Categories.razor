@@ -1,4 +1,6 @@
 ﻿@page "/categories"
+@attribute [Authorize(BlogPermissions.Categories.Default)]
+@using Ray.Blog.Permissions
 @using Volo.Abp.Application.Dtos
 @using Ray.Blog.Categories
 @using Ray.Blog.Localization
@@ -14,10 +16,13 @@
                 <h2>@L["Catetories"]</h2>
             </Column>
             <Column ColumnSize="ColumnSize.IsAuto">
-                <Button Color="Color.Primary"
+                @if (HasCreatePermission)
+                {
+                    <Button Color="Color.Primary"
                         Clicked="OpenCreateModalAsync">
-                    @L["NewCatetory"]
-                </Button>
+                        @L["NewCatetory"]
+                    </Button>
+                }
             </Column>
         </Row>
     </CardHeader>
@@ -29,6 +34,7 @@
                   TotalItems="TotalCount"
                   ShowPager="true"
                   PageSize="PageSize">
+
             <DataGridColumns>
                 <DataGridColumn TItem="CategoryDto"
                                 Field="@nameof(CategoryDto.Name)"
@@ -52,9 +58,11 @@
                         <EntityActions TItem="CategoryDto" EntityActionsColumn="@EntityActionsColumn">
                             <EntityAction TItem="CategoryDto"
                                           Text="@L["Edit"]"
+                                          Visible="HasUpdatePermission"
                                           Clicked="() => OpenEditModalAsync(context)" />
                             <EntityAction TItem="CategoryDto"
                                           Text="@L["Delete"]"
+                                          Visible="HasDeletePermission"
                                           Clicked="() => DeleteEntityAsync(context)"
                                           ConfirmationMessage="() => GetDeleteConfirmationMessage(context)" />
                         </EntityActions>
@@ -62,6 +70,7 @@
                 </DataGridEntityActionsColumn>
 
             </DataGridColumns>
+
         </DataGrid>
     </CardBody>
 </Card>
@@ -158,5 +167,10 @@
 
 
 @code {
-
+    public Categories()
+    {
+        CreatePolicyName = BlogPermissions.Categories.Create;
+        UpdatePolicyName = BlogPermissions.Categories.Edit;
+        DeletePolicyName = BlogPermissions.Categories.Delete;
+    }
 }

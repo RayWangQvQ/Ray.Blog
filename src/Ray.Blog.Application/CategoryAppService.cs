@@ -23,5 +23,10 @@ namespace Ray.Blog
             UpdatePolicyName = BlogPermissions.Categories.Edit;
             DeletePolicyName = BlogPermissions.Categories.Delete;
         }
+
+        public override Task<CategoryDto> CreateAsync(CreateCategoryDto input)
+        {
+            return base.CreateAsync(input);
+        }
     }
 }

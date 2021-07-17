@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Ray.Blog.Localization;
+using Ray.Blog.Permissions;
 using Volo.Abp.Account.Localization;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.Users;
@@ -30,7 +31,7 @@ namespace Ray.Blog.Blazor.Menus
             }
         }
 
-        private Task ConfigureMainMenuAsync(MenuConfigurationContext context)
+        private async Task ConfigureMainMenuAsync(MenuConfigurationContext context)
         {
             var l = context.GetLocalizer<BlogResource>();
 
@@ -43,14 +44,14 @@ namespace Ray.Blog.Blazor.Menus
                     icon: "fas fa-home"
                 )
             );
-
-            context.Menu.AddItem(new ApplicationMenuItem(
-                "Categories",
-                l["Menu:Categories"],
-                "/categories"
-                ));
-
-            return Task.CompletedTask;
+            if (await context.IsGrantedAsync(BlogPermissions.Categories.Default))
+            {
+                context.Menu.AddItem(new ApplicationMenuItem(
+                    "Categories",
+                    l["Menu:Categories"],
+                    "/categories"
+                    ));
+            }
         }
 
         private Task ConfigureUserMenuAsync(MenuConfigurationContext context)
