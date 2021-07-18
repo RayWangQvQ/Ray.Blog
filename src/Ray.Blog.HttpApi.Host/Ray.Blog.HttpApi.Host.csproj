@@ -23,6 +23,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Ray.Blog.Application\Ray.Blog.Application.csproj" />
+    <ProjectReference Include="..\Ray.Blog.BackgroundJobs\Ray.Blog.BackgroundJobs.csproj" />
+    <ProjectReference Include="..\Ray.Blog.BackgroundWorkers\Ray.Blog.BackgroundWorkers.csproj" />
     <ProjectReference Include="..\Ray.Blog.EntityFrameworkCore.DbMigrations\Ray.Blog.EntityFrameworkCore.DbMigrations.csproj" />
     <ProjectReference Include="..\Ray.Blog.HttpApi\Ray.Blog.HttpApi.csproj" />
   </ItemGroup>

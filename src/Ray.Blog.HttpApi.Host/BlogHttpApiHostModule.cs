@@ -27,6 +27,7 @@ using Volo.Abp.Modularity;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.VirtualFileSystem;
 using Swashbuckle.AspNetCore.SwaggerUI;
+using Ray.Blog.BackgroundJobs;
 
 namespace Ray.Blog
 {
@@ -38,7 +39,9 @@ namespace Ray.Blog
         typeof(BlogApplicationModule),
         typeof(BlogEntityFrameworkCoreDbMigrationsModule),
         typeof(AbpAspNetCoreSerilogModule),
-        typeof(AbpSwashbuckleModule)
+        typeof(AbpSwashbuckleModule),
+        typeof(BlogBackgroundWorkersModule),
+        typeof(BlogBackgroundJobsModule)
     )]
     public class BlogHttpApiHostModule : AbpModule
     {

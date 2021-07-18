@@ -31,6 +31,8 @@ using Volo.Abp.Modularity;
 using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.UI;
 using Volo.Abp.VirtualFileSystem;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authentication.Google;
 
 namespace Ray.Blog
 {
@@ -146,6 +148,22 @@ namespace Ray.Blog
                         .AllowCredentials();
                 });
             });
+
+            context.Services.AddAuthentication()
+                .AddGitHub(options =>
+                {
+                    IConfigurationSection githubAuthNSection = configuration.GetSection("Authentication:GitHub");
+
+                    options.ClientId = githubAuthNSection["ClientId"];
+                    options.ClientSecret = githubAuthNSection["ClientSecret"];
+                })
+                .AddGoogle(options =>
+                {
+                    IConfigurationSection googleAuthNSection = configuration.GetSection("Authentication:Google");
+
+                    options.ClientId = googleAuthNSection["ClientId"];
+                    options.ClientSecret = googleAuthNSection["ClientSecret"];
+                });
         }
 
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
