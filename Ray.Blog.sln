@@ -48,7 +48,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ray.Blog.BackgroundJobs", "src\Ray.Blog.BackgroundJobs\Ray.Blog.BackgroundJobs.csproj", "{30E49E8E-5051-4A7D-874C-FCB324CC6C0B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ray.Blog.BackgroundWorkers", "src\Ray.Blog.BackgroundWorkers\Ray.Blog.BackgroundWorkers.csproj", "{0DCF3B9A-8333-4417-A91B-11177EC7E43F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ray.Blog.BackgroundWorkers", "src\Ray.Blog.BackgroundWorkers\Ray.Blog.BackgroundWorkers.csproj", "{0DCF3B9A-8333-4417-A91B-11177EC7E43F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
