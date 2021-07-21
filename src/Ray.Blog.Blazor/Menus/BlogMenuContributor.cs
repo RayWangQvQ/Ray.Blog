@@ -44,6 +44,37 @@ namespace Ray.Blog.Blazor.Menus
                     icon: "fas fa-home"
                 )
             );
+
+            context.Menu.Items.Insert(
+                1,
+                new ApplicationMenuItem(
+                    BlogMenus.Posts,
+                    l["Menu:Posts"],
+                    "/posts",
+                    icon: "fas fa-book-open"
+                )
+            );
+
+            context.Menu.Items.Insert(
+                2,
+                new ApplicationMenuItem(
+                    BlogMenus.Categories,
+                    l["Menu:Categories"],
+                    "/categories",
+                    icon: "fas fa-folder-open"
+                )
+            );
+
+            context.Menu.Items.Insert(
+                3,
+                new ApplicationMenuItem(
+                    BlogMenus.Tags,
+                    l["Menu:Tags"],
+                    "/tags",
+                    icon: "fas fa-bookmark"
+                )
+            );
+
             if (await context.IsGrantedAsync(BlogPermissions.Categories.Default))
             {
                 context.Menu.AddItem(new ApplicationMenuItem(

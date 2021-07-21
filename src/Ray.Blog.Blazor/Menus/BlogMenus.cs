@@ -7,5 +7,8 @@
 
         //Add your menu items here...
 
+        public const string Categories = Prefix + ".Categories";
+        public const string Posts = Prefix + ".Posts";
+        public const string Tags = Prefix + ".Tags";
     }
 }

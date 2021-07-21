@@ -15,6 +15,8 @@
     "Permission.Blog.Tags.Edit": "编辑标签",
     "Permission.Blog.Tags.Delete": "删除标签",
 
-    "Menu:Categories": "分类"
+    "Menu:Posts": "博文",
+    "Menu:Categories": "分类",
+    "Menu:Tags": "标签"
   }
 }

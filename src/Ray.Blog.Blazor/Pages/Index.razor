@@ -1,49 +1,23 @@
 ﻿@page "/"
+
 @using Volo.Abp.MultiTenancy
+
 @inherits BlogComponentBase
+
 @inject ICurrentTenant CurrentTenant
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
-    <Container>
-        <div class="main">
-            <div class="container">
-                <div class="intro">
-                    <div class="avatar">
-                        <a href="javascript:;">
-                            <img src="https://avatars.githubusercontent.com/u/31154238?s=400&u=74d35e10b4f27895bcc029931bc23ca1391ec009&v=4">
-                        </a>
-                    </div>
-                    <div class="nickname">Ray</div>
-                    <div class="description">
-                        <p>
-                            测试
-                            <br>Test
-                        </p>
-                    </div>
-                    <div class="links">
-                        <NavLink class="link-item" title="Posts" href="posts">
-                            <i class="iconfont iconread"></i>
-                        </NavLink>
-                        <NavLink target="_blank" class="link-item" title="Notes" href="">
-                            <i class="iconfont iconnotes"></i>
-                        </NavLink>
-                        <NavLink target="_blank" class="link-item" title="API" href="">
-                            <i class="iconfont iconapi"></i>
-                        </NavLink>
-                        <NavLink class="link-item" title="Manage" href="/account/auth">
-                            <i class="iconfont iconcode"></i>
-                        </NavLink>
-                        <NavLink target="_blank" class="link-item" title="Github" href="">
-                            <i class="iconfont icongithub"></i>
-                        </NavLink>
-                        <NavLink class="link-item weixin" title="扫码关注微信公众号：『』查看更多。">
-                            <i class="iconfont iconweixin"></i>
-                        </NavLink>
-                        <div class="qrcode">
-                            <img src="" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </Container>
+<Container>
+
+    <Jumbotron Background="Background.Primary" Margin="Margin.Is4.FromBottom">
+        <JumbotronTitle Size="JumbotronTitleSize.Is4">Hello, Ray Blog!</JumbotronTitle>
+        <JumbotronSubtitle>
+            最好的学习方法就是分享！
+        </JumbotronSubtitle>
+        <Divider></Divider>
+        <Paragraph>
+            这是我的个人博客，欢迎享用~
+        </Paragraph>
+    </Jumbotron>
+
+</Container>
