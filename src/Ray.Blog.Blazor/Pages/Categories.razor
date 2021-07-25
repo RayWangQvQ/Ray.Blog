@@ -2,6 +2,26 @@
 
 @inherits BlogComponentBase
 
+<Alert Visible="true">
+    <AlertMessage>这是分类页</AlertMessage>
+</Alert>
+
+<CardDeck>
+    @foreach (var item in this.CategoryList)
+    {
+        <Card ColumnSize="ColumnSize.Is2">
+            <CardBody>
+                <CardTitle Size="5">
+                    <CardLink Source="/posts">@item.Name</CardLink>
+                </CardTitle>
+                <CardText>
+                    @item.Alias
+                </CardText>
+            </CardBody>
+        </Card>
+    }
+</CardDeck>
+
 @code {
 
 }
