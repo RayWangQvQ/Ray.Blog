@@ -6,6 +6,25 @@
     <AlertMessage>这是博文页</AlertMessage>
 </Alert>
 
-@code {
+<Alert Visible="true">
+    <AlertMessage>总数：@this.TotalCount</AlertMessage>
+</Alert>
 
+<ListGroup Flush="true">
+
+    @foreach (var item in this.PostList)
+    {
+        <ListGroupItem>
+            <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                <Heading Size="HeadingSize.Is5" Margin="Margin.Is1.FromBottom">@item.Title</Heading>
+                <Small>@item.CreationTime</Small>
+            </Div>
+            <Paragraph Margin="Margin.Is1.FromBottom">@string.Join(",", item.RelatePostTags.Select(x => x.TagId))</Paragraph>
+            <Small>And some small print.</Small>
+        </ListGroupItem>
+    }
+
+</ListGroup>
+
+@code {
 }

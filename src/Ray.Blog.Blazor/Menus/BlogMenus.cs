@@ -14,5 +14,7 @@
         public const string Admin = Prefix + ".Admin";
         public const string AdminCategories = Admin + ".Categories";
         public const string AdminPosts = Admin + ".Posts";
+
+        public const string AdminTests = Admin + ".Tests";
     }
 }

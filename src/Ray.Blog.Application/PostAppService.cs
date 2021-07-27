@@ -1,4 +1,5 @@
-﻿using Ray.Blog.Posts;
+﻿using Microsoft.AspNetCore.Authorization;
+using Ray.Blog.Posts;
 using Ray.Blog.Tags;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,7 @@ namespace Ray.Blog
             _tagRepository = tagRepository;
         }
 
+        [AllowAnonymous]
         public override async Task<PostDto> GetAsync(Guid id)
         {
             await CheckGetPolicyAsync();
@@ -38,6 +40,12 @@ namespace Ray.Blog
             return dto;
 
             return await base.GetAsync(id);
+        }
+
+        [AllowAnonymous]
+        public override Task<PagedResultDto<PostDto>> GetListAsync(PagedAndSortedResultRequestDto input)
+        {
+            return base.GetListAsync(input);
         }
 
         private async Task SetTagsOfPost(PostDto postDto)

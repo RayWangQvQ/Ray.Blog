@@ -22,6 +22,11 @@ namespace Ray.Blog.Permissions
             tagPermission.AddChild(BlogPermissions.Tags.Create, L(BlogPermissions.Tags.Create));
             tagPermission.AddChild(BlogPermissions.Tags.Edit, L(BlogPermissions.Tags.Edit));
             tagPermission.AddChild(BlogPermissions.Tags.Delete, L(BlogPermissions.Tags.Delete));
+
+            var postPermission = myGroup.AddPermission(BlogPermissions.Posts.Default, L(BlogPermissions.Posts.Default));
+            postPermission.AddChild(BlogPermissions.Posts.Create, L(BlogPermissions.Posts.Create));
+            postPermission.AddChild(BlogPermissions.Posts.Edit, L(BlogPermissions.Posts.Edit));
+            postPermission.AddChild(BlogPermissions.Posts.Delete, L(BlogPermissions.Posts.Delete));
         }
 
         private static LocalizableString L(string name)

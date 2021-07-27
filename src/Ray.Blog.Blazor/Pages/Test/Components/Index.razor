@@ -1,0 +1,36 @@
+﻿@page "/Test/Components"
+
+@using Volo.Abp.MultiTenancy
+
+@inherits BlogComponentBase
+
+@inject ICurrentTenant CurrentTenant
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<Container>
+
+    <CardDeck>
+
+        <Card>
+            <Button Type="ButtonType.Link" To="/test/Components/Accordion">Accordion</Button>
+        </Card>
+
+        <Card>
+            <Button Type="ButtonType.Link" To="/test/Components/Grid">Grid</Button>
+        </Card>
+        
+        <Card>
+            <Button Type="ButtonType.Link" To="/test/Components/ListGroup">List Group</Button>
+        </Card>
+
+        <Card>
+            <Button Type="ButtonType.Link" To="/test/Components/Rating">Rating</Button>
+        </Card>
+
+        <Card>
+            <Button Type="ButtonType.Link" To="/test/Components/Step">Step</Button>
+        </Card>
+
+    </CardDeck>
+
+</Container>

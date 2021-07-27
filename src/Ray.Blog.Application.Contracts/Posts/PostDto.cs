@@ -35,8 +35,8 @@ namespace Ray.Blog.Posts
         /// <summary>
         /// 标签列表
         /// </summary>
-        public List<RelatePostTagDto> RelatePostTags { get; protected set; }
+        public List<RelatePostTagDto> RelatePostTags { get; protected set; } = new List<RelatePostTagDto>();
 
-        public List<TagDto> Tags { get; set; }
+        public List<TagDto> Tags { get; set; } = new List<TagDto>();
     }
 }

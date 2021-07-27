@@ -13,6 +13,7 @@
 @inject AbpBlazorMessageLocalizerHelper<BlogResource> LH
 
 <Card>
+
     <CardHeader>
         <Row Class="justify-content-between">
             <Column ColumnSize="ColumnSize.IsAuto">
@@ -22,7 +23,7 @@
                 @if (HasCreatePermission)
                 {
                     <Button Color="Color.Primary"
-                        Clicked="OpenCreateModalAsync">
+                            Clicked="OpenCreateModalAsync">
                         @L["NewCatetory"]
                     </Button>
                 }
@@ -31,6 +32,7 @@
     </CardHeader>
 
     <CardBody>
+
         <DataGrid TItem="CategoryDto"
                   Data="Entities"
                   ReadData="OnDataGridReadAsync"
@@ -62,12 +64,12 @@
                             <EntityAction TItem="CategoryDto"
                                           Text="@L["Edit"]"
                                           Visible="HasUpdatePermission"
-                                          Clicked="() => OpenEditModalAsync(context)" />
+                                          Clicked="() => OpenEditModalAsync(context)"/>
                             <EntityAction TItem="CategoryDto"
                                           Text="@L["Delete"]"
                                           Visible="HasDeletePermission"
                                           Clicked="() => DeleteEntityAsync(context)"
-                                          ConfirmationMessage="() => GetDeleteConfirmationMessage(context)" />
+                                          ConfirmationMessage="() => GetDeleteConfirmationMessage(context)"/>
                         </EntityActions>
                     </DisplayTemplate>
                 </DataGridEntityActionsColumn>
@@ -75,7 +77,9 @@
             </DataGridColumns>
 
         </DataGrid>
+
     </CardBody>
+
 </Card>
 
 
