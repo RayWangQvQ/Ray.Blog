@@ -17,8 +17,8 @@ namespace Ray.Blog
     {
         public CategoryAppService(IRepository<Category, Guid> repository) : base(repository)
         {
-            GetPolicyName = BlogPermissions.Categories.Delete;
-            GetListPolicyName = BlogPermissions.Categories.Default;
+            //GetPolicyName = BlogPermissions.Categories.Delete;
+            //GetListPolicyName = BlogPermissions.Categories.Default;
             CreatePolicyName = BlogPermissions.Categories.Create;
             UpdatePolicyName = BlogPermissions.Categories.Edit;
             DeletePolicyName = BlogPermissions.Categories.Delete;

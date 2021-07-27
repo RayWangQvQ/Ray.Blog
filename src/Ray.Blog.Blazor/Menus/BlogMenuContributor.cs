@@ -77,11 +77,26 @@ namespace Ray.Blog.Blazor.Menus
 
             if (await context.IsGrantedAsync(BlogPermissions.Categories.Default))
             {
-                context.Menu.AddItem(new ApplicationMenuItem(
-                    "Categories",
+                var adminGroup = new ApplicationMenuItem(
+                    BlogMenus.Admin,
+                    l["Menu:Admin"],
+                    icon: "fas fa-cat");
+
+                adminGroup.AddItem(
+                    new ApplicationMenuItem(
+                        BlogMenus.AdminCategories,
                     l["Menu:Categories"],
-                    "/categories"
-                    ));
+                    "/admin/categories",
+                    icon: "fas fa-folder-open"
+                ));
+
+                adminGroup.AddItem(new ApplicationMenuItem(
+                    BlogMenus.AdminPosts,
+                    l["Menu:Posts"],
+                    url: "/posts",
+                    icon: "fas fa-book-open"));
+
+                context.Menu.Items.Insert(4, adminGroup);
             }
         }
 

@@ -10,5 +10,9 @@
         public const string Categories = Prefix + ".Categories";
         public const string Posts = Prefix + ".Posts";
         public const string Tags = Prefix + ".Tags";
+
+        public const string Admin = Prefix + ".Admin";
+        public const string AdminCategories = Admin + ".Categories";
+        public const string AdminPosts = Admin + ".Posts";
     }
 }

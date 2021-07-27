@@ -17,6 +17,7 @@
 
     "Menu:Posts": "博文",
     "Menu:Categories": "分类",
-    "Menu:Tags": "标签"
+    "Menu:Tags": "标签",
+    "Menu:Admin": "后台管理"
   }
 }
