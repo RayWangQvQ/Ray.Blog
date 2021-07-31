@@ -6,7 +6,7 @@
 @using Ray.Blog.Localization
 @using Microsoft.Extensions.Localization
 
-@inherits AbpCrudPageBase<IPostAppService, PostDto, Guid, PagedAndSortedResultRequestDto, CreatePostDto>
+@inherits AbpCrudPageBase<IPostsAppService, PostDto, Guid, PagedAndSortedResultRequestDto, CreatePostDto>
 @attribute [Authorize(BlogPermissions.Posts.Default)]
 
 @inject IStringLocalizer<BlogResource> L
@@ -23,7 +23,7 @@
                 @if (HasCreatePermission)
                 {
                     <Button Color="Color.Primary"
-                            Clicked="OpenCreateModalAsync">
+                        Clicked="OpenCreateModalAsync">
                         @L["NewPost"]
                     </Button>
                 }

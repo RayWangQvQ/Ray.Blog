@@ -16,7 +16,7 @@ namespace Ray.Blog.Blazor.Pages
     public partial class Posts
     {
         [Inject]
-        IPostAppService PostAppService { get; set; }
+        IPostsAppService PostAppService { get; set; }
 
         private IReadOnlyList<PostDto> PostList { get; set; } = new List<PostDto>();
 

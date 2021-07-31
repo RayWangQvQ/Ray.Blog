@@ -16,7 +16,9 @@
     {
         <ListGroupItem>
             <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                <Heading Size="HeadingSize.Is5" Margin="Margin.Is1.FromBottom">@item.Title</Heading>
+                <Heading Size="HeadingSize.Is5" Margin="Margin.Is1.FromBottom">
+                    <Blazorise.Link To="@("/posts/"+item.Id.ToString())" Title="test">@item.Title</Blazorise.Link>
+                </Heading>
                 <Small>@item.CreationTime</Small>
             </Div>
             <Paragraph Margin="Margin.Is1.FromBottom">@string.Join(",", item.RelatePostTags.Select(x => x.TagId))</Paragraph>

@@ -12,13 +12,13 @@ using Volo.Abp.Domain.Repositories;
 
 namespace Ray.Blog
 {
-    public class PostAppService : CrudAppService<Post, PostDto, Guid,
+    public class PostsAppService : CrudAppService<Post, PostDto, Guid,
         PagedAndSortedResultRequestDto, CreatePostDto>,
-        IPostAppService
+        IPostsAppService
     {
         private readonly IRepository<Tag, Guid> _tagRepository;
 
-        public PostAppService(
+        public PostsAppService(
             IRepository<Post, Guid> repository,
             IRepository<Tag, Guid> tagRepository
             ) : base(repository)
