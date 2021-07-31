@@ -1,0 +1,183 @@
+﻿@page "/admin/tags"
+
+@using Ray.Blog.Permissions
+@using Volo.Abp.Application.Dtos
+@using Ray.Blog.Tags
+@using Ray.Blog.Localization
+@using Microsoft.Extensions.Localization
+
+@inherits AbpCrudPageBase<ITagAppService, TagDto, Guid, PagedAndSortedResultRequestDto, CreateTagDto>
+@attribute [Authorize(BlogPermissions.Tags.Default)]
+
+@inject IStringLocalizer<BlogResource> L
+@inject AbpBlazorMessageLocalizerHelper<BlogResource> LH
+
+<Card>
+
+    <CardHeader>
+        <Row Class="justify-content-between">
+            <Column ColumnSize="ColumnSize.IsAuto">
+                <h2>@L["Tags"]</h2>
+            </Column>
+            <Column ColumnSize="ColumnSize.IsAuto">
+                @if (HasCreatePermission)
+                {
+                    <Button Color="Color.Primary"
+                            Clicked="OpenCreateModalAsync">
+                        @L["NewTag"]
+                    </Button>
+                }
+            </Column>
+        </Row>
+    </CardHeader>
+
+    <CardBody>
+
+        <DataGrid TItem="TagDto"
+                  Data="Entities"
+                  ReadData="OnDataGridReadAsync"
+                  TotalItems="TotalCount"
+                  ShowPager="true"
+                  PageSize="PageSize">
+
+            <DataGridColumns>
+                <DataGridColumn TItem="TagDto"
+                                Field="@nameof(TagDto.Name)"
+                                Caption="@L["Name"]"></DataGridColumn>
+
+                <DataGridColumn TItem="TagDto"
+                                Field="@nameof(TagDto.Alias)"
+                                Caption="@L["Alias"]">
+                </DataGridColumn>
+
+                <DataGridColumn TItem="TagDto"
+                                Field="@nameof(TagDto.CreationTime)"
+                                Caption="@L["CreationTime"]">
+                    <DisplayTemplate>
+                        @context.CreationTime.ToLongDateString()
+                    </DisplayTemplate>
+                </DataGridColumn>
+
+                <DataGridEntityActionsColumn TItem="TagDto" @ref="@EntityActionsColumn">
+                    <DisplayTemplate>
+                        <EntityActions TItem="TagDto" EntityActionsColumn="@EntityActionsColumn">
+                            <EntityAction TItem="TagDto"
+                                          Text="@L["Edit"]"
+                                          Visible="HasUpdatePermission"
+                                          Clicked="() => OpenEditModalAsync(context)" />
+                            <EntityAction TItem="TagDto"
+                                          Text="@L["Delete"]"
+                                          Visible="HasDeletePermission"
+                                          Clicked="() => DeleteEntityAsync(context)"
+                                          ConfirmationMessage="() => GetDeleteConfirmationMessage(context)" />
+                        </EntityActions>
+                    </DisplayTemplate>
+                </DataGridEntityActionsColumn>
+
+            </DataGridColumns>
+
+        </DataGrid>
+
+    </CardBody>
+
+</Card>
+
+
+<Modal @ref="@CreateModal">
+    <ModalBackdrop />
+    <ModalContent IsCentered="true">
+        <Form>
+            <ModalHeader>
+                <ModalTitle>@L["NewTag"]</ModalTitle>
+                <CloseButton Clicked="CloseCreateModalAsync" />
+            </ModalHeader>
+
+            <ModalBody>
+                <Validations @ref="@CreateValidationsRef" Model="@NewEntity" ValidateOnLoad="false">
+                    <Validation MessageLocalizer="@LH.Localize">
+                        <Field>
+                            <FieldLabel>@L["Name"]</FieldLabel>
+                            <TextEdit @bind-Text="@NewEntity.Name">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                    </Validation>
+                    <Field>
+                        <FieldLabel>@L["Alias"]</FieldLabel>
+                        <TextEdit @bind-Text="NewEntity.Alias" />
+                    </Field>
+                </Validations>
+            </ModalBody>
+
+            <ModalFooter>
+                <Button Color="Color.Secondary"
+                        Clicked="CloseCreateModalAsync">
+                    @L["Cancel"]
+                </Button>
+                <Button Color="Color.Primary"
+                        Type="@ButtonType.Submit"
+                        PreventDefaultOnSubmit="true"
+                        Clicked="CreateEntityAsync">
+                    @L["Save"]
+                </Button>
+            </ModalFooter>
+        </Form>
+    </ModalContent>
+</Modal>
+
+
+<Modal @ref="@EditModal">
+    <ModalBackdrop />
+    <ModalContent IsCentered="true">
+        <Form>
+            <ModalHeader>
+                <ModalTitle>@EditingEntity.Name</ModalTitle>
+                <CloseButton Clicked="CloseEditModalAsync" />
+            </ModalHeader>
+
+            <ModalBody>
+                <Validations @ref="@EditValidationsRef" Model="@NewEntity" ValidateOnLoad="false">
+                    <Validation MessageLocalizer="@LH.Localize">
+                        <Field>
+                            <FieldLabel>@L["Name"]</FieldLabel>
+                            <TextEdit @bind-Text="@EditingEntity.Name">
+                                <Feedback>
+                                    <ValidationError />
+                                </Feedback>
+                            </TextEdit>
+                        </Field>
+                    </Validation>
+                    <Field>
+                        <FieldLabel>@L["Alias"]</FieldLabel>
+                        <TextEdit @bind-Text="EditingEntity.Alias" />
+                    </Field>
+                </Validations>
+            </ModalBody>
+
+            <ModalFooter>
+                <Button Color="Color.Secondary"
+                        Clicked="CloseEditModalAsync">
+                    @L["Cancel"]
+                </Button>
+                <Button Color="Color.Primary"
+                        Type="@ButtonType.Submit"
+                        PreventDefaultOnSubmit="true"
+                        Clicked="UpdateEntityAsync">
+                    @L["Save"]
+                </Button>
+            </ModalFooter>
+        </Form>
+    </ModalContent>
+</Modal>
+
+
+@code {
+    public AdminTags()
+    {
+        CreatePolicyName = BlogPermissions.Tags.Create;
+        UpdatePolicyName = BlogPermissions.Tags.Edit;
+        DeletePolicyName = BlogPermissions.Tags.Delete;
+    }
+}
