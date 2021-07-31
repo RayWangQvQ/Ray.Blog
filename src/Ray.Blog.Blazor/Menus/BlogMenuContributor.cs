@@ -97,6 +97,12 @@ namespace Ray.Blog.Blazor.Menus
                     icon: "fas fa-book-open"));
 
                 adminGroup.AddItem(new ApplicationMenuItem(
+                    BlogMenus.AdminPosts,
+                    l["Menu:Tags"],
+                    url: "/admin/tags",
+                    icon: "fas fa-bookmark"));
+
+                adminGroup.AddItem(new ApplicationMenuItem(
                     BlogMenus.AdminTests,
                     l["Menu:Tests"],
                     "/Test/Components",

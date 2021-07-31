@@ -1,4 +1,5 @@
-﻿using Blazorise;
+﻿using AutoMapper;
+using Blazorise;
 using Blazorise.DataGrid;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
