@@ -24,6 +24,7 @@ namespace Ray.Blog
             CreateMap<RelatePostTagDto, RelatePostTag>();
             CreateMap<CreatePostDto, Post>();
             CreateMap<CreateRelatePostTagDto, RelatePostTag>();
+            CreateMap<Category, CategoryLookupDto>();
 
             CreateMap<Category, CategoryDto>();
             CreateMap<CategoryDto, Category>();

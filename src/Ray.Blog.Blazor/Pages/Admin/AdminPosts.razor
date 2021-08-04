@@ -42,9 +42,14 @@
                   PageSize="PageSize">
 
             <DataGridColumns>
+
                 <DataGridColumn TItem="PostDto"
                                 Field="@nameof(PostDto.Title)"
                                 Caption="@L["Title"]"></DataGridColumn>
+
+                <DataGridColumn TItem="PostDto"
+                                Field="@nameof(PostDto.CategoryName)"
+                                Caption="@L["CategoryName"]"></DataGridColumn>
 
                 <DataGridColumn TItem="PostDto"
                                 Field="@nameof(PostDto.Url)"
@@ -95,6 +100,20 @@
 
             <ModalBody>
                 <Validations @ref="@CreateValidationsRef" Model="@NewEntity" ValidateOnLoad="false">
+
+                    <Field>
+                        <FieldLabel>@L["Category"]</FieldLabel>
+                        <Select TValue="Guid" @bind-SelectedValue="@NewEntity.CategoryId">
+                            <SelectItem TValue="Guid" Value="Guid.Empty">@L["PickAnCategory"]</SelectItem>
+                            @foreach (var category in categoryList)
+                            {
+                                <SelectItem TValue="Guid" Value="@category.Id">
+                                    @category.Name
+                                </SelectItem>
+                            }
+                        </Select>
+                    </Field>
+
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>
                             <FieldLabel>@L["Title"]</FieldLabel>
@@ -105,14 +124,17 @@
                             </TextEdit>
                         </Field>
                     </Validation>
+
                     <Field>
                         <FieldLabel>@L["Url"]</FieldLabel>
                         <TextEdit @bind-Text="NewEntity.Url" />
                     </Field>
+
                     <Field>
                         <FieldLabel>@L["Markdown"]</FieldLabel>
-                        <TextEdit @bind-Text="NewEntity.Markdown" />
+                        <Markdown @bind-Value="NewEntity.Markdown" />
                     </Field>
+
                 </Validations>
             </ModalBody>
 
@@ -144,6 +166,19 @@
 
             <ModalBody>
                 <Validations @ref="@EditValidationsRef" Model="@NewEntity" ValidateOnLoad="false">
+
+                    <Field>
+                        <FieldLabel>@L["Category"]</FieldLabel>
+                        <Select TValue="Guid" @bind-SelectedValue="@EditingEntity.CategoryId">
+                            @foreach (var category in categoryList)
+                            {
+                                <SelectItem TValue="Guid" Value="@category.Id">
+                                    @category.Name
+                                </SelectItem>
+                            }
+                        </Select>
+                    </Field>
+
                     <Validation MessageLocalizer="@LH.Localize">
                         <Field>
                             <FieldLabel>@L["Title"]</FieldLabel>
@@ -154,15 +189,17 @@
                             </TextEdit>
                         </Field>
                     </Validation>
+
                     <Field>
                         <FieldLabel>@L["Url"]</FieldLabel>
                         <TextEdit @bind-Text="EditingEntity.Url" />
                     </Field>
+
                     <Field>
                         <FieldLabel>@L["Markdown"]</FieldLabel>
-                        @*<TextEdit @bind-Text="EditingEntity.Markdown" />*@
                         <Markdown @bind-Value="EditingEntity.Markdown" />
                     </Field>
+
                 </Validations>
             </ModalBody>
 
@@ -184,10 +221,18 @@
 
 
 @code {
+    IReadOnlyList<CategoryLookupDto> categoryList = Array.Empty<CategoryLookupDto>();
+
     public AdminPosts()
     {
         CreatePolicyName = BlogPermissions.Posts.Create;
         UpdatePolicyName = BlogPermissions.Posts.Edit;
         DeletePolicyName = BlogPermissions.Posts.Delete;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        categoryList = (await AppService.GetCategoryLookupDtoAsync()).Items;
     }
 }

@@ -30,6 +30,7 @@ namespace Ray.Blog.Posts
         public string Markdown { get; set; }
 
         public Guid CategoryId { get; set; }
+        public string CategoryName { get; set; }
         //public CategoryDto Category { get; protected set; }
 
         /// <summary>
