@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Ray.Blog.Posts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,25 +12,26 @@ namespace Ray.Blog.Blazor.Pages
         [Parameter]
         public Guid Id { get; set; }
 
-        string markdownValue = "# EasyMDE \n Go ahead, play around with the editor! Be sure to check out **bold**, *italic*, [links](https://google.com) and all the other features. You can type the Markdown syntax, use the toolbar, or use shortcuts like `ctrl-b` or `cmd-b`.";
+        [Inject]
+        IPostsAppService PostAppService { get; set; }
 
         string markdownHtml;
 
-        protected override void OnInitialized()
+        PostDto PostDto { get; set; } = new PostDto();
+
+        public Post()
         {
-            markdownHtml = Markdig.Markdown.ToHtml(markdownValue ?? string.Empty);
+            PostDto = new PostDto();
+        }
+
+        protected override async Task OnInitializedAsync()
+        {
+            //获取详情
+            PostDto = await PostAppService.GetAsync(Id);
+
+            markdownHtml = Markdig.Markdown.ToHtml(PostDto.Markdown ?? string.Empty);
 
             base.OnInitialized();
         }
-
-        Task OnMarkdownValueChanged(string value)
-        {
-            markdownValue = value;
-
-            markdownHtml = Markdig.Markdown.ToHtml(markdownValue ?? string.Empty);
-
-            return Task.CompletedTask;
-        }
-
     }
 }

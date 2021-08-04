@@ -1,32 +1,27 @@
 ﻿@page "/posts"
+@using Ray.Blog.Posts
 
 @inherits BlogComponentBase
 
-<Alert Visible="true">
-    <AlertMessage>这是博文页</AlertMessage>
-</Alert>
+<DataGrid TItem="PostDto"
+          Data="PostList"
+          ReadData="OnDataGridReadAsync"
+          TotalItems="TotalCount"
+          ShowPager="true"
+          PageSize="PageSize">
+    <DetailRowTemplate>
+        <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+            <Heading Size="HeadingSize.Is5" Margin="Margin.Is1.FromBottom">
+                <Blazorise.Link To="@("/posts/"+context.Id.ToString())" Title="test">@context.Title</Blazorise.Link>
+            </Heading>
+            <Small>@context.CreationTime</Small>
+        </Div>
+        <Paragraph Margin="Margin.Is1.FromBottom">@string.Join(",", context.RelatePostTags.Select(x => x.TagId))</Paragraph>
+        <Small>And some small print.</Small>
 
-<Alert Visible="true">
-    <AlertMessage>总数：@this.TotalCount</AlertMessage>
-</Alert>
+    </DetailRowTemplate>
+</DataGrid>
 
-<ListGroup Flush="true">
-
-    @foreach (var item in this.PostList)
-    {
-        <ListGroupItem>
-            <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                <Heading Size="HeadingSize.Is5" Margin="Margin.Is1.FromBottom">
-                    <Blazorise.Link To="@("/posts/"+item.Id.ToString())" Title="test">@item.Title</Blazorise.Link>
-                </Heading>
-                <Small>@item.CreationTime</Small>
-            </Div>
-            <Paragraph Margin="Margin.Is1.FromBottom">@string.Join(",", item.RelatePostTags.Select(x => x.TagId))</Paragraph>
-            <Small>And some small print.</Small>
-        </ListGroupItem>
-    }
-
-</ListGroup>
 
 @code {
 }

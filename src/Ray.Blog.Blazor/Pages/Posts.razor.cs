@@ -20,8 +20,7 @@ namespace Ray.Blog.Blazor.Pages
 
         private IReadOnlyList<PostDto> PostList { get; set; } = new List<PostDto>();
 
-        //private int PageSize { get; } = LimitedResultRequestDto.DefaultMaxResultCount;
-        private int PageSize { get; } = 1000;
+        private int PageSize { get; } = LimitedResultRequestDto.DefaultMaxResultCount;
         private int CurrentPage { get; set; }
         private string CurrentSorting { get; set; }
         private int TotalCount { get; set; }

@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.Http.Client.IdentityModel" Version="4.3.3" />
+    <PackageReference Include="Volo.Abp.Http.Client.IdentityModel" Version="4.4.0" />
     <ProjectReference Include="..\..\src\Ray.Blog.HttpApi.Client\Ray.Blog.HttpApi.Client.csproj" />
   </ItemGroup>
 

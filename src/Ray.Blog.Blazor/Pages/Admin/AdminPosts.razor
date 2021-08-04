@@ -5,6 +5,7 @@
 @using Ray.Blog.Posts
 @using Ray.Blog.Localization
 @using Microsoft.Extensions.Localization
+@using Blazorise.Markdown
 
 @inherits AbpCrudPageBase<IPostsAppService, PostDto, Guid, PagedAndSortedResultRequestDto, CreatePostDto>
 @attribute [Authorize(BlogPermissions.Posts.Default)]
@@ -159,7 +160,8 @@
                     </Field>
                     <Field>
                         <FieldLabel>@L["Markdown"]</FieldLabel>
-                        <TextEdit @bind-Text="EditingEntity.Markdown" />
+                        @*<TextEdit @bind-Text="EditingEntity.Markdown" />*@
+                        <Markdown @bind-Value="EditingEntity.Markdown" />
                     </Field>
                 </Validations>
             </ModalBody>

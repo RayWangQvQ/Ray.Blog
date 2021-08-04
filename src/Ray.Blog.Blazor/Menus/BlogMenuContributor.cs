@@ -93,7 +93,7 @@ namespace Ray.Blog.Blazor.Menus
                 adminGroup.AddItem(new ApplicationMenuItem(
                     BlogMenus.AdminPosts,
                     l["Menu:Posts"],
-                    url: "/posts",
+                    url: "/admin/posts",
                     icon: "fas fa-book-open"));
 
                 adminGroup.AddItem(new ApplicationMenuItem(
