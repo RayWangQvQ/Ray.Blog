@@ -31,13 +31,7 @@ namespace Ray.Blog.Posts
 
         public Guid CategoryId { get; set; }
         public string CategoryName { get; set; }
-        //public CategoryDto Category { get; protected set; }
 
-        /// <summary>
-        /// 标签列表
-        /// </summary>
-        public List<RelatePostTagDto> RelatePostTags { get; protected set; } = new List<RelatePostTagDto>();
-
-        public List<TagDto> Tags { get; set; } = new List<TagDto>();
+        public List<TagLookupDto> Tags { get; set; } = new();
     }
 }

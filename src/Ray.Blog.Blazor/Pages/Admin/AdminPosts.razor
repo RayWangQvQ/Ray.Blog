@@ -6,6 +6,7 @@
 @using Ray.Blog.Localization
 @using Microsoft.Extensions.Localization
 @using Blazorise.Markdown
+@using Blazorise.Components
 
 @inherits AbpCrudPageBase<IPostsAppService, PostDto, Guid, PagedAndSortedResultRequestDto, CreatePostDto>
 @attribute [Authorize(BlogPermissions.Posts.Default)]
@@ -91,7 +92,7 @@
 
 <Modal @ref="@CreateModal">
     <ModalBackdrop />
-    <ModalContent IsCentered="true">
+    <ModalContent IsCentered="true" Size="ModalSize.ExtraLarge">
         <Form>
             <ModalHeader>
                 <ModalTitle>@L["NewPost"]</ModalTitle>
@@ -105,7 +106,7 @@
                         <FieldLabel>@L["Category"]</FieldLabel>
                         <Select TValue="Guid" @bind-SelectedValue="@NewEntity.CategoryId">
                             <SelectItem TValue="Guid" Value="Guid.Empty">@L["PickAnCategory"]</SelectItem>
-                            @foreach (var category in categoryList)
+                            @foreach (var category in categoryAllList)
                             {
                                 <SelectItem TValue="Guid" Value="@category.Id">
                                     @category.Name
@@ -135,6 +136,24 @@
                         <Markdown @bind-Value="NewEntity.Markdown" />
                     </Field>
 
+                    <Field>
+                        <FieldLabel>@L["Tags"]</FieldLabel>
+                        <div class="tag-input">
+                            @foreach (var tag in SelectedTags)
+                            {
+                                <Badge Color="Color.Primary" Margin="Margin.Is2.FromLeft" CloseClicked="() => SelectedTags.Remove(tag)">@tag.Name</Badge>
+                            }
+                            <Autocomplete TItem="TagLookupDto"
+                                          TValue="TagLookupDto"
+                                          Data="tagAllList"
+                                          SelectedValue="Value"
+                                          TextField="@(item => item.Name)"
+                                          ValueField="@(item => item)"
+                                          SelectedValueChanged="MySearchHandler"
+                                          Placeholder="select..." />
+                        </div>
+                    </Field>
+
                 </Validations>
             </ModalBody>
 
@@ -157,7 +176,7 @@
 
 <Modal @ref="@EditModal">
     <ModalBackdrop />
-    <ModalContent IsCentered="true">
+    <ModalContent IsCentered="true" Size="ModalSize.ExtraLarge">
         <Form>
             <ModalHeader>
                 <ModalTitle>@EditingEntity.Title</ModalTitle>
@@ -170,7 +189,7 @@
                     <Field>
                         <FieldLabel>@L["Category"]</FieldLabel>
                         <Select TValue="Guid" @bind-SelectedValue="@EditingEntity.CategoryId">
-                            @foreach (var category in categoryList)
+                            @foreach (var category in categoryAllList)
                             {
                                 <SelectItem TValue="Guid" Value="@category.Id">
                                     @category.Name
@@ -200,6 +219,24 @@
                         <Markdown @bind-Value="EditingEntity.Markdown" />
                     </Field>
 
+                    <Field>
+                        <FieldLabel>@L["Tags"]</FieldLabel>
+                        <div class="tag-input">
+                            @foreach (var tag in SelectedTags)
+                            {
+                                <Badge Color="Color.Primary" Margin="Margin.Is2.FromLeft" CloseClicked="() => SelectedTags.Remove(tag)">@tag.Name</Badge>
+                            }
+                            <Autocomplete TItem="TagLookupDto"
+                                          TValue="TagLookupDto"
+                                          Data="tagAllList"
+                                          SelectedValue="Value"
+                                          TextField="@(item => item.Name)"
+                                          ValueField="@(item => item)"
+                                          SelectedValueChanged="MySearchHandler"
+                                          Placeholder="select..." />
+                        </div>
+                    </Field>
+
                 </Validations>
             </ModalBody>
 
@@ -221,18 +258,5 @@
 
 
 @code {
-    IReadOnlyList<CategoryLookupDto> categoryList = Array.Empty<CategoryLookupDto>();
 
-    public AdminPosts()
-    {
-        CreatePolicyName = BlogPermissions.Posts.Create;
-        UpdatePolicyName = BlogPermissions.Posts.Edit;
-        DeletePolicyName = BlogPermissions.Posts.Delete;
-    }
-
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-        categoryList = (await AppService.GetCategoryLookupDtoAsync()).Items;
-    }
 }

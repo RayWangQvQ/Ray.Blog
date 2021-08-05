@@ -9,6 +9,8 @@ namespace Ray.Blog.Posts
 {
     public interface IPostsAppService : ICrudAppService<PostDto, Guid, PagedAndSortedResultRequestDto, CreatePostDto>
     {
-        Task<ListResultDto<CategoryLookupDto>> GetCategoryLookupDtoAsync();
+        Task<ListResultDto<CategoryLookupDto>> GetCategoryLookupAsync();
+
+        Task<ListResultDto<TagLookupDto>> GetTagLookupAsync();
     }
 }

@@ -16,7 +16,7 @@
             </Heading>
             <Small>@context.CreationTime</Small>
         </Div>
-        <Paragraph Margin="Margin.Is1.FromBottom">@string.Join(",", context.RelatePostTags.Select(x => x.TagId))</Paragraph>
+        <Paragraph Margin="Margin.Is1.FromBottom">@string.Join(",", context.Tags.Select(x => x.Name))</Paragraph>
         <Small>And some small print.</Small>
 
     </DetailRowTemplate>

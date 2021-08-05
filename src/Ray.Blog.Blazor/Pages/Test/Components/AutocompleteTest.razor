@@ -1,0 +1,58 @@
+﻿@page "/test/Components/Autocomplete"
+@inherits BlogComponentBase
+@using Blazorise.Components
+
+
+<div class="tag-input">
+    @foreach (var tag in SelectedTags)
+    {
+        <Badge Color="Color.Primary" Margin="Margin.Is2.FromLeft" CloseClicked="() => SelectedTags.Remove(tag)">@tag.Name</Badge>
+    }
+
+    <Autocomplete TItem="Tag"
+                  TValue="Tag"
+                  Data="AllTags"
+                  SelectedValue="Value"
+                  TextField="@(item => item.Name)"
+                  ValueField="@(item => item)"
+                  SelectedValueChanged="MySearchHandler"
+                  Placeholder="Vyberte označenie" />
+</div>
+
+@code {
+    public class Tag
+    {
+        public string Name { get; set; }
+    }
+
+    private Tag Value { get; set; }
+
+    public IList<Tag> SelectedTags { get; set; }
+
+    public IList<Tag> AllTags { get; set; }
+
+    void MySearchHandler(Tag newValue)
+    {
+        SelectedTags.Add(newValue);
+        //Value = null;
+    }
+
+    protected override void OnInitialized()
+    {
+        AllTags = new List<Tag>
+{
+    new Tag { Name = "aaa" },
+    new Tag { Name = "bbb" },
+    new Tag { Name = "ccc" },
+    new Tag { Name = "ddd" },
+    new Tag { Name = "eee" },
+    new Tag { Name = "fff" },
+    };
+
+        SelectedTags = new List<Tag>
+    {
+    new Tag { Name = "bbb" },
+    new Tag { Name = "ccc" },
+    };
+    }
+}

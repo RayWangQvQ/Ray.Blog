@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="Blazorise.Bootstrap" Version="0.9.4.2" />
+    <PackageReference Include="Blazorise.Components" Version="0.9.4.2" />
     <PackageReference Include="Blazorise.Icons.FontAwesome" Version="0.9.4.2" />
     <PackageReference Include="Blazorise.Markdown" Version="0.9.4.2" />
     <PackageReference Include="Markdig" Version="0.25.0" />
