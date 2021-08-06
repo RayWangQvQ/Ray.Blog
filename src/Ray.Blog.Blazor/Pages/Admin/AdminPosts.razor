@@ -1,5 +1,6 @@
 ﻿@page "/admin/posts"
 
+@using Ray.Blog.Blazor.Helpers
 @using Ray.Blog.Permissions
 @using Volo.Abp.Application.Dtos
 @using Ray.Blog.Posts
@@ -58,7 +59,7 @@
                     <DisplayTemplate>
                         @foreach (var tag in context.Tags)
                             {
-                        <Badge Color="Color.Primary">@tag.Name</Badge>
+                        <Badge Color="Color.Info">@tag.Name</Badge>
                         }
                     </DisplayTemplate>
                 </DataGridColumn>
@@ -147,7 +148,11 @@
                         <div class="tag-input">
                             @foreach (var tagId in NewEntity.TagIds)
                             {
-                                <Badge Color="Color.Primary" Margin="Margin.Is2.FromLeft" CloseClicked="() => NewEntity.TagIds.Remove(tagId)">@GetTagById(tagId).Name</Badge>
+                                <Badge Color="Color.Info"
+                                   Margin="Margin.Is2.FromLeft"
+                                   CloseClicked="() => NewEntity.TagIds.Remove(tagId)">
+                                    @GetTagById(tagId).Name
+                                </Badge>
                             }
                             <Autocomplete TItem="TagLookupDto"
                                           TValue="TagLookupDto"
@@ -230,7 +235,11 @@
                         <div class="tag-input">
                             @foreach (var tagId in EditingEntity.TagIds)
                             {
-                                <Badge Color="Color.Primary" Margin="Margin.Is2.FromLeft" CloseClicked="() => EditingEntity.TagIds.Remove(tagId)">@GetTagById(tagId).Name</Badge>
+                                <Badge Color="Color.Info"
+                                   Margin="Margin.Is2.FromLeft"
+                                   CloseClicked="() => EditingEntity.TagIds.Remove(tagId)">
+                                    @GetTagById(tagId).Name
+                                </Badge>
                             }
                             <Autocomplete TItem="TagLookupDto"
                                           TValue="TagLookupDto"

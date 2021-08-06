@@ -1,4 +1,5 @@
-﻿using Ray.Blog.Permissions;
+﻿using Blazorise;
+using Ray.Blog.Permissions;
 using Ray.Blog.Posts;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,6 @@ namespace Ray.Blog.Blazor.Pages.Admin
         {
             CreatePolicyName = BlogPermissions.Posts.Create;
             UpdatePolicyName = BlogPermissions.Posts.Edit;
-            DeletePolicyName = BlogPermissions.Posts.Delete;
         }
 
         protected override async Task OnInitializedAsync()
@@ -35,6 +35,13 @@ namespace Ray.Blog.Blazor.Pages.Admin
         protected TagLookupDto GetTagById(Guid tagId)
         {
             return tagAllList.FirstOrDefault(x => x.Id == tagId);
+        }
+
+        protected Color GetRandomColor()
+        {
+            Color[] enums = Enum.GetValues(typeof(Color)) as Color[];
+            Random random = new();
+            return enums[random.Next(0, enums.Length)];
         }
     }
 }
