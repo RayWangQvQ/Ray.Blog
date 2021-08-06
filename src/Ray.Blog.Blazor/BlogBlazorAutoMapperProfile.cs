@@ -2,6 +2,7 @@
 using Ray.Blog.Categories;
 using Ray.Blog.Posts;
 using Ray.Blog.Tags;
+using System.Linq;
 
 namespace Ray.Blog.Blazor
 {
@@ -13,7 +14,8 @@ namespace Ray.Blog.Blazor
 
             CreateMap<CategoryDto, CreateCategoryDto>();
             CreateMap<TagDto, CreateTagDto>();
-            CreateMap<PostDto, CreatePostDto>();
+            CreateMap<PostDto, CreatePostDto>()
+                .AfterMap((p, c) => c.TagIds = p.Tags.Select(x => x.Id).ToList());
         }
     }
 }

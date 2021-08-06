@@ -56,7 +56,10 @@
                                 Field="@nameof(PostDto.Tags)"
                                 Caption="@L["Tags"]">
                     <DisplayTemplate>
-                        @($"{string.Join(",",context.Tags.Select(x=>x.Name))}")
+                        @foreach (var tag in context.Tags)
+                            {
+                        <Badge Color="Color.Primary">@tag.Name</Badge>
+                        }
                     </DisplayTemplate>
                 </DataGridColumn>
 
@@ -142,17 +145,17 @@
                     <Field>
                         <FieldLabel>@L["Tags"]</FieldLabel>
                         <div class="tag-input">
-                            @foreach (var tag in SelectedTags)
+                            @foreach (var tagId in NewEntity.TagIds)
                             {
-                                <Badge Color="Color.Primary" Margin="Margin.Is2.FromLeft" CloseClicked="() => SelectedTags.Remove(tag)">@tag.Name</Badge>
+                                <Badge Color="Color.Primary" Margin="Margin.Is2.FromLeft" CloseClicked="() => NewEntity.TagIds.Remove(tagId)">@GetTagById(tagId).Name</Badge>
                             }
                             <Autocomplete TItem="TagLookupDto"
                                           TValue="TagLookupDto"
                                           Data="tagAllList"
-                                          SelectedValue="Value"
+                                          SelectedValue="SelectedTag"
                                           TextField="@(item => item.Name)"
                                           ValueField="@(item => item)"
-                                          SelectedValueChanged="MySearchHandler"
+                                          SelectedValueChanged="@((tag)=>NewEntity.TagIds.AddIfNotContains(tag.Id))"
                                           Placeholder="select..." />
                         </div>
                     </Field>
@@ -187,7 +190,7 @@
             </ModalHeader>
 
             <ModalBody>
-                <Validations @ref="@EditValidationsRef" Model="@NewEntity" ValidateOnLoad="false">
+                <Validations @ref="@EditValidationsRef" Model="@EditingEntity" ValidateOnLoad="false">
 
                     <Field>
                         <FieldLabel>@L["Category"]</FieldLabel>
@@ -225,17 +228,17 @@
                     <Field>
                         <FieldLabel>@L["Tags"]</FieldLabel>
                         <div class="tag-input">
-                            @foreach (var tag in SelectedTags)
+                            @foreach (var tagId in EditingEntity.TagIds)
                             {
-                                <Badge Color="Color.Primary" Margin="Margin.Is2.FromLeft" CloseClicked="() => SelectedTags.Remove(tag)">@tag.Name</Badge>
+                                <Badge Color="Color.Primary" Margin="Margin.Is2.FromLeft" CloseClicked="() => EditingEntity.TagIds.Remove(tagId)">@GetTagById(tagId).Name</Badge>
                             }
                             <Autocomplete TItem="TagLookupDto"
                                           TValue="TagLookupDto"
                                           Data="tagAllList"
-                                          SelectedValue="Value"
+                                          SelectedValue="SelectedTag"
                                           TextField="@(item => item.Name)"
                                           ValueField="@(item => item)"
-                                          SelectedValueChanged="MySearchHandler"
+                                          SelectedValueChanged="@((tag)=>EditingEntity.TagIds.AddIfNotContains(tag.Id))"
                                           Placeholder="select..." />
                         </div>
                     </Field>
