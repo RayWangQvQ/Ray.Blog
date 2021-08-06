@@ -105,7 +105,7 @@ namespace Ray.Blog.Blazor.Menus
                 adminGroup.AddItem(new ApplicationMenuItem(
                     BlogMenus.AdminTests,
                     l["Menu:Tests"],
-                    "/Test/Components",
+                    "/Test",
                     "fas fa-bug"
                 ));
 

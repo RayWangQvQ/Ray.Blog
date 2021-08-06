@@ -1,0 +1,35 @@
+﻿@page "/test/Components/Repeater"
+@using System.Collections.Specialized
+@inherits BlogComponentBase
+
+<ul>
+    <Repeater Items="@Items"
+              Skip="@Skip"
+              Take="@Take"
+              CollectionChanged="@OnCollectionChanged">
+        <li>@context</li>
+    </Repeater>
+</ul>
+
+@code {
+    long Take = 10;
+    long Skip = 1;
+    List<int> Items = new List<int>();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        for (int i = 1; i < 20; i++)
+        {
+            Items.Add(i);
+        }
+    }
+
+    Task OnCollectionChanged(NotifyCollectionChangedEventArgs eventArgs)
+    {
+        // do something
+
+        return Task.CompletedTask;
+    }
+}
