@@ -53,8 +53,11 @@
                                 Caption="@L["CategoryName"]"></DataGridColumn>
 
                 <DataGridColumn TItem="PostDto"
-                                Field="@nameof(PostDto.Url)"
-                                Caption="@L["Url"]">
+                                Field="@nameof(PostDto.Tags)"
+                                Caption="@L["Tags"]">
+                    <DisplayTemplate>
+                        @($"{string.Join(",",context.Tags.Select(x=>x.Name))}")
+                    </DisplayTemplate>
                 </DataGridColumn>
 
                 <DataGridColumn TItem="PostDto"
