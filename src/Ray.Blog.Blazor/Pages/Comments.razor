@@ -1,13 +1,26 @@
 ﻿@inherits BlogComponentBase
 
-<Divider DividerType="DividerType.TextContent" Text="评论列表" />
+@using Ray.Blog.Comments
+@using Blazorise.Markdown
 
-<Alert Visible="true">
-    <AlertMessage>这是评论列表</AlertMessage>
-</Alert>
+<Container>
 
+    <Divider DividerType="DividerType.TextContent" Text="评论列表" />
 
+    <DataGrid TItem="CommentDto"
+              Data="CommentList"
+              ReadData="OnDataGridReadAsync"
+              TotalItems="TotalCount"
+              ShowPager="true"
+              PageSize="PageSize">
+        <DetailRowTemplate>
+            <Alert Visible="true">@context.Text</Alert>
+        </DetailRowTemplate>
+    </DataGrid>
 
+    <Markdown @bind-Value="NewComment.Text" Height="Height.Is25" Width="Width.Is50"></Markdown>
+    <Button Color="Color.Primary">发送</Button>
+</Container>
 @code {
 
 }

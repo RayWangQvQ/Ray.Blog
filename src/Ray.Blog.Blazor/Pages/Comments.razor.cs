@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Blazorise;
+using Blazorise.DataGrid;
+using Microsoft.AspNetCore.Components;
 using Ray.Blog.Comments;
 using System;
 using System.Collections.Generic;
@@ -12,6 +14,8 @@ namespace Ray.Blog.Blazor.Pages
     {
         [Inject]
         ICommentsAppService CommentsAppService { get; set; }
+
+        CommentDto NewComment { get; set; } = new CommentDto();
 
         private IReadOnlyList<CommentDto> CommentList { get; set; } = new List<CommentDto>();
 
@@ -38,6 +42,19 @@ namespace Ray.Blog.Blazor.Pages
 
             CommentList = result.Items;
             TotalCount = (int)result.TotalCount;
+        }
+
+        private async Task OnDataGridReadAsync(DataGridReadDataEventArgs<CommentDto> e)
+        {
+            CurrentSorting = e.Columns
+                .Where(c => c.Direction != SortDirection.None)
+                .Select(c => c.Field + (c.Direction == SortDirection.Descending ? " DESC" : ""))
+                .JoinAsString(",");
+            CurrentPage = e.Page - 1;
+
+            await GetCommentsAsync();
+
+            await InvokeAsync(StateHasChanged);
         }
     }
 }
