@@ -10,11 +10,11 @@ using Volo.Abp.Domain.Repositories;
 
 namespace Ray.Blog
 {
-    public class CommentAppService : CrudAppService<Comment, CommentDto, Guid,
+    public class CommentsAppService : CrudAppService<Comment, CommentDto, Guid,
         PagedAndSortedResultRequestDto, CreateCommentDto>,
-        ICommentAppService
+        ICommentsAppService
     {
-        public CommentAppService(IRepository<Comment, Guid> repository) : base(repository)
+        public CommentsAppService(IRepository<Comment, Guid> repository) : base(repository)
         {
         }
     }

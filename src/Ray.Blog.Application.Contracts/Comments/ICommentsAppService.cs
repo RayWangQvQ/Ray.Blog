@@ -6,7 +6,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace Ray.Blog.Comments
 {
-    public interface ICommentAppService : ICrudAppService<CommentDto, Guid,
+    public interface ICommentsAppService : ICrudAppService<CommentDto, Guid,
         PagedAndSortedResultRequestDto, CreateCommentDto>
     {
     }
