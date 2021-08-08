@@ -3,30 +3,86 @@
 
 @inherits BlogComponentBase
 
-<DataGrid TItem="PostDto"
-          Data="PostList"
-          ReadData="OnDataGridReadAsync"
-          TotalItems="TotalCount"
-          ShowPager="true"
-          PageSize="PageSize">
-    <DetailRowTemplate>
+@*搜索*@
+<Row Margin="Margin.Is4" VerticalAlignment="VerticalAlignment.Middle">
+    <Column ColumnSize="ColumnSize.Is10.OnDesktop">
+        <Fields>
+            <Field ColumnSize="ColumnSize.Is4.OnDesktop" Horizontal="true">
+                <FieldLabel>City：</FieldLabel>
+                <FieldBody>
+                    <TextEdit />
+                </FieldBody>
+            </Field>
+            <Field ColumnSize="ColumnSize.Is4.OnDesktop" Horizontal="true">
+                <FieldLabel>State：</FieldLabel>
+                <FieldBody ColumnSize="ColumnSize.Is8.OnDesktop">
+                    <Select TValue="int">
+                        <SelectItem Value="123">123</SelectItem>
+                    </Select>
+                </FieldBody>
+            </Field>
+            <Field ColumnSize="ColumnSize.Is4.OnDesktop" Horizontal="true">
+                <FieldLabel>Zip：</FieldLabel>
+                <FieldBody>
+                    <TextEdit />
+                </FieldBody>
+            </Field>
+        </Fields>
+    </Column>
+    <Column>
+        <Button Color="Color.Primary">查询</Button>
+    </Column>
+</Row>
 
-        <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-            <Heading Size="HeadingSize.Is5" Margin="Margin.Is1.FromBottom">
-                <Blazorise.Link To="@("/posts/"+context.Id.ToString())" Title="test">@context.Title</Blazorise.Link>
-            </Heading>
-            <Small>@context.CreationTime</Small>
-        </Div>
-        <Small>这是简介</Small>
-        <Paragraph Margin="Margin.Is1.FromBottom">
-            @foreach (var tag in context.Tags)
-                    {
-            <Badge Color="Color.Info">@tag.Name</Badge>
-            }
-        </Paragraph>
+@*博文列表及右侧排行榜*@
+<Row>
+    @*博文列表*@
+    <Column ColumnSize="ColumnSize.Is9" Background="Background.White">
+        <DataGrid TItem="PostDto"
+                  Data="PostList"
+                  ReadData="OnDataGridReadAsync"
+                  TotalItems="TotalCount"
+                  ShowPager="true"
+                  PageSize="PageSize">
+            <DetailRowTemplate>
 
-    </DetailRowTemplate>
-</DataGrid>
+                <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                    <Heading Size="HeadingSize.Is5" Margin="Margin.Is1.FromBottom">
+                        <Blazorise.Link To="@("/posts/"+context.Id.ToString())" Title="test">@context.Title</Blazorise.Link>
+                    </Heading>
+                    <Small>@context.CreationTime</Small>
+                </Div>
+                <Small>这是简介</Small>
+                <Paragraph Margin="Margin.Is1.FromBottom">
+                    @foreach (var tag in context.Tags)
+                            {
+                    <Badge Color="Color.Info">@tag.Name</Badge>
+                    }
+                </Paragraph>
+
+            </DetailRowTemplate>
+        </DataGrid>
+    </Column>
+
+    @*右侧排行榜*@
+    <Column ColumnSize="ColumnSize.Is3">
+
+        @*最新评论*@
+        <Row>
+            最新评论
+        </Row>
+
+        @*点赞排行*@
+        <Row>
+            点赞排行
+        </Row>
+
+        @*阅读排行*@
+        <Row>
+            阅读排行
+        </Row>
+    </Column>
+</Row>
 
 
 @code {
