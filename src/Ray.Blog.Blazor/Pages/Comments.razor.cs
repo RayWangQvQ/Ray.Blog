@@ -38,11 +38,13 @@ namespace Ray.Blog.Blazor.Pages
         private async Task GetCommentsAsync()
         {
             var result = await CommentsAppService.GetListAsync(
-                new PagedAndSortedResultRequestDto
+                new GetCommentListDto
                 {
                     MaxResultCount = PageSize,
                     SkipCount = CurrentPage * PageSize,
-                    Sorting = CurrentSorting
+                    Sorting = CurrentSorting,
+
+                    PostId = this.PostId
                 }
             );
 
@@ -65,11 +67,16 @@ namespace Ray.Blog.Blazor.Pages
 
         private async Task OnAddCommentButtonClickedAsync()
         {
+            //新增评论
             NewComment.PostId = this.PostId;
             await CommentsAppService.CreateAsync(NewComment);
-            await NotificationService.Success("This is a simple notification message!", "Hello");
 
+            //弹提示框
+            await NotificationService.Success("可在评论列表下查下您的评论", "发送成功");
+
+            //刷新评论列表
             NewComment = new CreateCommentDto() { Text = "" };
+            await GetCommentsAsync();
         }
     }
 }
