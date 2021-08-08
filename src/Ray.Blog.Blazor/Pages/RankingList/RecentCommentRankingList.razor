@@ -1,0 +1,73 @@
+﻿@using Ray.Blog.Comments
+@using Volo.Abp.Application.Dtos
+@inherits BlogComponentBase
+
+<DataGrid TItem="CommentDto"
+          Data="CommentList"
+          ReadData="OnDataGridReadAsync"
+          TotalItems="TotalCount"
+          ShowPager="false"
+          PageSize="PageSize"
+          Borderless="true">
+    <DetailRowTemplate>
+        @{
+            var comment = @context;
+                var num = CommentList.ToList().FindIndex(x => x == comment);
+            <Row>
+                <Column ColumnSize="ColumnSize.Is1">
+                    <Text TextColor="TextColor.Secondary">@(num+1)</Text>
+                </Column>
+                <Column>
+                    <Text>@comment.Text</Text>
+                </Column>
+            </Row>
+        }
+
+
+    </DetailRowTemplate>
+</DataGrid>
+
+@code {
+    [Inject]
+    ICommentsAppService CommentsAppService { get; set; }
+
+    private IReadOnlyList<CommentDto> CommentList { get; set; } = new List<CommentDto>();
+
+    private int PageSize { get; } = 5;
+    private int CurrentPage { get; set; }
+    private string CurrentSorting { get; set; } = $"{nameof(CommentDto.CreationTime)} desc";
+    private int TotalCount { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetAuthorsAsync();
+    }
+
+    private async Task GetAuthorsAsync()
+    {
+        var result = await CommentsAppService.GetListAsync(
+            new GetCommentListDto
+            {
+                MaxResultCount = PageSize,
+                SkipCount = CurrentPage * PageSize,
+                Sorting = CurrentSorting,
+            }
+        );
+
+        CommentList = result.Items;
+        TotalCount = (int)result.TotalCount;
+    }
+
+    private async Task OnDataGridReadAsync(DataGridReadDataEventArgs<CommentDto> e)
+    {
+        CurrentSorting = e.Columns
+            .Where(c => c.Direction != SortDirection.None)
+            .Select(c => c.Field + (c.Direction == SortDirection.Descending ? " DESC" : ""))
+            .JoinAsString(",");
+        CurrentPage = e.Page - 1;
+
+        await GetAuthorsAsync();
+
+        await InvokeAsync(StateHasChanged);
+    }
+}

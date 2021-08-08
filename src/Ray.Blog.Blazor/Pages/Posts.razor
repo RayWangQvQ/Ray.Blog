@@ -1,5 +1,6 @@
 ﻿@page "/posts"
 @using Ray.Blog.Posts
+@using Ray.Blog.Blazor.Pages.RankingList
 
 @inherits BlogComponentBase
 
@@ -35,7 +36,7 @@
 </Row>
 
 @*博文列表及右侧排行榜*@
-<Row>
+<Row Gutter="(64, 16)">
     @*博文列表*@
     <Column ColumnSize="ColumnSize.Is9" Background="Background.White">
         <DataGrid TItem="PostDto"
@@ -69,17 +70,26 @@
 
         @*最新评论*@
         <Row>
-            最新评论
+            <Text TextColor="TextColor.Secondary">💬 最新评论</Text>
+        </Row>
+        <Row Width="Width.Is100">
+            <RecentCommentRankingList></RecentCommentRankingList>
         </Row>
 
         @*点赞排行*@
         <Row>
-            点赞排行
+            <Text TextColor="TextColor.Secondary">👍 点赞排行</Text>
+        </Row>
+        <Row>
+            <ThumbsUpRankingList />
         </Row>
 
         @*阅读排行*@
         <Row>
-            阅读排行
+            <Text TextColor="TextColor.Secondary">👀 阅读排行</Text>
+        </Row>
+        <Row>
+            <ReadingRankingList />
         </Row>
     </Column>
 </Row>
