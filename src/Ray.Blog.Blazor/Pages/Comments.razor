@@ -12,15 +12,18 @@
               ReadData="OnDataGridReadAsync"
               TotalItems="TotalCount"
               ShowPager="true"
-              PageSize="PageSize">
+              PageSize="PageSize" Borderless="true">
         <DetailRowTemplate>
             <Alert Visible="true">@context.Text</Alert>
+            <Divider DividerType="DividerType.Dotted" />
         </DetailRowTemplate>
     </DataGrid>
 
     <Markdown @bind-Value="NewComment.Text" Height="Height.Is25" Width="Width.Is50"></Markdown>
-    <Button Color="Color.Primary">发送</Button>
+    <Button Color="Color.Primary" Clicked="OnAddCommentButtonClickedAsync">发送</Button>
+    <NotificationAlert />
 </Container>
+
 @code {
 
 }

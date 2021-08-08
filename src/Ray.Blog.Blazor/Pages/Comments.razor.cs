@@ -12,10 +12,16 @@ namespace Ray.Blog.Blazor.Pages
 {
     public partial class Comments
     {
+        [Parameter]
+        public Guid PostId { get; set; }
+
         [Inject]
         ICommentsAppService CommentsAppService { get; set; }
 
-        CommentDto NewComment { get; set; } = new CommentDto();
+        [Inject]
+        public INotificationService NotificationService { get; set; }
+
+        CreateCommentDto NewComment { get; set; } = new CreateCommentDto() { Text = "" };
 
         private IReadOnlyList<CommentDto> CommentList { get; set; } = new List<CommentDto>();
 
@@ -55,6 +61,15 @@ namespace Ray.Blog.Blazor.Pages
             await GetCommentsAsync();
 
             await InvokeAsync(StateHasChanged);
+        }
+
+        private async Task OnAddCommentButtonClickedAsync()
+        {
+            NewComment.PostId = this.PostId;
+            await CommentsAppService.CreateAsync(NewComment);
+            await NotificationService.Success("This is a simple notification message!", "Hello");
+
+            NewComment = new CreateCommentDto() { Text = "" };
         }
     }
 }

@@ -1,0 +1,15 @@
+﻿@page "/test/Services/Notification"
+
+@using Blazorise.Components
+
+<Button Color="Color.Warning" Clicked="@ShowWarningNotification">Show alert!</Button>
+<NotificationAlert />
+
+@code {
+    [Inject] INotificationService NotificationService { get; set; }
+
+    Task ShowWarningNotification()
+    {
+        return NotificationService.Warning("This is a simple notification message!", "Hello");
+    }
+}

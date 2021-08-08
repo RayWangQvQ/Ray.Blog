@@ -1,0 +1,27 @@
+﻿@page "/test/Services/Message"
+
+<Button Color="Color.Primary" Clicked="@ShowInfoMessage">Say hi!</Button>
+<Button Color="Color.Danger" Clicked="@ShowConfirmMessage">Confirm</Button>
+
+<MessageAlert />
+
+@code {
+    [Inject] IMessageService MessageService { get; set; }
+
+    Task ShowInfoMessage()
+    {
+        return MessageService.Info("This is a simple info message!", "Hello");
+    }
+
+    async Task ShowConfirmMessage()
+    {
+        if (await MessageService.Confirm("Are you sure you want to confirm?", "Confirmation"))
+        {
+            Console.WriteLine("OK Clicked");
+        }
+        else
+        {
+            Console.WriteLine("Cancel Clicked");
+        }
+    }
+}
