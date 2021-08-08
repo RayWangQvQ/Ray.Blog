@@ -7,7 +7,8 @@ using Volo.Abp.Application.Services;
 
 namespace Ray.Blog.Posts
 {
-    public interface IPostsAppService : ICrudAppService<PostDto, Guid, PagedAndSortedResultRequestDto, CreatePostDto>
+    public interface IPostsAppService : ICrudAppService<PostDto, Guid,
+        GetPostListDto, CreatePostDto>
     {
         Task<ListResultDto<CategoryLookupDto>> GetCategoryLookupAsync();
 

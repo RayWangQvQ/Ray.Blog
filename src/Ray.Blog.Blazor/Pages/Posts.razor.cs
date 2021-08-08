@@ -68,7 +68,7 @@ namespace Ray.Blog.Blazor.Pages
         private async Task GetAuthorsAsync()
         {
             var result = await PostAppService.GetListAsync(
-                new PagedAndSortedResultRequestDto
+                new GetPostListDto
                 {
                     MaxResultCount = PageSize,
                     SkipCount = CurrentPage * PageSize,

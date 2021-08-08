@@ -1,0 +1,12 @@
+﻿@page "/test/Abp/UiNotificationAlertTest"
+
+@inherits BlogComponentBase
+
+<Button Color="Color.Warning" Clicked="@ShowWarningNotification">Show alert!</Button>
+
+@code {
+    void ShowWarningNotification()
+    {
+        this.Notify.Success("这是message", "这是title").Wait();
+    }
+}

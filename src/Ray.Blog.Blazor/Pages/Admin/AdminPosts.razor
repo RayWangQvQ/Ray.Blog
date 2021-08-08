@@ -9,7 +9,7 @@
 @using Blazorise.Markdown
 @using Blazorise.Components
 
-@inherits AbpCrudPageBase<IPostsAppService, PostDto, Guid, PagedAndSortedResultRequestDto, CreatePostDto>
+@inherits AbpCrudPageBase<IPostsAppService, PostDto, Guid, GetPostListDto, CreatePostDto>
 @attribute [Authorize(BlogPermissions.Posts.Default)]
 
 @inject IStringLocalizer<BlogResource> L

@@ -9,6 +9,8 @@
 
 <Container>
 
+    <Divider DividerType="DividerType.TextContent" Text="Components:" />
+
     <CardDeck>
 
         <Card>
@@ -32,17 +34,26 @@
         </Card>
 
         <Card>
+            <Button Type="ButtonType.Link" To="/test/Components/Repeater">Repeater</Button>
+        </Card>
+
+    </CardDeck>
+
+    <Divider DividerType="DividerType.TextContent" Text="Extensions:" />
+
+    <CardDeck>
+        <Card>
             <Button Type="ButtonType.Link" To="/test/Extensions/Autocomplete">Autocomplete</Button>
         </Card>
 
         <Card>
             <Button Type="ButtonType.Link" To="/test/Components/TreeView">TreeView</Button>
         </Card>
+    </CardDeck>
 
-        <Card>
-            <Button Type="ButtonType.Link" To="/test/Components/Repeater">Repeater</Button>
-        </Card>
+    <Divider DividerType="DividerType.TextContent" Text="Services:" />
 
+    <CardDeck>
         <Card>
             <Button Type="ButtonType.Link" To="/test/Services/Message">Message</Button>
         </Card>
@@ -50,7 +61,15 @@
         <Card>
             <Button Type="ButtonType.Link" To="/test/Services/Notification">Notification</Button>
         </Card>
+    </CardDeck>
 
+    <Divider DividerType="DividerType.TextContent" Text="Abp:" />
+
+
+    <CardDeck>
+        <Card>
+            <Button Type="ButtonType.Link" To="/test/Abp/UiNotificationAlertTest">UiNotificationAlertTest</Button>
+        </Card>
     </CardDeck>
 
 </Container>

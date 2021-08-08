@@ -16,7 +16,7 @@ using Volo.Abp.Domain.Repositories;
 namespace Ray.Blog
 {
     public class PostsAppService : CrudAppService<Post, PostDto, Guid,
-        PagedAndSortedResultRequestDto, CreatePostDto>,
+        GetPostListDto, CreatePostDto>,
         IPostsAppService
     {
         private readonly IRepository<Category, Guid> _categoryepository;
@@ -63,7 +63,7 @@ namespace Ray.Blog
         }
 
         [AllowAnonymous]
-        public override async Task<PagedResultDto<PostDto>> GetListAsync(PagedAndSortedResultRequestDto input)
+        public override async Task<PagedResultDto<PostDto>> GetListAsync(GetPostListDto input)
         {
             //Get the IQueryable<Book> from the repository
             IQueryable<Post> queryable = await Repository.WithDetailsAsync(x => x.RelatePostTags);
@@ -149,6 +149,27 @@ namespace Ray.Blog
             return new ListResultDto<TagLookupDto>(
                 ObjectMapper.Map<List<Tag>, List<TagLookupDto>>(tags)
             );
+        }
+
+        protected override IQueryable<Post> ApplySorting(IQueryable<Post> query, GetPostListDto input)
+        {
+            if (string.IsNullOrWhiteSpace(input.Sorting))
+            {
+                input.Sorting = $"{nameof(Post.CreationTime)} desc";
+            }
+            return base.ApplySorting(query, input);
+        }
+
+        protected override async Task<IQueryable<Post>> CreateFilteredQueryAsync(GetPostListDto input)
+        {
+            var query = await base.CreateFilteredQueryAsync(input);
+
+            if (string.IsNullOrWhiteSpace(input.Title))
+            {
+                query = query.Where(x => x.Title.Contains(input.Title));
+            }
+
+            return query;
         }
 
         private async Task SetTagsOfPost(PostDto postDto, IEnumerable<Guid> tagIds)

@@ -18,14 +18,11 @@ namespace Ray.Blog.Blazor.Pages
         [Inject]
         ICommentsAppService CommentsAppService { get; set; }
 
-        [Inject]
-        public INotificationService NotificationService { get; set; }
-
         CreateCommentDto NewComment { get; set; } = new CreateCommentDto() { Text = "" };
 
         private IReadOnlyList<CommentDto> CommentList { get; set; } = new List<CommentDto>();
 
-        private int PageSize { get; } = 1000;
+        private int PageSize { get; } = LimitedResultRequestDto.DefaultMaxResultCount;
         private int CurrentPage { get; set; }
         private string CurrentSorting { get; set; }
         private int TotalCount { get; set; }
@@ -72,7 +69,7 @@ namespace Ray.Blog.Blazor.Pages
             await CommentsAppService.CreateAsync(NewComment);
 
             //弹提示框
-            await NotificationService.Success("可在评论列表下查下您的评论", "发送成功");
+            await this.Notify.Success("评论发送成功");
 
             //刷新评论列表
             NewComment = new CreateCommentDto() { Text = "" };
