@@ -2,8 +2,8 @@
 @using Volo.Abp.Application.Dtos
 @inherits BlogComponentBase
 
-<DataGrid TItem="CommentDto"
-          Data="CommentList"
+<DataGrid TItem="KeyValuePair<int, CommentDto>"
+          Data="CommentDicList"
           ReadData="OnDataGridReadAsync"
           TotalItems="TotalCount"
           ShowPager="false"
@@ -11,14 +11,12 @@
           Borderless="true">
     <DetailRowTemplate>
         @{
-            var comment = @context;
-                var num = CommentList.ToList().FindIndex(x => x == comment);
             <Row>
                 <Column ColumnSize="ColumnSize.Is1">
-                    <Text TextColor="TextColor.Secondary">@(num+1)</Text>
+                    <Text TextColor="TextColor.Secondary">@context.Key</Text>
                 </Column>
                 <Column>
-                    <Text>@comment.Text</Text>
+                    <Text>@context.Value.Text</Text>
                 </Column>
             </Row>
         }
@@ -32,6 +30,7 @@
     ICommentsAppService CommentsAppService { get; set; }
 
     private IReadOnlyList<CommentDto> CommentList { get; set; } = new List<CommentDto>();
+    private IReadOnlyList<KeyValuePair<int, CommentDto>> CommentDicList { get; set; } = new List<KeyValuePair<int, CommentDto>>();
 
     private int PageSize { get; } = 5;
     private int CurrentPage { get; set; }
@@ -55,10 +54,17 @@
         );
 
         CommentList = result.Items;
+        var dicList = new List<KeyValuePair<int, CommentDto>>();
+        for (int i = 0; i < PageSize; i++)
+        {
+            dicList.Add(new KeyValuePair<int, CommentDto>(i + 1, result.Items[i]));
+        }
+        CommentDicList = dicList;
+
         TotalCount = (int)result.TotalCount;
     }
 
-    private async Task OnDataGridReadAsync(DataGridReadDataEventArgs<CommentDto> e)
+    private async Task OnDataGridReadAsync(DataGridReadDataEventArgs<KeyValuePair<int, CommentDto>> e)
     {
         CurrentSorting = e.Columns
             .Where(c => c.Direction != SortDirection.None)
