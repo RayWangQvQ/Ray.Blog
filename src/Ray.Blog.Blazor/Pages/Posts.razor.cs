@@ -20,6 +20,8 @@ namespace Ray.Blog.Blazor.Pages
 
         private IReadOnlyList<PostDto> PostList { get; set; } = new List<PostDto>();
 
+        private GetPostListDto GetPostListRequest { get; set; } = new GetPostListDto();
+
         private int PageSize { get; } = LimitedResultRequestDto.DefaultMaxResultCount;
         private int CurrentPage { get; set; }
         private string CurrentSorting { get; set; }
@@ -67,14 +69,10 @@ namespace Ray.Blog.Blazor.Pages
 
         private async Task GetAuthorsAsync()
         {
-            var result = await PostAppService.GetListAsync(
-                new GetPostListDto
-                {
-                    MaxResultCount = PageSize,
-                    SkipCount = CurrentPage * PageSize,
-                    Sorting = CurrentSorting
-                }
-            );
+            GetPostListRequest.MaxResultCount = PageSize;
+            GetPostListRequest.SkipCount = CurrentPage * PageSize;
+            GetPostListRequest.Sorting = CurrentSorting;
+            var result = await PostAppService.GetListAsync(GetPostListRequest);
 
             PostList = result.Items;
             TotalCount = (int)result.TotalCount;
@@ -91,6 +89,11 @@ namespace Ray.Blog.Blazor.Pages
             await GetAuthorsAsync();
 
             await InvokeAsync(StateHasChanged);
+        }
+
+        private async Task OnSearchButtonClickAsync()
+        {
+            await GetAuthorsAsync();
         }
 
         private void OpenCreateAuthorModal()

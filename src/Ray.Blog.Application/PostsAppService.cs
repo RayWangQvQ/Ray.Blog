@@ -68,6 +68,12 @@ namespace Ray.Blog
             //Get the IQueryable<Book> from the repository
             IQueryable<Post> queryable = await Repository.WithDetailsAsync(x => x.RelatePostTags);
 
+            //Filter
+            if (!string.IsNullOrWhiteSpace(input.Title))
+            {
+                queryable = queryable.Where(x => x.Title.Contains(input.Title));
+            }
+
             //Prepare a query to join books and authors
             var query = from post in queryable
                         join category in _categoryepository on post.CategoryId equals category.Id

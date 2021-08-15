@@ -6,33 +6,17 @@
 
 @*搜索*@
 <Row Margin="Margin.Is4" VerticalAlignment="VerticalAlignment.Middle">
-    <Column ColumnSize="ColumnSize.Is10.OnDesktop">
-        <Fields>
-            <Field ColumnSize="ColumnSize.Is4.OnDesktop" Horizontal="true">
-                <FieldLabel>City：</FieldLabel>
-                <FieldBody>
-                    <TextEdit />
-                </FieldBody>
-            </Field>
-            <Field ColumnSize="ColumnSize.Is4.OnDesktop" Horizontal="true">
-                <FieldLabel>State：</FieldLabel>
-                <FieldBody ColumnSize="ColumnSize.Is8.OnDesktop">
-                    <Select TValue="int">
-                        <SelectItem Value="123">123</SelectItem>
-                    </Select>
-                </FieldBody>
-            </Field>
-            <Field ColumnSize="ColumnSize.Is4.OnDesktop" Horizontal="true">
-                <FieldLabel>Zip：</FieldLabel>
-                <FieldBody>
-                    <TextEdit />
-                </FieldBody>
-            </Field>
-        </Fields>
-    </Column>
-    <Column>
-        <Button Color="Color.Primary">查询</Button>
-    </Column>
+    <Div>
+        <Field Horizontal="true" Overflow="Overflow.Auto">
+            <FieldLabel>标题：</FieldLabel>
+            <FieldBody>
+                <TextEdit @bind-Text="@this.GetPostListRequest.Title" />
+            </FieldBody>
+        </Field>
+    </Div>
+    <Div>
+        <Button Color="Color.Primary" Clicked="OnSearchButtonClickAsync">查询</Button>
+    </Div>
 </Row>
 
 @*博文列表及右侧排行榜*@
