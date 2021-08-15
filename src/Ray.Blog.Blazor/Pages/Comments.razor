@@ -12,10 +12,28 @@
               ReadData="OnDataGridReadAsync"
               TotalItems="TotalCount"
               ShowPager="true"
-              PageSize="PageSize" Borderless="true">
+              PageSize="PageSize"
+              Borderless="true">
         <DetailRowTemplate>
-            <Alert Visible="true">@context.Text</Alert>
-            <Divider DividerType="DividerType.Dotted" />
+            <Row Background="Background.White">
+                <Column ColumnSize="ColumnSize.Is1">
+                    这是头像
+                </Column>
+                <Column ColumnSize="ColumnSize.Is11">
+                    <Row>
+                        <Column>
+                            <Text Color="TextColor.Warning">这是用户名</Text>
+                            <Text TextColor="TextColor.Secondary" Italic="true" Margin="Margin.Is3">2021/8/15 11:03</Text>
+                        </Column>
+                    </Row>
+                    <Row>
+                        <Alert Visible="true">@context.Text</Alert>
+                    </Row>
+                    <Row>
+                        <Column Float="Float.Right" TextAlignment="TextAlignment.Right">这是点赞数</Column>
+                    </Row>
+                </Column>
+            </Row>
         </DetailRowTemplate>
     </DataGrid>
 

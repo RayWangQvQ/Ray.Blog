@@ -36,7 +36,7 @@
     private IReadOnlyList<KeyValuePair<int, CommentDto>> CommentDicList { get; set; } = new List<KeyValuePair<int, CommentDto>>();
 
     private int PageSize { get; } = 5;
-    private int CurrentPage { get; set; }
+    private int CurrentPage { get; set; } = 1;
     private string CurrentSorting { get; set; } = $"{nameof(CommentDto.CreationTime)} desc";
     private int TotalCount { get; set; }
 
@@ -69,10 +69,6 @@
 
     private async Task OnDataGridReadAsync(DataGridReadDataEventArgs<KeyValuePair<int, CommentDto>> e)
     {
-        CurrentSorting = e.Columns
-            .Where(c => c.Direction != SortDirection.None)
-            .Select(c => c.Field + (c.Direction == SortDirection.Descending ? " DESC" : ""))
-            .JoinAsString(",");
         CurrentPage = e.Page - 1;
 
         await GetAuthorsAsync();
