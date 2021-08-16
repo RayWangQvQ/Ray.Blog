@@ -12,7 +12,7 @@
         <Card ColumnSize="ColumnSize.Is2">
             <CardBody>
                 <CardTitle Size="5">
-                    <CardLink Source="/posts">@item.Name</CardLink>
+                    <CardLink Source="@($"/categoryId/{item.Id}/posts")">@item.Name</CardLink>
                 </CardTitle>
                 <CardText>
                     @item.Alias

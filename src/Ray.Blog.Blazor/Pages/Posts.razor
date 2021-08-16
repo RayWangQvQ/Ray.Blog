@@ -1,4 +1,6 @@
 ﻿@page "/posts"
+@page "/categoryId/{CategoryId:guid}/posts"
+
 @using Ray.Blog.Posts
 @using Ray.Blog.Blazor.Pages.RankingList
 
@@ -11,6 +13,13 @@
             <FieldLabel>标题：</FieldLabel>
             <FieldBody>
                 <TextEdit @bind-Text="@this.GetPostListRequest.Title" />
+            </FieldBody>
+        </Field>
+
+        <Field Horizontal="true" Overflow="Overflow.Auto">
+            <FieldLabel>分类：</FieldLabel>
+            <FieldBody>
+                <TextEdit Text="@this.CategoryId.ToString()" />
             </FieldBody>
         </Field>
     </Div>

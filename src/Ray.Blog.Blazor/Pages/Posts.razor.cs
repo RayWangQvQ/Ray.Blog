@@ -18,6 +18,12 @@ namespace Ray.Blog.Blazor.Pages
         [Inject]
         IPostsAppService PostAppService { get; set; }
 
+        [Parameter]
+        public Guid? CategoryId { get; set; }
+
+        [Parameter]
+        public Guid? TagId { get; set; }
+
         private IReadOnlyList<PostDto> PostList { get; set; } = new List<PostDto>();
 
         private GetPostListDto GetPostListRequest { get; set; } = new GetPostListDto();
@@ -51,6 +57,11 @@ namespace Ray.Blog.Blazor.Pages
 
         protected override async Task OnInitializedAsync()
         {
+            if (CategoryId.HasValue)
+            {
+                GetPostListRequest.CategoryIds = new Guid[] { CategoryId.Value };
+            }
+
             await SetPermissionsAsync();
             await GetAuthorsAsync();
         }

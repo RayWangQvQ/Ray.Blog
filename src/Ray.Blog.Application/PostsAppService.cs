@@ -73,6 +73,17 @@ namespace Ray.Blog
             {
                 queryable = queryable.Where(x => x.Title.Contains(input.Title));
             }
+            if (input.CategoryIds != null && input.CategoryIds.Any())
+            {
+                queryable = queryable.Where(x => input.CategoryIds.Contains(x.CategoryId));
+            }
+            if (input.TagIds != null && input.TagIds.Any())
+            {
+                foreach (var tagId in input.TagIds)
+                {
+                    queryable = queryable.Where(x => x.RelatePostTags.Any(r => r.TagId == tagId));
+                }
+            }
 
             //Prepare a query to join books and authors
             var query = from post in queryable
