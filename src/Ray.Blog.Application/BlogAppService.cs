@@ -4,15 +4,14 @@ using System.Text;
 using Ray.Blog.Localization;
 using Volo.Abp.Application.Services;
 
-namespace Ray.Blog
+namespace Ray.Blog;
+
+/* Inherit your application services from this class.
+ */
+public abstract class BlogAppService : ApplicationService
 {
-    /* Inherit your application services from this class.
-     */
-    public abstract class BlogAppService : ApplicationService
+    protected BlogAppService()
     {
-        protected BlogAppService()
-        {
-            LocalizationResource = typeof(BlogResource);
-        }
+        LocalizationResource = typeof(BlogResource);
     }
 }

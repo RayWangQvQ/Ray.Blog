@@ -7,26 +7,25 @@ using Volo.Abp.PermissionManagement;
 using Volo.Abp.SettingManagement;
 using Volo.Abp.TenantManagement;
 
-namespace Ray.Blog
+namespace Ray.Blog;
+
+[DependsOn(
+    typeof(BlogDomainModule),
+    typeof(AbpAccountApplicationModule),
+    typeof(BlogApplicationContractsModule),
+    typeof(AbpIdentityApplicationModule),
+    typeof(AbpPermissionManagementApplicationModule),
+    typeof(AbpTenantManagementApplicationModule),
+    typeof(AbpFeatureManagementApplicationModule),
+    typeof(AbpSettingManagementApplicationModule)
+    )]
+public class BlogApplicationModule : AbpModule
 {
-    [DependsOn(
-        typeof(BlogDomainModule),
-        typeof(AbpAccountApplicationModule),
-        typeof(BlogApplicationContractsModule),
-        typeof(AbpIdentityApplicationModule),
-        typeof(AbpPermissionManagementApplicationModule),
-        typeof(AbpTenantManagementApplicationModule),
-        typeof(AbpFeatureManagementApplicationModule),
-        typeof(AbpSettingManagementApplicationModule)
-        )]
-    public class BlogApplicationModule : AbpModule
+    public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        public override void ConfigureServices(ServiceConfigurationContext context)
+        Configure<AbpAutoMapperOptions>(options =>
         {
-            Configure<AbpAutoMapperOptions>(options =>
-            {
-                options.AddMaps<BlogApplicationModule>();
-            });
-        }
+            options.AddMaps<BlogApplicationModule>();
+        });
     }
 }

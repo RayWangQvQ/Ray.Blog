@@ -1,9 +1,8 @@
-﻿namespace Ray.Blog
-{
-    public static class BlogConsts
-    {
-        public const string DbTablePrefix = "Blog";
+﻿namespace Ray.Blog;
 
-        public const string DbSchema = null;
-    }
+public static class BlogConsts
+{
+    public const string DbTablePrefix = "Blog";
+
+    public const string DbSchema = null;
 }

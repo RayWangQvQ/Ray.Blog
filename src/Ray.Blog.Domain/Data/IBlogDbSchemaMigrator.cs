@@ -1,9 +1,8 @@
 ﻿using System.Threading.Tasks;
 
-namespace Ray.Blog.Data
+namespace Ray.Blog.Data;
+
+public interface IBlogDbSchemaMigrator
 {
-    public interface IBlogDbSchemaMigrator
-    {
-        Task MigrateAsync();
-    }
+    Task MigrateAsync();
 }

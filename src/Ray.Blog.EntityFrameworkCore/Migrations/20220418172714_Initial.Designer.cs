@@ -7,10 +7,12 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Ray.Blog.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
 
+#nullable disable
+
 namespace Ray.Blog.Migrations
 {
-    [DbContext(typeof(BlogMigrationsDbContext))]
-    [Migration("20210715092451_Initial")]
+    [DbContext(typeof(BlogDbContext))]
+    [Migration("20220418172714_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -18,22 +20,21 @@ namespace Ray.Blog.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("_Abp_DatabaseProvider", EfCoreDatabaseProvider.MySql)
-                .HasAnnotation("Relational:MaxIdentifierLength", 64)
-                .HasAnnotation("ProductVersion", "5.0.7");
+                .HasAnnotation("ProductVersion", "6.0.0")
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Ray.Blog.Categories.Category", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Alias")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasMaxLength(40)
-                        .HasColumnType("varchar(40) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(40)")
                         .HasColumnName("ConcurrencyStamp");
 
                     b.Property<DateTime>("CreationTime")
@@ -53,7 +54,7 @@ namespace Ray.Blog.Migrations
                         .HasColumnName("DeletionTime");
 
                     b.Property<string>("ExtraProperties")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4")
+                        .HasColumnType("longtext")
                         .HasColumnName("ExtraProperties");
 
                     b.Property<bool>("IsDeleted")
@@ -71,23 +72,22 @@ namespace Ray.Blog.Migrations
                         .HasColumnName("LastModifierId");
 
                     b.Property<string>("Name")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
-                    b.ToTable("BlogCategories");
+                    b.ToTable("BlogCategories", (string)null);
                 });
 
             modelBuilder.Entity("Ray.Blog.Comments.Comment", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasMaxLength(40)
-                        .HasColumnType("varchar(40) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(40)")
                         .HasColumnName("ConcurrencyStamp");
 
                     b.Property<DateTime>("CreationTime")
@@ -107,7 +107,7 @@ namespace Ray.Blog.Migrations
                         .HasColumnName("DeletionTime");
 
                     b.Property<string>("ExtraProperties")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4")
+                        .HasColumnType("longtext")
                         .HasColumnName("ExtraProperties");
 
                     b.Property<bool>("IsDeleted")
@@ -131,7 +131,7 @@ namespace Ray.Blog.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Text")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
@@ -139,17 +139,16 @@ namespace Ray.Blog.Migrations
 
                     b.HasIndex("RepliedCommentId");
 
-                    b.ToTable("BlogComments");
+                    b.ToTable("BlogComments", (string)null);
                 });
 
             modelBuilder.Entity("Ray.Blog.Posts.Post", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Author")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<Guid>("CategoryId")
                         .HasColumnType("char(36)");
@@ -157,7 +156,7 @@ namespace Ray.Blog.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasMaxLength(40)
-                        .HasColumnType("varchar(40) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(40)")
                         .HasColumnName("ConcurrencyStamp");
 
                     b.Property<DateTime>("CreationTime")
@@ -177,7 +176,7 @@ namespace Ray.Blog.Migrations
                         .HasColumnName("DeletionTime");
 
                     b.Property<string>("ExtraProperties")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4")
+                        .HasColumnType("longtext")
                         .HasColumnName("ExtraProperties");
 
                     b.Property<bool>("IsDeleted")
@@ -195,19 +194,19 @@ namespace Ray.Blog.Migrations
                         .HasColumnName("LastModifierId");
 
                     b.Property<string>("Markdown")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Title")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Url")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("BlogPosts");
+                    b.ToTable("BlogPosts", (string)null);
                 });
 
             modelBuilder.Entity("Ray.Blog.Posts.RelatePostTag", b =>
@@ -230,22 +229,21 @@ namespace Ray.Blog.Migrations
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("BlogRelatePostTags");
+                    b.ToTable("BlogRelatePostTags", (string)null);
                 });
 
             modelBuilder.Entity("Ray.Blog.Tags.Tag", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Alias")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasMaxLength(40)
-                        .HasColumnType("varchar(40) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(40)")
                         .HasColumnName("ConcurrencyStamp");
 
                     b.Property<DateTime>("CreationTime")
@@ -265,7 +263,7 @@ namespace Ray.Blog.Migrations
                         .HasColumnName("DeletionTime");
 
                     b.Property<string>("ExtraProperties")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4")
+                        .HasColumnType("longtext")
                         .HasColumnName("ExtraProperties");
 
                     b.Property<bool>("IsDeleted")
@@ -283,11 +281,11 @@ namespace Ray.Blog.Migrations
                         .HasColumnName("LastModifierId");
 
                     b.Property<string>("Name")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
-                    b.ToTable("BlogTags");
+                    b.ToTable("BlogTags", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>
@@ -298,49 +296,47 @@ namespace Ray.Blog.Migrations
 
                     b.Property<string>("ApplicationName")
                         .HasMaxLength(96)
-                        .HasColumnType("varchar(96) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(96)")
                         .HasColumnName("ApplicationName");
 
                     b.Property<string>("BrowserInfo")
                         .HasMaxLength(512)
-                        .HasColumnType("varchar(512) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(512)")
                         .HasColumnName("BrowserInfo");
 
                     b.Property<string>("ClientId")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(64)")
                         .HasColumnName("ClientId");
 
                     b.Property<string>("ClientIpAddress")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(64)")
                         .HasColumnName("ClientIpAddress");
 
                     b.Property<string>("ClientName")
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(128)")
                         .HasColumnName("ClientName");
 
                     b.Property<string>("Comments")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(256)")
                         .HasColumnName("Comments");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasMaxLength(40)
-                        .HasColumnType("varchar(40) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(40)")
                         .HasColumnName("ConcurrencyStamp");
 
                     b.Property<string>("CorrelationId")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(64)")
                         .HasColumnName("CorrelationId");
 
                     b.Property<string>("Exceptions")
-                        .HasMaxLength(4000)
-                        .HasColumnType("longtext CHARACTER SET utf8mb4")
-                        .HasColumnName("Exceptions");
+                        .HasColumnType("longtext");
 
                     b.Property<int>("ExecutionDuration")
                         .HasColumnType("int")
@@ -350,12 +346,12 @@ namespace Ray.Blog.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("ExtraProperties")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4")
+                        .HasColumnType("longtext")
                         .HasColumnName("ExtraProperties");
 
                     b.Property<string>("HttpMethod")
                         .HasMaxLength(16)
-                        .HasColumnType("varchar(16) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(16)")
                         .HasColumnName("HttpMethod");
 
                     b.Property<int?>("HttpStatusCode")
@@ -366,20 +362,32 @@ namespace Ray.Blog.Migrations
                         .HasColumnType("char(36)")
                         .HasColumnName("ImpersonatorTenantId");
 
+                    b.Property<string>("ImpersonatorTenantName")
+                        .HasMaxLength(64)
+                        .HasColumnType("varchar(64)")
+                        .HasColumnName("ImpersonatorTenantName");
+
                     b.Property<Guid?>("ImpersonatorUserId")
                         .HasColumnType("char(36)")
                         .HasColumnName("ImpersonatorUserId");
+
+                    b.Property<string>("ImpersonatorUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)")
+                        .HasColumnName("ImpersonatorUserName");
 
                     b.Property<Guid?>("TenantId")
                         .HasColumnType("char(36)")
                         .HasColumnName("TenantId");
 
                     b.Property<string>("TenantName")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasMaxLength(64)
+                        .HasColumnType("varchar(64)")
+                        .HasColumnName("TenantName");
 
                     b.Property<string>("Url")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(256)")
                         .HasColumnName("Url");
 
                     b.Property<Guid?>("UserId")
@@ -388,7 +396,7 @@ namespace Ray.Blog.Migrations
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(256)")
                         .HasColumnName("UserName");
 
                     b.HasKey("Id");
@@ -397,7 +405,7 @@ namespace Ray.Blog.Migrations
 
                     b.HasIndex("TenantId", "UserId", "ExecutionTime");
 
-                    b.ToTable("AbpAuditLogs");
+                    b.ToTable("AbpAuditLogs", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLogAction", b =>
@@ -419,22 +427,22 @@ namespace Ray.Blog.Migrations
                         .HasColumnName("ExecutionTime");
 
                     b.Property<string>("ExtraProperties")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4")
+                        .HasColumnType("longtext")
                         .HasColumnName("ExtraProperties");
 
                     b.Property<string>("MethodName")
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(128)")
                         .HasColumnName("MethodName");
 
                     b.Property<string>("Parameters")
                         .HasMaxLength(2000)
-                        .HasColumnType("varchar(2000) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(2000)")
                         .HasColumnName("Parameters");
 
                     b.Property<string>("ServiceName")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(256)")
                         .HasColumnName("ServiceName");
 
                     b.Property<Guid?>("TenantId")
@@ -447,7 +455,7 @@ namespace Ray.Blog.Migrations
 
                     b.HasIndex("TenantId", "ServiceName", "MethodName", "ExecutionTime");
 
-                    b.ToTable("AbpAuditLogActions");
+                    b.ToTable("AbpAuditLogActions", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.EntityChange", b =>
@@ -471,7 +479,7 @@ namespace Ray.Blog.Migrations
                     b.Property<string>("EntityId")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(128)")
                         .HasColumnName("EntityId");
 
                     b.Property<Guid?>("EntityTenantId")
@@ -480,11 +488,11 @@ namespace Ray.Blog.Migrations
                     b.Property<string>("EntityTypeFullName")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(128)")
                         .HasColumnName("EntityTypeFullName");
 
                     b.Property<string>("ExtraProperties")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4")
+                        .HasColumnType("longtext")
                         .HasColumnName("ExtraProperties");
 
                     b.Property<Guid?>("TenantId")
@@ -497,7 +505,7 @@ namespace Ray.Blog.Migrations
 
                     b.HasIndex("TenantId", "EntityTypeFullName", "EntityId");
 
-                    b.ToTable("AbpEntityChanges");
+                    b.ToTable("AbpEntityChanges", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.EntityPropertyChange", b =>
@@ -511,24 +519,24 @@ namespace Ray.Blog.Migrations
 
                     b.Property<string>("NewValue")
                         .HasMaxLength(512)
-                        .HasColumnType("varchar(512) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(512)")
                         .HasColumnName("NewValue");
 
                     b.Property<string>("OriginalValue")
                         .HasMaxLength(512)
-                        .HasColumnType("varchar(512) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(512)")
                         .HasColumnName("OriginalValue");
 
                     b.Property<string>("PropertyName")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(128)")
                         .HasColumnName("PropertyName");
 
                     b.Property<string>("PropertyTypeFullName")
                         .IsRequired()
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(64)")
                         .HasColumnName("PropertyTypeFullName");
 
                     b.Property<Guid?>("TenantId")
@@ -539,7 +547,7 @@ namespace Ray.Blog.Migrations
 
                     b.HasIndex("EntityChangeId");
 
-                    b.ToTable("AbpEntityPropertyChanges");
+                    b.ToTable("AbpEntityPropertyChanges", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.BackgroundJobs.BackgroundJobRecord", b =>
@@ -551,7 +559,7 @@ namespace Ray.Blog.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasMaxLength(40)
-                        .HasColumnType("varchar(40) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(40)")
                         .HasColumnName("ConcurrencyStamp");
 
                     b.Property<DateTime>("CreationTime")
@@ -559,7 +567,7 @@ namespace Ray.Blog.Migrations
                         .HasColumnName("CreationTime");
 
                     b.Property<string>("ExtraProperties")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4")
+                        .HasColumnType("longtext")
                         .HasColumnName("ExtraProperties");
 
                     b.Property<bool>("IsAbandoned")
@@ -570,12 +578,12 @@ namespace Ray.Blog.Migrations
                     b.Property<string>("JobArgs")
                         .IsRequired()
                         .HasMaxLength(1048576)
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("JobName")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(128)");
 
                     b.Property<DateTime?>("LastTryTime")
                         .HasColumnType("datetime(6)");
@@ -597,7 +605,7 @@ namespace Ray.Blog.Migrations
 
                     b.HasIndex("IsAbandoned", "NextTryTime");
 
-                    b.ToTable("AbpBackgroundJobs");
+                    b.ToTable("AbpBackgroundJobs", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.FeatureManagement.FeatureValue", b =>
@@ -609,46 +617,46 @@ namespace Ray.Blog.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(128)");
 
                     b.Property<string>("ProviderKey")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(64)");
 
                     b.Property<string>("ProviderName")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(64)");
 
                     b.Property<string>("Value")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(128)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Name", "ProviderName", "ProviderKey");
+                    b.HasIndex("Name", "ProviderName", "ProviderKey")
+                        .IsUnique();
 
-                    b.ToTable("AbpFeatureValues");
+                    b.ToTable("AbpFeatureValues", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.IdentityClaimType", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasMaxLength(40)
-                        .HasColumnType("varchar(40) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(40)")
                         .HasColumnName("ConcurrencyStamp");
 
                     b.Property<string>("Description")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("ExtraProperties")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4")
+                        .HasColumnType("longtext")
                         .HasColumnName("ExtraProperties");
 
                     b.Property<bool>("IsStatic")
@@ -657,15 +665,15 @@ namespace Ray.Blog.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("Regex")
                         .HasMaxLength(512)
-                        .HasColumnType("varchar(512) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(512)");
 
                     b.Property<string>("RegexDescription")
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(128)");
 
                     b.Property<bool>("Required")
                         .HasColumnType("tinyint(1)");
@@ -675,13 +683,12 @@ namespace Ray.Blog.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AbpClaimTypes");
+                    b.ToTable("AbpClaimTypes", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.IdentityLinkUser", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
                     b.Property<Guid?>("SourceTenantId")
@@ -701,23 +708,22 @@ namespace Ray.Blog.Migrations
                     b.HasIndex("SourceUserId", "SourceTenantId", "TargetUserId", "TargetTenantId")
                         .IsUnique();
 
-                    b.ToTable("AbpLinkUsers");
+                    b.ToTable("AbpLinkUsers", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.IdentityRole", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasMaxLength(40)
-                        .HasColumnType("varchar(40) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(40)")
                         .HasColumnName("ConcurrencyStamp");
 
                     b.Property<string>("ExtraProperties")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4")
+                        .HasColumnType("longtext")
                         .HasColumnName("ExtraProperties");
 
                     b.Property<bool>("IsDefault")
@@ -735,12 +741,12 @@ namespace Ray.Blog.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("NormalizedName")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(256)");
 
                     b.Property<Guid?>("TenantId")
                         .HasColumnType("char(36)")
@@ -750,7 +756,7 @@ namespace Ray.Blog.Migrations
 
                     b.HasIndex("NormalizedName");
 
-                    b.ToTable("AbpRoles");
+                    b.ToTable("AbpRoles", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.IdentityRoleClaim", b =>
@@ -761,11 +767,11 @@ namespace Ray.Blog.Migrations
                     b.Property<string>("ClaimType")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("ClaimValue")
                         .HasMaxLength(1024)
-                        .HasColumnType("varchar(1024) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(1024)");
 
                     b.Property<Guid>("RoleId")
                         .HasColumnType("char(36)");
@@ -778,55 +784,54 @@ namespace Ray.Blog.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AbpRoleClaims");
+                    b.ToTable("AbpRoleClaims", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.IdentitySecurityLog", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Action")
                         .HasMaxLength(96)
-                        .HasColumnType("varchar(96) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(96)");
 
                     b.Property<string>("ApplicationName")
                         .HasMaxLength(96)
-                        .HasColumnType("varchar(96) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(96)");
 
                     b.Property<string>("BrowserInfo")
                         .HasMaxLength(512)
-                        .HasColumnType("varchar(512) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(512)");
 
                     b.Property<string>("ClientId")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(64)");
 
                     b.Property<string>("ClientIpAddress")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(64)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasMaxLength(40)
-                        .HasColumnType("varchar(40) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(40)")
                         .HasColumnName("ConcurrencyStamp");
 
                     b.Property<string>("CorrelationId")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(64)");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("ExtraProperties")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4")
+                        .HasColumnType("longtext")
                         .HasColumnName("ExtraProperties");
 
                     b.Property<string>("Identity")
                         .HasMaxLength(96)
-                        .HasColumnType("varchar(96) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(96)");
 
                     b.Property<Guid?>("TenantId")
                         .HasColumnType("char(36)")
@@ -834,14 +839,14 @@ namespace Ray.Blog.Migrations
 
                     b.Property<string>("TenantName")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(64)");
 
                     b.Property<Guid?>("UserId")
                         .HasColumnType("char(36)");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(256)");
 
                     b.HasKey("Id");
 
@@ -853,13 +858,12 @@ namespace Ray.Blog.Migrations
 
                     b.HasIndex("TenantId", "UserId");
 
-                    b.ToTable("AbpSecurityLogs");
+                    b.ToTable("AbpSecurityLogs", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.IdentityUser", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
                     b.Property<int>("AccessFailedCount")
@@ -871,7 +875,7 @@ namespace Ray.Blog.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasMaxLength(40)
-                        .HasColumnType("varchar(40) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(40)")
                         .HasColumnName("ConcurrencyStamp");
 
                     b.Property<DateTime>("CreationTime")
@@ -893,7 +897,7 @@ namespace Ray.Blog.Migrations
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(256)")
                         .HasColumnName("Email");
 
                     b.Property<bool>("EmailConfirmed")
@@ -903,8 +907,11 @@ namespace Ray.Blog.Migrations
                         .HasColumnName("EmailConfirmed");
 
                     b.Property<string>("ExtraProperties")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4")
+                        .HasColumnType("longtext")
                         .HasColumnName("ExtraProperties");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -937,29 +944,29 @@ namespace Ray.Blog.Migrations
 
                     b.Property<string>("Name")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(64)")
                         .HasColumnName("Name");
 
                     b.Property<string>("NormalizedEmail")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(256)")
                         .HasColumnName("NormalizedEmail");
 
                     b.Property<string>("NormalizedUserName")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(256)")
                         .HasColumnName("NormalizedUserName");
 
                     b.Property<string>("PasswordHash")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(256)")
                         .HasColumnName("PasswordHash");
 
                     b.Property<string>("PhoneNumber")
                         .HasMaxLength(16)
-                        .HasColumnType("varchar(16) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(16)")
                         .HasColumnName("PhoneNumber");
 
                     b.Property<bool>("PhoneNumberConfirmed")
@@ -971,12 +978,12 @@ namespace Ray.Blog.Migrations
                     b.Property<string>("SecurityStamp")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(256)")
                         .HasColumnName("SecurityStamp");
 
                     b.Property<string>("Surname")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(64)")
                         .HasColumnName("Surname");
 
                     b.Property<Guid?>("TenantId")
@@ -992,7 +999,7 @@ namespace Ray.Blog.Migrations
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(256)")
                         .HasColumnName("UserName");
 
                     b.HasKey("Id");
@@ -1005,7 +1012,7 @@ namespace Ray.Blog.Migrations
 
                     b.HasIndex("UserName");
 
-                    b.ToTable("AbpUsers");
+                    b.ToTable("AbpUsers", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.IdentityUserClaim", b =>
@@ -1016,11 +1023,11 @@ namespace Ray.Blog.Migrations
                     b.Property<string>("ClaimType")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("ClaimValue")
                         .HasMaxLength(1024)
-                        .HasColumnType("varchar(1024) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(1024)");
 
                     b.Property<Guid?>("TenantId")
                         .HasColumnType("char(36)")
@@ -1033,7 +1040,7 @@ namespace Ray.Blog.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AbpUserClaims");
+                    b.ToTable("AbpUserClaims", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.IdentityUserLogin", b =>
@@ -1043,16 +1050,16 @@ namespace Ray.Blog.Migrations
 
                     b.Property<string>("LoginProvider")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(64)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(128)");
 
                     b.Property<string>("ProviderKey")
                         .IsRequired()
                         .HasMaxLength(196)
-                        .HasColumnType("varchar(196) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(196)");
 
                     b.Property<Guid?>("TenantId")
                         .HasColumnType("char(36)")
@@ -1062,7 +1069,7 @@ namespace Ray.Blog.Migrations
 
                     b.HasIndex("LoginProvider", "ProviderKey");
 
-                    b.ToTable("AbpUserLogins");
+                    b.ToTable("AbpUserLogins", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.IdentityUserOrganizationUnit", b =>
@@ -1089,7 +1096,7 @@ namespace Ray.Blog.Migrations
 
                     b.HasIndex("UserId", "OrganizationUnitId");
 
-                    b.ToTable("AbpUserOrganizationUnits");
+                    b.ToTable("AbpUserOrganizationUnits", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.IdentityUserRole", b =>
@@ -1108,7 +1115,7 @@ namespace Ray.Blog.Migrations
 
                     b.HasIndex("RoleId", "UserId");
 
-                    b.ToTable("AbpUserRoles");
+                    b.ToTable("AbpUserRoles", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.IdentityUserToken", b =>
@@ -1118,40 +1125,39 @@ namespace Ray.Blog.Migrations
 
                     b.Property<string>("LoginProvider")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(64)");
 
                     b.Property<string>("Name")
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(128)");
 
                     b.Property<Guid?>("TenantId")
                         .HasColumnType("char(36)")
                         .HasColumnName("TenantId");
 
                     b.Property<string>("Value")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("longtext");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AbpUserTokens");
+                    b.ToTable("AbpUserTokens", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.OrganizationUnit", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(95)
-                        .HasColumnType("varchar(95) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(95)")
                         .HasColumnName("Code");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasMaxLength(40)
-                        .HasColumnType("varchar(40) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(40)")
                         .HasColumnName("ConcurrencyStamp");
 
                     b.Property<DateTime>("CreationTime")
@@ -1173,11 +1179,11 @@ namespace Ray.Blog.Migrations
                     b.Property<string>("DisplayName")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(128)")
                         .HasColumnName("DisplayName");
 
                     b.Property<string>("ExtraProperties")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4")
+                        .HasColumnType("longtext")
                         .HasColumnName("ExtraProperties");
 
                     b.Property<bool>("IsDeleted")
@@ -1207,7 +1213,7 @@ namespace Ray.Blog.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("AbpOrganizationUnits");
+                    b.ToTable("AbpOrganizationUnits", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.Identity.OrganizationUnitRole", b =>
@@ -1234,7 +1240,7 @@ namespace Ray.Blog.Migrations
 
                     b.HasIndex("RoleId", "OrganizationUnitId");
 
-                    b.ToTable("AbpOrganizationUnitRoles");
+                    b.ToTable("AbpOrganizationUnitRoles", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.ApiResources.ApiResource", b =>
@@ -1245,12 +1251,12 @@ namespace Ray.Blog.Migrations
 
                     b.Property<string>("AllowedAccessTokenSigningAlgorithms")
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasMaxLength(40)
-                        .HasColumnType("varchar(40) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(40)")
                         .HasColumnName("ConcurrencyStamp");
 
                     b.Property<DateTime>("CreationTime")
@@ -1271,17 +1277,17 @@ namespace Ray.Blog.Migrations
 
                     b.Property<string>("Description")
                         .HasMaxLength(1000)
-                        .HasColumnType("varchar(1000) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(1000)");
 
                     b.Property<string>("DisplayName")
                         .HasMaxLength(200)
-                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<bool>("Enabled")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("ExtraProperties")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4")
+                        .HasColumnType("longtext")
                         .HasColumnName("ExtraProperties");
 
                     b.Property<bool>("IsDeleted")
@@ -1301,14 +1307,14 @@ namespace Ray.Blog.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<bool>("ShowInDiscoveryDocument")
                         .HasColumnType("tinyint(1)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("IdentityServerApiResources");
+                    b.ToTable("IdentityServerApiResources", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.ApiResources.ApiResourceClaim", b =>
@@ -1318,11 +1324,11 @@ namespace Ray.Blog.Migrations
 
                     b.Property<string>("Type")
                         .HasMaxLength(200)
-                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(200)");
 
                     b.HasKey("ApiResourceId", "Type");
 
-                    b.ToTable("IdentityServerApiResourceClaims");
+                    b.ToTable("IdentityServerApiResourceClaims", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.ApiResources.ApiResourceProperty", b =>
@@ -1332,15 +1338,15 @@ namespace Ray.Blog.Migrations
 
                     b.Property<string>("Key")
                         .HasMaxLength(250)
-                        .HasColumnType("varchar(250) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(250)");
 
                     b.Property<string>("Value")
                         .HasMaxLength(300)
-                        .HasColumnType("varchar(300) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(300)");
 
                     b.HasKey("ApiResourceId", "Key", "Value");
 
-                    b.ToTable("IdentityServerApiResourceProperties");
+                    b.ToTable("IdentityServerApiResourceProperties", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.ApiResources.ApiResourceScope", b =>
@@ -1350,11 +1356,11 @@ namespace Ray.Blog.Migrations
 
                     b.Property<string>("Scope")
                         .HasMaxLength(200)
-                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(200)");
 
                     b.HasKey("ApiResourceId", "Scope");
 
-                    b.ToTable("IdentityServerApiResourceScopes");
+                    b.ToTable("IdentityServerApiResourceScopes", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.ApiResources.ApiResourceSecret", b =>
@@ -1364,22 +1370,22 @@ namespace Ray.Blog.Migrations
 
                     b.Property<string>("Type")
                         .HasMaxLength(250)
-                        .HasColumnType("varchar(250) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(250)");
 
                     b.Property<string>("Value")
                         .HasMaxLength(300)
-                        .HasColumnType("varchar(300) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(300)");
 
                     b.Property<string>("Description")
                         .HasMaxLength(1000)
-                        .HasColumnType("varchar(1000) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(1000)");
 
                     b.Property<DateTime?>("Expiration")
                         .HasColumnType("datetime(6)");
 
                     b.HasKey("ApiResourceId", "Type", "Value");
 
-                    b.ToTable("IdentityServerApiResourceSecrets");
+                    b.ToTable("IdentityServerApiResourceSecrets", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.ApiScopes.ApiScope", b =>
@@ -1391,7 +1397,7 @@ namespace Ray.Blog.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasMaxLength(40)
-                        .HasColumnType("varchar(40) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(40)")
                         .HasColumnName("ConcurrencyStamp");
 
                     b.Property<DateTime>("CreationTime")
@@ -1412,11 +1418,11 @@ namespace Ray.Blog.Migrations
 
                     b.Property<string>("Description")
                         .HasMaxLength(1000)
-                        .HasColumnType("varchar(1000) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(1000)");
 
                     b.Property<string>("DisplayName")
                         .HasMaxLength(200)
-                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<bool>("Emphasize")
                         .HasColumnType("tinyint(1)");
@@ -1425,7 +1431,7 @@ namespace Ray.Blog.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("ExtraProperties")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4")
+                        .HasColumnType("longtext")
                         .HasColumnName("ExtraProperties");
 
                     b.Property<bool>("IsDeleted")
@@ -1445,7 +1451,7 @@ namespace Ray.Blog.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<bool>("Required")
                         .HasColumnType("tinyint(1)");
@@ -1455,7 +1461,7 @@ namespace Ray.Blog.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("IdentityServerApiScopes");
+                    b.ToTable("IdentityServerApiScopes", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.ApiScopes.ApiScopeClaim", b =>
@@ -1465,11 +1471,11 @@ namespace Ray.Blog.Migrations
 
                     b.Property<string>("Type")
                         .HasMaxLength(200)
-                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(200)");
 
                     b.HasKey("ApiScopeId", "Type");
 
-                    b.ToTable("IdentityServerApiScopeClaims");
+                    b.ToTable("IdentityServerApiScopeClaims", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.ApiScopes.ApiScopeProperty", b =>
@@ -1479,15 +1485,15 @@ namespace Ray.Blog.Migrations
 
                     b.Property<string>("Key")
                         .HasMaxLength(250)
-                        .HasColumnType("varchar(250) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(250)");
 
                     b.Property<string>("Value")
                         .HasMaxLength(300)
-                        .HasColumnType("varchar(300) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(300)");
 
                     b.HasKey("ApiScopeId", "Key", "Value");
 
-                    b.ToTable("IdentityServerApiScopeProperties");
+                    b.ToTable("IdentityServerApiScopeProperties", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.Clients.Client", b =>
@@ -1519,7 +1525,7 @@ namespace Ray.Blog.Migrations
 
                     b.Property<string>("AllowedIdentityTokenSigningAlgorithms")
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(100)");
 
                     b.Property<bool>("AlwaysIncludeUserClaimsInIdToken")
                         .HasColumnType("tinyint(1)");
@@ -1535,29 +1541,29 @@ namespace Ray.Blog.Migrations
 
                     b.Property<string>("BackChannelLogoutUri")
                         .HasMaxLength(2000)
-                        .HasColumnType("varchar(2000) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(2000)");
 
                     b.Property<string>("ClientClaimsPrefix")
                         .HasMaxLength(200)
-                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<string>("ClientId")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<string>("ClientName")
                         .HasMaxLength(200)
-                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<string>("ClientUri")
                         .HasMaxLength(2000)
-                        .HasColumnType("varchar(2000) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(2000)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasMaxLength(40)
-                        .HasColumnType("varchar(40) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(40)")
                         .HasColumnName("ConcurrencyStamp");
 
                     b.Property<int?>("ConsentLifetime")
@@ -1581,7 +1587,7 @@ namespace Ray.Blog.Migrations
 
                     b.Property<string>("Description")
                         .HasMaxLength(1000)
-                        .HasColumnType("varchar(1000) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(1000)");
 
                     b.Property<int>("DeviceCodeLifetime")
                         .HasColumnType("int");
@@ -1593,7 +1599,7 @@ namespace Ray.Blog.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("ExtraProperties")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4")
+                        .HasColumnType("longtext")
                         .HasColumnName("ExtraProperties");
 
                     b.Property<bool>("FrontChannelLogoutSessionRequired")
@@ -1601,7 +1607,7 @@ namespace Ray.Blog.Migrations
 
                     b.Property<string>("FrontChannelLogoutUri")
                         .HasMaxLength(2000)
-                        .HasColumnType("varchar(2000) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(2000)");
 
                     b.Property<int>("IdentityTokenLifetime")
                         .HasColumnType("int");
@@ -1625,16 +1631,16 @@ namespace Ray.Blog.Migrations
 
                     b.Property<string>("LogoUri")
                         .HasMaxLength(2000)
-                        .HasColumnType("varchar(2000) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(2000)");
 
                     b.Property<string>("PairWiseSubjectSalt")
                         .HasMaxLength(200)
-                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<string>("ProtocolType")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<int>("RefreshTokenExpiration")
                         .HasColumnType("int");
@@ -1662,7 +1668,7 @@ namespace Ray.Blog.Migrations
 
                     b.Property<string>("UserCodeType")
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(100)");
 
                     b.Property<int?>("UserSsoLifetime")
                         .HasColumnType("int");
@@ -1671,7 +1677,7 @@ namespace Ray.Blog.Migrations
 
                     b.HasIndex("ClientId");
 
-                    b.ToTable("IdentityServerClients");
+                    b.ToTable("IdentityServerClients", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.Clients.ClientClaim", b =>
@@ -1681,15 +1687,15 @@ namespace Ray.Blog.Migrations
 
                     b.Property<string>("Type")
                         .HasMaxLength(250)
-                        .HasColumnType("varchar(250) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(250)");
 
                     b.Property<string>("Value")
                         .HasMaxLength(250)
-                        .HasColumnType("varchar(250) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(250)");
 
                     b.HasKey("ClientId", "Type", "Value");
 
-                    b.ToTable("IdentityServerClientClaims");
+                    b.ToTable("IdentityServerClientClaims", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.Clients.ClientCorsOrigin", b =>
@@ -1699,11 +1705,11 @@ namespace Ray.Blog.Migrations
 
                     b.Property<string>("Origin")
                         .HasMaxLength(150)
-                        .HasColumnType("varchar(150) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(150)");
 
                     b.HasKey("ClientId", "Origin");
 
-                    b.ToTable("IdentityServerClientCorsOrigins");
+                    b.ToTable("IdentityServerClientCorsOrigins", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.Clients.ClientGrantType", b =>
@@ -1713,11 +1719,11 @@ namespace Ray.Blog.Migrations
 
                     b.Property<string>("GrantType")
                         .HasMaxLength(250)
-                        .HasColumnType("varchar(250) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(250)");
 
                     b.HasKey("ClientId", "GrantType");
 
-                    b.ToTable("IdentityServerClientGrantTypes");
+                    b.ToTable("IdentityServerClientGrantTypes", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.Clients.ClientIdPRestriction", b =>
@@ -1727,11 +1733,11 @@ namespace Ray.Blog.Migrations
 
                     b.Property<string>("Provider")
                         .HasMaxLength(200)
-                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(200)");
 
                     b.HasKey("ClientId", "Provider");
 
-                    b.ToTable("IdentityServerClientIdPRestrictions");
+                    b.ToTable("IdentityServerClientIdPRestrictions", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.Clients.ClientPostLogoutRedirectUri", b =>
@@ -1741,11 +1747,11 @@ namespace Ray.Blog.Migrations
 
                     b.Property<string>("PostLogoutRedirectUri")
                         .HasMaxLength(300)
-                        .HasColumnType("varchar(300) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(300)");
 
                     b.HasKey("ClientId", "PostLogoutRedirectUri");
 
-                    b.ToTable("IdentityServerClientPostLogoutRedirectUris");
+                    b.ToTable("IdentityServerClientPostLogoutRedirectUris", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.Clients.ClientProperty", b =>
@@ -1755,15 +1761,15 @@ namespace Ray.Blog.Migrations
 
                     b.Property<string>("Key")
                         .HasMaxLength(250)
-                        .HasColumnType("varchar(250) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(250)");
 
                     b.Property<string>("Value")
                         .HasMaxLength(300)
-                        .HasColumnType("varchar(300) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(300)");
 
                     b.HasKey("ClientId", "Key", "Value");
 
-                    b.ToTable("IdentityServerClientProperties");
+                    b.ToTable("IdentityServerClientProperties", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.Clients.ClientRedirectUri", b =>
@@ -1773,11 +1779,11 @@ namespace Ray.Blog.Migrations
 
                     b.Property<string>("RedirectUri")
                         .HasMaxLength(300)
-                        .HasColumnType("varchar(300) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(300)");
 
                     b.HasKey("ClientId", "RedirectUri");
 
-                    b.ToTable("IdentityServerClientRedirectUris");
+                    b.ToTable("IdentityServerClientRedirectUris", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.Clients.ClientScope", b =>
@@ -1787,11 +1793,11 @@ namespace Ray.Blog.Migrations
 
                     b.Property<string>("Scope")
                         .HasMaxLength(200)
-                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(200)");
 
                     b.HasKey("ClientId", "Scope");
 
-                    b.ToTable("IdentityServerClientScopes");
+                    b.ToTable("IdentityServerClientScopes", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.Clients.ClientSecret", b =>
@@ -1801,22 +1807,22 @@ namespace Ray.Blog.Migrations
 
                     b.Property<string>("Type")
                         .HasMaxLength(250)
-                        .HasColumnType("varchar(250) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(250)");
 
                     b.Property<string>("Value")
                         .HasMaxLength(300)
-                        .HasColumnType("varchar(300) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(300)");
 
                     b.Property<string>("Description")
                         .HasMaxLength(2000)
-                        .HasColumnType("varchar(2000) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(2000)");
 
                     b.Property<DateTime?>("Expiration")
                         .HasColumnType("datetime(6)");
 
                     b.HasKey("ClientId", "Type", "Value");
 
-                    b.ToTable("IdentityServerClientSecrets");
+                    b.ToTable("IdentityServerClientSecrets", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.Devices.DeviceFlowCodes", b =>
@@ -1828,12 +1834,12 @@ namespace Ray.Blog.Migrations
                     b.Property<string>("ClientId")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasMaxLength(40)
-                        .HasColumnType("varchar(40) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(40)")
                         .HasColumnName("ConcurrencyStamp");
 
                     b.Property<DateTime>("CreationTime")
@@ -1847,37 +1853,37 @@ namespace Ray.Blog.Migrations
                     b.Property<string>("Data")
                         .IsRequired()
                         .HasMaxLength(10000)
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(10000)");
 
                     b.Property<string>("Description")
                         .HasMaxLength(200)
-                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<string>("DeviceCode")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<DateTime?>("Expiration")
                         .IsRequired()
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("ExtraProperties")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4")
+                        .HasColumnType("longtext")
                         .HasColumnName("ExtraProperties");
 
                     b.Property<string>("SessionId")
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("SubjectId")
                         .HasMaxLength(200)
-                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<string>("UserCode")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(200)");
 
                     b.HasKey("Id");
 
@@ -1888,24 +1894,24 @@ namespace Ray.Blog.Migrations
 
                     b.HasIndex("UserCode");
 
-                    b.ToTable("IdentityServerDeviceFlowCodes");
+                    b.ToTable("IdentityServerDeviceFlowCodes", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.Grants.PersistedGrant", b =>
                 {
                     b.Property<string>("Key")
                         .HasMaxLength(200)
-                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<string>("ClientId")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasMaxLength(40)
-                        .HasColumnType("varchar(40) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(40)")
                         .HasColumnName("ConcurrencyStamp");
 
                     b.Property<DateTime?>("ConsumedTime")
@@ -1917,17 +1923,17 @@ namespace Ray.Blog.Migrations
                     b.Property<string>("Data")
                         .IsRequired()
                         .HasMaxLength(10000)
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(10000)");
 
                     b.Property<string>("Description")
                         .HasMaxLength(200)
-                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<DateTime?>("Expiration")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("ExtraProperties")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4")
+                        .HasColumnType("longtext")
                         .HasColumnName("ExtraProperties");
 
                     b.Property<Guid>("Id")
@@ -1935,16 +1941,16 @@ namespace Ray.Blog.Migrations
 
                     b.Property<string>("SessionId")
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("SubjectId")
                         .HasMaxLength(200)
-                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(50)");
 
                     b.HasKey("Key");
 
@@ -1954,7 +1960,7 @@ namespace Ray.Blog.Migrations
 
                     b.HasIndex("SubjectId", "SessionId", "Type");
 
-                    b.ToTable("IdentityServerPersistedGrants");
+                    b.ToTable("IdentityServerPersistedGrants", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.IdentityResources.IdentityResource", b =>
@@ -1966,7 +1972,7 @@ namespace Ray.Blog.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasMaxLength(40)
-                        .HasColumnType("varchar(40) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(40)")
                         .HasColumnName("ConcurrencyStamp");
 
                     b.Property<DateTime>("CreationTime")
@@ -1987,11 +1993,11 @@ namespace Ray.Blog.Migrations
 
                     b.Property<string>("Description")
                         .HasMaxLength(1000)
-                        .HasColumnType("varchar(1000) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(1000)");
 
                     b.Property<string>("DisplayName")
                         .HasMaxLength(200)
-                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<bool>("Emphasize")
                         .HasColumnType("tinyint(1)");
@@ -2000,7 +2006,7 @@ namespace Ray.Blog.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("ExtraProperties")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4")
+                        .HasColumnType("longtext")
                         .HasColumnName("ExtraProperties");
 
                     b.Property<bool>("IsDeleted")
@@ -2020,7 +2026,7 @@ namespace Ray.Blog.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<bool>("Required")
                         .HasColumnType("tinyint(1)");
@@ -2030,7 +2036,7 @@ namespace Ray.Blog.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("IdentityServerIdentityResources");
+                    b.ToTable("IdentityServerIdentityResources", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.IdentityResources.IdentityResourceClaim", b =>
@@ -2040,11 +2046,11 @@ namespace Ray.Blog.Migrations
 
                     b.Property<string>("Type")
                         .HasMaxLength(200)
-                        .HasColumnType("varchar(200) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(200)");
 
                     b.HasKey("IdentityResourceId", "Type");
 
-                    b.ToTable("IdentityServerIdentityResourceClaims");
+                    b.ToTable("IdentityServerIdentityResourceClaims", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.IdentityServer.IdentityResources.IdentityResourceProperty", b =>
@@ -2054,15 +2060,15 @@ namespace Ray.Blog.Migrations
 
                     b.Property<string>("Key")
                         .HasMaxLength(250)
-                        .HasColumnType("varchar(250) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(250)");
 
                     b.Property<string>("Value")
                         .HasMaxLength(300)
-                        .HasColumnType("varchar(300) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(300)");
 
                     b.HasKey("IdentityResourceId", "Key", "Value");
 
-                    b.ToTable("IdentityServerIdentityResourceProperties");
+                    b.ToTable("IdentityServerIdentityResourceProperties", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.PermissionManagement.PermissionGrant", b =>
@@ -2074,17 +2080,17 @@ namespace Ray.Blog.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(128)");
 
                     b.Property<string>("ProviderKey")
                         .IsRequired()
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(64)");
 
                     b.Property<string>("ProviderName")
                         .IsRequired()
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(64)");
 
                     b.Property<Guid?>("TenantId")
                         .HasColumnType("char(36)")
@@ -2092,9 +2098,10 @@ namespace Ray.Blog.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Name", "ProviderName", "ProviderKey");
+                    b.HasIndex("TenantId", "Name", "ProviderName", "ProviderKey")
+                        .IsUnique();
 
-                    b.ToTable("AbpPermissionGrants");
+                    b.ToTable("AbpPermissionGrants", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.SettingManagement.Setting", b =>
@@ -2106,38 +2113,38 @@ namespace Ray.Blog.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("varchar(128) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(128)");
 
                     b.Property<string>("ProviderKey")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(64)");
 
                     b.Property<string>("ProviderName")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(64)");
 
                     b.Property<string>("Value")
                         .IsRequired()
                         .HasMaxLength(2048)
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(2048)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Name", "ProviderName", "ProviderKey");
+                    b.HasIndex("Name", "ProviderName", "ProviderKey")
+                        .IsUnique();
 
-                    b.ToTable("AbpSettings");
+                    b.ToTable("AbpSettings", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.TenantManagement.Tenant", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasMaxLength(40)
-                        .HasColumnType("varchar(40) CHARACTER SET utf8mb4")
+                        .HasColumnType("varchar(40)")
                         .HasColumnName("ConcurrencyStamp");
 
                     b.Property<DateTime>("CreationTime")
@@ -2157,7 +2164,7 @@ namespace Ray.Blog.Migrations
                         .HasColumnName("DeletionTime");
 
                     b.Property<string>("ExtraProperties")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4")
+                        .HasColumnType("longtext")
                         .HasColumnName("ExtraProperties");
 
                     b.Property<bool>("IsDeleted")
@@ -2177,13 +2184,13 @@ namespace Ray.Blog.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(64)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Name");
 
-                    b.ToTable("AbpTenants");
+                    b.ToTable("AbpTenants", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.TenantManagement.TenantConnectionString", b =>
@@ -2193,16 +2200,16 @@ namespace Ray.Blog.Migrations
 
                     b.Property<string>("Name")
                         .HasMaxLength(64)
-                        .HasColumnType("varchar(64) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(64)");
 
                     b.Property<string>("Value")
                         .IsRequired()
                         .HasMaxLength(1024)
-                        .HasColumnType("varchar(1024) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(1024)");
 
                     b.HasKey("TenantId", "Name");
 
-                    b.ToTable("AbpTenantConnectionStrings");
+                    b.ToTable("AbpTenantConnectionStrings", (string)null);
                 });
 
             modelBuilder.Entity("Ray.Blog.Comments.Comment", b =>

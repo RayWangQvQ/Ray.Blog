@@ -8,55 +8,54 @@ using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore.Sqlite;
 using Volo.Abp.Modularity;
 
-namespace Ray.Blog.EntityFrameworkCore
+namespace Ray.Blog.EntityFrameworkCore;
+
+[DependsOn(
+    typeof(BlogEntityFrameworkCoreModule),
+    typeof(BlogTestBaseModule),
+    typeof(AbpEntityFrameworkCoreSqliteModule)
+    )]
+public class BlogEntityFrameworkCoreTestModule : AbpModule
 {
-    [DependsOn(
-        typeof(BlogEntityFrameworkCoreDbMigrationsModule),
-        typeof(BlogTestBaseModule),
-        typeof(AbpEntityFrameworkCoreSqliteModule)
-        )]
-    public class BlogEntityFrameworkCoreTestModule : AbpModule
+    private SqliteConnection _sqliteConnection;
+
+    public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        private SqliteConnection _sqliteConnection;
+        ConfigureInMemorySqlite(context.Services);
+    }
 
-        public override void ConfigureServices(ServiceConfigurationContext context)
+    private void ConfigureInMemorySqlite(IServiceCollection services)
+    {
+        _sqliteConnection = CreateDatabaseAndGetConnection();
+
+        services.Configure<AbpDbContextOptions>(options =>
         {
-            ConfigureInMemorySqlite(context.Services);
-        }
-
-        private void ConfigureInMemorySqlite(IServiceCollection services)
-        {
-            _sqliteConnection = CreateDatabaseAndGetConnection();
-
-            services.Configure<AbpDbContextOptions>(options =>
+            options.Configure(context =>
             {
-                options.Configure(context =>
-                {
-                    context.DbContextOptions.UseSqlite(_sqliteConnection);
-                });
+                context.DbContextOptions.UseSqlite(_sqliteConnection);
             });
-        }
+        });
+    }
 
-        public override void OnApplicationShutdown(ApplicationShutdownContext context)
+    public override void OnApplicationShutdown(ApplicationShutdownContext context)
+    {
+        _sqliteConnection.Dispose();
+    }
+
+    private static SqliteConnection CreateDatabaseAndGetConnection()
+    {
+        var connection = new SqliteConnection("Data Source=:memory:");
+        connection.Open();
+
+        var options = new DbContextOptionsBuilder<BlogDbContext>()
+            .UseSqlite(connection)
+            .Options;
+
+        using (var context = new BlogDbContext(options))
         {
-            _sqliteConnection.Dispose();
+            context.GetService<IRelationalDatabaseCreator>().CreateTables();
         }
 
-        private static SqliteConnection CreateDatabaseAndGetConnection()
-        {
-            var connection = new SqliteConnection("Data Source=:memory:");
-            connection.Open();
-
-            var options = new DbContextOptionsBuilder<BlogMigrationsDbContext>()
-                .UseSqlite(connection)
-                .Options;
-
-            using (var context = new BlogMigrationsDbContext(options))
-            {
-                context.GetService<IRelationalDatabaseCreator>().CreateTables();
-            }
-
-            return connection;
-        }
+        return connection;
     }
 }

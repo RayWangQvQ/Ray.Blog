@@ -1,132 +1,178 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
+#nullable disable
+
 namespace Ray.Blog.Migrations
 {
     public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AlterDatabase()
+                .Annotation("MySql:CharSet", "utf8mb4");
+
             migrationBuilder.CreateTable(
                 name: "AbpAuditLogs",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    ApplicationName = table.Column<string>(type: "varchar(96) CHARACTER SET utf8mb4", maxLength: 96, nullable: true),
-                    UserId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    UserName = table.Column<string>(type: "varchar(256) CHARACTER SET utf8mb4", maxLength: 256, nullable: true),
-                    TenantId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    TenantName = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    ImpersonatorUserId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    ImpersonatorTenantId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    ApplicationName = table.Column<string>(type: "varchar(96)", maxLength: 96, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    UserId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    UserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    TenantId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    TenantName = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ImpersonatorUserId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    ImpersonatorUserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ImpersonatorTenantId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    ImpersonatorTenantName = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     ExecutionTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     ExecutionDuration = table.Column<int>(type: "int", nullable: false),
-                    ClientIpAddress = table.Column<string>(type: "varchar(64) CHARACTER SET utf8mb4", maxLength: 64, nullable: true),
-                    ClientName = table.Column<string>(type: "varchar(128) CHARACTER SET utf8mb4", maxLength: 128, nullable: true),
-                    ClientId = table.Column<string>(type: "varchar(64) CHARACTER SET utf8mb4", maxLength: 64, nullable: true),
-                    CorrelationId = table.Column<string>(type: "varchar(64) CHARACTER SET utf8mb4", maxLength: 64, nullable: true),
-                    BrowserInfo = table.Column<string>(type: "varchar(512) CHARACTER SET utf8mb4", maxLength: 512, nullable: true),
-                    HttpMethod = table.Column<string>(type: "varchar(16) CHARACTER SET utf8mb4", maxLength: 16, nullable: true),
-                    Url = table.Column<string>(type: "varchar(256) CHARACTER SET utf8mb4", maxLength: 256, nullable: true),
-                    Exceptions = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", maxLength: 4000, nullable: true),
-                    Comments = table.Column<string>(type: "varchar(256) CHARACTER SET utf8mb4", maxLength: 256, nullable: true),
+                    ClientIpAddress = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ClientName = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ClientId = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CorrelationId = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    BrowserInfo = table.Column<string>(type: "varchar(512)", maxLength: 512, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    HttpMethod = table.Column<string>(type: "varchar(16)", maxLength: 16, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Url = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Exceptions = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Comments = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     HttpStatusCode = table.Column<int>(type: "int", nullable: true),
-                    ExtraProperties = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "varchar(40) CHARACTER SET utf8mb4", maxLength: 40, nullable: true)
+                    ExtraProperties = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ConcurrencyStamp = table.Column<string>(type: "varchar(40)", maxLength: 40, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AbpAuditLogs", x => x.Id);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "AbpBackgroundJobs",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    JobName = table.Column<string>(type: "varchar(128) CHARACTER SET utf8mb4", maxLength: 128, nullable: false),
-                    JobArgs = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", maxLength: 1048576, nullable: false),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    JobName = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    JobArgs = table.Column<string>(type: "longtext", maxLength: 1048576, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     TryCount = table.Column<short>(type: "smallint", nullable: false, defaultValue: (short)0),
                     CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     NextTryTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     LastTryTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     IsAbandoned = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
                     Priority = table.Column<byte>(type: "tinyint unsigned", nullable: false, defaultValue: (byte)15),
-                    ExtraProperties = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "varchar(40) CHARACTER SET utf8mb4", maxLength: 40, nullable: true)
+                    ExtraProperties = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ConcurrencyStamp = table.Column<string>(type: "varchar(40)", maxLength: 40, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AbpBackgroundJobs", x => x.Id);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "AbpClaimTypes",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    Name = table.Column<string>(type: "varchar(256) CHARACTER SET utf8mb4", maxLength: 256, nullable: false),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Name = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Required = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     IsStatic = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    Regex = table.Column<string>(type: "varchar(512) CHARACTER SET utf8mb4", maxLength: 512, nullable: true),
-                    RegexDescription = table.Column<string>(type: "varchar(128) CHARACTER SET utf8mb4", maxLength: 128, nullable: true),
-                    Description = table.Column<string>(type: "varchar(256) CHARACTER SET utf8mb4", maxLength: 256, nullable: true),
+                    Regex = table.Column<string>(type: "varchar(512)", maxLength: 512, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    RegexDescription = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Description = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     ValueType = table.Column<int>(type: "int", nullable: false),
-                    ExtraProperties = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "varchar(40) CHARACTER SET utf8mb4", maxLength: 40, nullable: true)
+                    ExtraProperties = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ConcurrencyStamp = table.Column<string>(type: "varchar(40)", maxLength: 40, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AbpClaimTypes", x => x.Id);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "AbpFeatureValues",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    Name = table.Column<string>(type: "varchar(128) CHARACTER SET utf8mb4", maxLength: 128, nullable: false),
-                    Value = table.Column<string>(type: "varchar(128) CHARACTER SET utf8mb4", maxLength: 128, nullable: false),
-                    ProviderName = table.Column<string>(type: "varchar(64) CHARACTER SET utf8mb4", maxLength: 64, nullable: true),
-                    ProviderKey = table.Column<string>(type: "varchar(64) CHARACTER SET utf8mb4", maxLength: 64, nullable: true)
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Name = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Value = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ProviderName = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ProviderKey = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AbpFeatureValues", x => x.Id);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "AbpLinkUsers",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    SourceUserId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    SourceTenantId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    TargetUserId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    TargetTenantId = table.Column<Guid>(type: "char(36)", nullable: true)
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    SourceUserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    SourceTenantId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    TargetUserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    TargetTenantId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AbpLinkUsers", x => x.Id);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "AbpOrganizationUnits",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    TenantId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    ParentId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    Code = table.Column<string>(type: "varchar(95) CHARACTER SET utf8mb4", maxLength: 95, nullable: false),
-                    DisplayName = table.Column<string>(type: "varchar(128) CHARACTER SET utf8mb4", maxLength: 128, nullable: false),
-                    ExtraProperties = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "varchar(40) CHARACTER SET utf8mb4", maxLength: 40, nullable: true),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    TenantId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    ParentId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    Code = table.Column<string>(type: "varchar(95)", maxLength: 95, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    DisplayName = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ExtraProperties = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ConcurrencyStamp = table.Column<string>(type: "varchar(40)", maxLength: 40, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    CreatorId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     LastModificationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    LastModifierId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    LastModifierId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
-                    DeleterId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    DeleterId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
@@ -136,251 +182,323 @@ namespace Ray.Blog.Migrations
                         name: "FK_AbpOrganizationUnits_AbpOrganizationUnits_ParentId",
                         column: x => x.ParentId,
                         principalTable: "AbpOrganizationUnits",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
+                        principalColumn: "Id");
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "AbpPermissionGrants",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    TenantId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    Name = table.Column<string>(type: "varchar(128) CHARACTER SET utf8mb4", maxLength: 128, nullable: false),
-                    ProviderName = table.Column<string>(type: "varchar(64) CHARACTER SET utf8mb4", maxLength: 64, nullable: false),
-                    ProviderKey = table.Column<string>(type: "varchar(64) CHARACTER SET utf8mb4", maxLength: 64, nullable: false)
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    TenantId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    Name = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ProviderName = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ProviderKey = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AbpPermissionGrants", x => x.Id);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "AbpRoles",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    TenantId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    Name = table.Column<string>(type: "varchar(256) CHARACTER SET utf8mb4", maxLength: 256, nullable: false),
-                    NormalizedName = table.Column<string>(type: "varchar(256) CHARACTER SET utf8mb4", maxLength: 256, nullable: false),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    TenantId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    Name = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    NormalizedName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     IsDefault = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     IsStatic = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     IsPublic = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    ExtraProperties = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "varchar(40) CHARACTER SET utf8mb4", maxLength: 40, nullable: true)
+                    ExtraProperties = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ConcurrencyStamp = table.Column<string>(type: "varchar(40)", maxLength: 40, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AbpRoles", x => x.Id);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "AbpSecurityLogs",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    TenantId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    ApplicationName = table.Column<string>(type: "varchar(96) CHARACTER SET utf8mb4", maxLength: 96, nullable: true),
-                    Identity = table.Column<string>(type: "varchar(96) CHARACTER SET utf8mb4", maxLength: 96, nullable: true),
-                    Action = table.Column<string>(type: "varchar(96) CHARACTER SET utf8mb4", maxLength: 96, nullable: true),
-                    UserId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    UserName = table.Column<string>(type: "varchar(256) CHARACTER SET utf8mb4", maxLength: 256, nullable: true),
-                    TenantName = table.Column<string>(type: "varchar(64) CHARACTER SET utf8mb4", maxLength: 64, nullable: true),
-                    ClientId = table.Column<string>(type: "varchar(64) CHARACTER SET utf8mb4", maxLength: 64, nullable: true),
-                    CorrelationId = table.Column<string>(type: "varchar(64) CHARACTER SET utf8mb4", maxLength: 64, nullable: true),
-                    ClientIpAddress = table.Column<string>(type: "varchar(64) CHARACTER SET utf8mb4", maxLength: 64, nullable: true),
-                    BrowserInfo = table.Column<string>(type: "varchar(512) CHARACTER SET utf8mb4", maxLength: 512, nullable: true),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    TenantId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    ApplicationName = table.Column<string>(type: "varchar(96)", maxLength: 96, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Identity = table.Column<string>(type: "varchar(96)", maxLength: 96, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Action = table.Column<string>(type: "varchar(96)", maxLength: 96, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    UserId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    UserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    TenantName = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ClientId = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CorrelationId = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ClientIpAddress = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    BrowserInfo = table.Column<string>(type: "varchar(512)", maxLength: 512, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    ExtraProperties = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "varchar(40) CHARACTER SET utf8mb4", maxLength: 40, nullable: true)
+                    ExtraProperties = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ConcurrencyStamp = table.Column<string>(type: "varchar(40)", maxLength: 40, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AbpSecurityLogs", x => x.Id);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "AbpSettings",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    Name = table.Column<string>(type: "varchar(128) CHARACTER SET utf8mb4", maxLength: 128, nullable: false),
-                    Value = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", maxLength: 2048, nullable: false),
-                    ProviderName = table.Column<string>(type: "varchar(64) CHARACTER SET utf8mb4", maxLength: 64, nullable: true),
-                    ProviderKey = table.Column<string>(type: "varchar(64) CHARACTER SET utf8mb4", maxLength: 64, nullable: true)
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Name = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Value = table.Column<string>(type: "varchar(2048)", maxLength: 2048, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ProviderName = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ProviderKey = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AbpSettings", x => x.Id);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "AbpTenants",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    Name = table.Column<string>(type: "varchar(64) CHARACTER SET utf8mb4", maxLength: 64, nullable: false),
-                    ExtraProperties = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "varchar(40) CHARACTER SET utf8mb4", maxLength: 40, nullable: true),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Name = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ExtraProperties = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ConcurrencyStamp = table.Column<string>(type: "varchar(40)", maxLength: 40, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    CreatorId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     LastModificationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    LastModifierId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    LastModifierId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
-                    DeleterId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    DeleterId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AbpTenants", x => x.Id);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "AbpUsers",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    TenantId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    UserName = table.Column<string>(type: "varchar(256) CHARACTER SET utf8mb4", maxLength: 256, nullable: false),
-                    NormalizedUserName = table.Column<string>(type: "varchar(256) CHARACTER SET utf8mb4", maxLength: 256, nullable: false),
-                    Name = table.Column<string>(type: "varchar(64) CHARACTER SET utf8mb4", maxLength: 64, nullable: true),
-                    Surname = table.Column<string>(type: "varchar(64) CHARACTER SET utf8mb4", maxLength: 64, nullable: true),
-                    Email = table.Column<string>(type: "varchar(256) CHARACTER SET utf8mb4", maxLength: 256, nullable: false),
-                    NormalizedEmail = table.Column<string>(type: "varchar(256) CHARACTER SET utf8mb4", maxLength: 256, nullable: false),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    TenantId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    UserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    NormalizedUserName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Name = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Surname = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Email = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    NormalizedEmail = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     EmailConfirmed = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
-                    PasswordHash = table.Column<string>(type: "varchar(256) CHARACTER SET utf8mb4", maxLength: 256, nullable: true),
-                    SecurityStamp = table.Column<string>(type: "varchar(256) CHARACTER SET utf8mb4", maxLength: 256, nullable: false),
+                    PasswordHash = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    SecurityStamp = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     IsExternal = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
-                    PhoneNumber = table.Column<string>(type: "varchar(16) CHARACTER SET utf8mb4", maxLength: 16, nullable: true),
+                    PhoneNumber = table.Column<string>(type: "varchar(16)", maxLength: 16, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     PhoneNumberConfirmed = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
+                    IsActive = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     TwoFactorEnabled = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
                     LockoutEnd = table.Column<DateTimeOffset>(type: "datetime(6)", nullable: true),
                     LockoutEnabled = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
                     AccessFailedCount = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
-                    ExtraProperties = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "varchar(40) CHARACTER SET utf8mb4", maxLength: 40, nullable: true),
+                    ExtraProperties = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ConcurrencyStamp = table.Column<string>(type: "varchar(40)", maxLength: 40, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    CreatorId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     LastModificationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    LastModifierId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    LastModifierId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
-                    DeleterId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    DeleterId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AbpUsers", x => x.Id);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "BlogCategories",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    Name = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    Alias = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    ExtraProperties = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "varchar(40) CHARACTER SET utf8mb4", maxLength: 40, nullable: true),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Name = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Alias = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ExtraProperties = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ConcurrencyStamp = table.Column<string>(type: "varchar(40)", maxLength: 40, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    CreatorId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     LastModificationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    LastModifierId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    LastModifierId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
-                    DeleterId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    DeleterId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_BlogCategories", x => x.Id);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "BlogTags",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    Name = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    Alias = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    ExtraProperties = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "varchar(40) CHARACTER SET utf8mb4", maxLength: 40, nullable: true),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Name = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Alias = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ExtraProperties = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ConcurrencyStamp = table.Column<string>(type: "varchar(40)", maxLength: 40, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    CreatorId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     LastModificationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    LastModifierId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    LastModifierId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
-                    DeleterId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    DeleterId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_BlogTags", x => x.Id);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "IdentityServerApiResources",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    Name = table.Column<string>(type: "varchar(200) CHARACTER SET utf8mb4", maxLength: 200, nullable: false),
-                    DisplayName = table.Column<string>(type: "varchar(200) CHARACTER SET utf8mb4", maxLength: 200, nullable: true),
-                    Description = table.Column<string>(type: "varchar(1000) CHARACTER SET utf8mb4", maxLength: 1000, nullable: true),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Name = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    DisplayName = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Description = table.Column<string>(type: "varchar(1000)", maxLength: 1000, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Enabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    AllowedAccessTokenSigningAlgorithms = table.Column<string>(type: "varchar(100) CHARACTER SET utf8mb4", maxLength: 100, nullable: true),
+                    AllowedAccessTokenSigningAlgorithms = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     ShowInDiscoveryDocument = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    ExtraProperties = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "varchar(40) CHARACTER SET utf8mb4", maxLength: 40, nullable: true),
+                    ExtraProperties = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ConcurrencyStamp = table.Column<string>(type: "varchar(40)", maxLength: 40, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    CreatorId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     LastModificationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    LastModifierId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    LastModifierId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
-                    DeleterId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    DeleterId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_IdentityServerApiResources", x => x.Id);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "IdentityServerApiScopes",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Enabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    Name = table.Column<string>(type: "varchar(200) CHARACTER SET utf8mb4", maxLength: 200, nullable: false),
-                    DisplayName = table.Column<string>(type: "varchar(200) CHARACTER SET utf8mb4", maxLength: 200, nullable: true),
-                    Description = table.Column<string>(type: "varchar(1000) CHARACTER SET utf8mb4", maxLength: 1000, nullable: true),
+                    Name = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    DisplayName = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Description = table.Column<string>(type: "varchar(1000)", maxLength: 1000, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Required = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Emphasize = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     ShowInDiscoveryDocument = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    ExtraProperties = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "varchar(40) CHARACTER SET utf8mb4", maxLength: 40, nullable: true),
+                    ExtraProperties = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ConcurrencyStamp = table.Column<string>(type: "varchar(40)", maxLength: 40, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    CreatorId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     LastModificationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    LastModifierId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    LastModifierId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
-                    DeleterId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    DeleterId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_IdentityServerApiScopes", x => x.Id);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "IdentityServerClients",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    ClientId = table.Column<string>(type: "varchar(200) CHARACTER SET utf8mb4", maxLength: 200, nullable: false),
-                    ClientName = table.Column<string>(type: "varchar(200) CHARACTER SET utf8mb4", maxLength: 200, nullable: true),
-                    Description = table.Column<string>(type: "varchar(1000) CHARACTER SET utf8mb4", maxLength: 1000, nullable: true),
-                    ClientUri = table.Column<string>(type: "varchar(2000) CHARACTER SET utf8mb4", maxLength: 2000, nullable: true),
-                    LogoUri = table.Column<string>(type: "varchar(2000) CHARACTER SET utf8mb4", maxLength: 2000, nullable: true),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    ClientId = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ClientName = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Description = table.Column<string>(type: "varchar(1000)", maxLength: 1000, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ClientUri = table.Column<string>(type: "varchar(2000)", maxLength: 2000, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    LogoUri = table.Column<string>(type: "varchar(2000)", maxLength: 2000, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Enabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    ProtocolType = table.Column<string>(type: "varchar(200) CHARACTER SET utf8mb4", maxLength: 200, nullable: false),
+                    ProtocolType = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     RequireClientSecret = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     RequireConsent = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     AllowRememberConsent = table.Column<bool>(type: "tinyint(1)", nullable: false),
@@ -389,13 +507,16 @@ namespace Ray.Blog.Migrations
                     AllowPlainTextPkce = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     RequireRequestObject = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     AllowAccessTokensViaBrowser = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    FrontChannelLogoutUri = table.Column<string>(type: "varchar(2000) CHARACTER SET utf8mb4", maxLength: 2000, nullable: true),
+                    FrontChannelLogoutUri = table.Column<string>(type: "varchar(2000)", maxLength: 2000, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     FrontChannelLogoutSessionRequired = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    BackChannelLogoutUri = table.Column<string>(type: "varchar(2000) CHARACTER SET utf8mb4", maxLength: 2000, nullable: true),
+                    BackChannelLogoutUri = table.Column<string>(type: "varchar(2000)", maxLength: 2000, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     BackChannelLogoutSessionRequired = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     AllowOfflineAccess = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     IdentityTokenLifetime = table.Column<int>(type: "int", nullable: false),
-                    AllowedIdentityTokenSigningAlgorithms = table.Column<string>(type: "varchar(100) CHARACTER SET utf8mb4", maxLength: 100, nullable: true),
+                    AllowedIdentityTokenSigningAlgorithms = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     AccessTokenLifetime = table.Column<int>(type: "int", nullable: false),
                     AuthorizationCodeLifetime = table.Column<int>(type: "int", nullable: false),
                     ConsentLifetime = table.Column<int>(type: "int", nullable: true),
@@ -408,112 +529,148 @@ namespace Ray.Blog.Migrations
                     EnableLocalLogin = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     IncludeJwtId = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     AlwaysSendClientClaims = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    ClientClaimsPrefix = table.Column<string>(type: "varchar(200) CHARACTER SET utf8mb4", maxLength: 200, nullable: true),
-                    PairWiseSubjectSalt = table.Column<string>(type: "varchar(200) CHARACTER SET utf8mb4", maxLength: 200, nullable: true),
+                    ClientClaimsPrefix = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    PairWiseSubjectSalt = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     UserSsoLifetime = table.Column<int>(type: "int", nullable: true),
-                    UserCodeType = table.Column<string>(type: "varchar(100) CHARACTER SET utf8mb4", maxLength: 100, nullable: true),
+                    UserCodeType = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     DeviceCodeLifetime = table.Column<int>(type: "int", nullable: false),
-                    ExtraProperties = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "varchar(40) CHARACTER SET utf8mb4", maxLength: 40, nullable: true),
+                    ExtraProperties = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ConcurrencyStamp = table.Column<string>(type: "varchar(40)", maxLength: 40, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    CreatorId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     LastModificationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    LastModifierId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    LastModifierId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
-                    DeleterId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    DeleterId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_IdentityServerClients", x => x.Id);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "IdentityServerDeviceFlowCodes",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    DeviceCode = table.Column<string>(type: "varchar(200) CHARACTER SET utf8mb4", maxLength: 200, nullable: false),
-                    UserCode = table.Column<string>(type: "varchar(200) CHARACTER SET utf8mb4", maxLength: 200, nullable: false),
-                    SubjectId = table.Column<string>(type: "varchar(200) CHARACTER SET utf8mb4", maxLength: 200, nullable: true),
-                    SessionId = table.Column<string>(type: "varchar(100) CHARACTER SET utf8mb4", maxLength: 100, nullable: true),
-                    ClientId = table.Column<string>(type: "varchar(200) CHARACTER SET utf8mb4", maxLength: 200, nullable: false),
-                    Description = table.Column<string>(type: "varchar(200) CHARACTER SET utf8mb4", maxLength: 200, nullable: true),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    DeviceCode = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    UserCode = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    SubjectId = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    SessionId = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ClientId = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Description = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Expiration = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Data = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", maxLength: 10000, nullable: false),
-                    ExtraProperties = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "varchar(40) CHARACTER SET utf8mb4", maxLength: 40, nullable: true),
+                    Data = table.Column<string>(type: "varchar(10000)", maxLength: 10000, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ExtraProperties = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ConcurrencyStamp = table.Column<string>(type: "varchar(40)", maxLength: 40, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "char(36)", nullable: true)
+                    CreatorId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_IdentityServerDeviceFlowCodes", x => x.Id);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "IdentityServerIdentityResources",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    Name = table.Column<string>(type: "varchar(200) CHARACTER SET utf8mb4", maxLength: 200, nullable: false),
-                    DisplayName = table.Column<string>(type: "varchar(200) CHARACTER SET utf8mb4", maxLength: 200, nullable: true),
-                    Description = table.Column<string>(type: "varchar(1000) CHARACTER SET utf8mb4", maxLength: 1000, nullable: true),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Name = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    DisplayName = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Description = table.Column<string>(type: "varchar(1000)", maxLength: 1000, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Enabled = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Required = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Emphasize = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     ShowInDiscoveryDocument = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    ExtraProperties = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "varchar(40) CHARACTER SET utf8mb4", maxLength: 40, nullable: true),
+                    ExtraProperties = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ConcurrencyStamp = table.Column<string>(type: "varchar(40)", maxLength: 40, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    CreatorId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     LastModificationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    LastModifierId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    LastModifierId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
-                    DeleterId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    DeleterId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_IdentityServerIdentityResources", x => x.Id);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "IdentityServerPersistedGrants",
                 columns: table => new
                 {
-                    Key = table.Column<string>(type: "varchar(200) CHARACTER SET utf8mb4", maxLength: 200, nullable: false),
-                    Type = table.Column<string>(type: "varchar(50) CHARACTER SET utf8mb4", maxLength: 50, nullable: false),
-                    SubjectId = table.Column<string>(type: "varchar(200) CHARACTER SET utf8mb4", maxLength: 200, nullable: true),
-                    SessionId = table.Column<string>(type: "varchar(100) CHARACTER SET utf8mb4", maxLength: 100, nullable: true),
-                    ClientId = table.Column<string>(type: "varchar(200) CHARACTER SET utf8mb4", maxLength: 200, nullable: false),
-                    Description = table.Column<string>(type: "varchar(200) CHARACTER SET utf8mb4", maxLength: 200, nullable: true),
+                    Key = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Type = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    SubjectId = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    SessionId = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ClientId = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Description = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Expiration = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     ConsumedTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    Data = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", maxLength: 10000, nullable: false),
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    ExtraProperties = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "varchar(40) CHARACTER SET utf8mb4", maxLength: 40, nullable: true)
+                    Data = table.Column<string>(type: "varchar(10000)", maxLength: 10000, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    ExtraProperties = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ConcurrencyStamp = table.Column<string>(type: "varchar(40)", maxLength: 40, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_IdentityServerPersistedGrants", x => x.Key);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "AbpAuditLogActions",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    TenantId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    AuditLogId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    ServiceName = table.Column<string>(type: "varchar(256) CHARACTER SET utf8mb4", maxLength: 256, nullable: true),
-                    MethodName = table.Column<string>(type: "varchar(128) CHARACTER SET utf8mb4", maxLength: 128, nullable: true),
-                    Parameters = table.Column<string>(type: "varchar(2000) CHARACTER SET utf8mb4", maxLength: 2000, nullable: true),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    TenantId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    AuditLogId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    ServiceName = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    MethodName = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Parameters = table.Column<string>(type: "varchar(2000)", maxLength: 2000, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     ExecutionTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     ExecutionDuration = table.Column<int>(type: "int", nullable: false),
-                    ExtraProperties = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true)
+                    ExtraProperties = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -524,21 +681,25 @@ namespace Ray.Blog.Migrations
                         principalTable: "AbpAuditLogs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "AbpEntityChanges",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    AuditLogId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    TenantId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    AuditLogId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    TenantId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     ChangeTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     ChangeType = table.Column<byte>(type: "tinyint unsigned", nullable: false),
-                    EntityTenantId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    EntityId = table.Column<string>(type: "varchar(128) CHARACTER SET utf8mb4", maxLength: 128, nullable: false),
-                    EntityTypeFullName = table.Column<string>(type: "varchar(128) CHARACTER SET utf8mb4", maxLength: 128, nullable: false),
-                    ExtraProperties = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true)
+                    EntityTenantId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    EntityId = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    EntityTypeFullName = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ExtraProperties = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -549,17 +710,18 @@ namespace Ray.Blog.Migrations
                         principalTable: "AbpAuditLogs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "AbpOrganizationUnitRoles",
                 columns: table => new
                 {
-                    RoleId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    OrganizationUnitId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    TenantId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    RoleId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    OrganizationUnitId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    TenantId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "char(36)", nullable: true)
+                    CreatorId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -576,17 +738,20 @@ namespace Ray.Blog.Migrations
                         principalTable: "AbpRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "AbpRoleClaims",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    RoleId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    TenantId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    ClaimType = table.Column<string>(type: "varchar(256) CHARACTER SET utf8mb4", maxLength: 256, nullable: false),
-                    ClaimValue = table.Column<string>(type: "varchar(1024) CHARACTER SET utf8mb4", maxLength: 1024, nullable: true)
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    RoleId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    TenantId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    ClaimType = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ClaimValue = table.Column<string>(type: "varchar(1024)", maxLength: 1024, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -597,15 +762,18 @@ namespace Ray.Blog.Migrations
                         principalTable: "AbpRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "AbpTenantConnectionStrings",
                 columns: table => new
                 {
-                    TenantId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    Name = table.Column<string>(type: "varchar(64) CHARACTER SET utf8mb4", maxLength: 64, nullable: false),
-                    Value = table.Column<string>(type: "varchar(1024) CHARACTER SET utf8mb4", maxLength: 1024, nullable: false)
+                    TenantId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Name = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Value = table.Column<string>(type: "varchar(1024)", maxLength: 1024, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -616,17 +784,20 @@ namespace Ray.Blog.Migrations
                         principalTable: "AbpTenants",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "AbpUserClaims",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    UserId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    TenantId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    ClaimType = table.Column<string>(type: "varchar(256) CHARACTER SET utf8mb4", maxLength: 256, nullable: false),
-                    ClaimValue = table.Column<string>(type: "varchar(1024) CHARACTER SET utf8mb4", maxLength: 1024, nullable: true)
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    TenantId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    ClaimType = table.Column<string>(type: "varchar(256)", maxLength: 256, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ClaimValue = table.Column<string>(type: "varchar(1024)", maxLength: 1024, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -637,17 +808,21 @@ namespace Ray.Blog.Migrations
                         principalTable: "AbpUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "AbpUserLogins",
                 columns: table => new
                 {
-                    UserId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "varchar(64) CHARACTER SET utf8mb4", maxLength: 64, nullable: false),
-                    TenantId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    ProviderKey = table.Column<string>(type: "varchar(196) CHARACTER SET utf8mb4", maxLength: 196, nullable: false),
-                    ProviderDisplayName = table.Column<string>(type: "varchar(128) CHARACTER SET utf8mb4", maxLength: 128, nullable: true)
+                    UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    LoginProvider = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    TenantId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    ProviderKey = table.Column<string>(type: "varchar(196)", maxLength: 196, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ProviderDisplayName = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -658,17 +833,18 @@ namespace Ray.Blog.Migrations
                         principalTable: "AbpUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "AbpUserOrganizationUnits",
                 columns: table => new
                 {
-                    UserId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    OrganizationUnitId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    TenantId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    OrganizationUnitId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    TenantId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "char(36)", nullable: true)
+                    CreatorId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -685,15 +861,16 @@ namespace Ray.Blog.Migrations
                         principalTable: "AbpUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "AbpUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    RoleId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    TenantId = table.Column<Guid>(type: "char(36)", nullable: true)
+                    UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    RoleId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    TenantId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -710,17 +887,21 @@ namespace Ray.Blog.Migrations
                         principalTable: "AbpUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "AbpUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "varchar(64) CHARACTER SET utf8mb4", maxLength: 64, nullable: false),
-                    Name = table.Column<string>(type: "varchar(128) CHARACTER SET utf8mb4", maxLength: 128, nullable: false),
-                    TenantId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    Value = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true)
+                    UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    LoginProvider = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Name = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    TenantId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    Value = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -731,26 +912,33 @@ namespace Ray.Blog.Migrations
                         principalTable: "AbpUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "BlogPosts",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    Title = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    Author = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    Url = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    Markdown = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    CategoryId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    ExtraProperties = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "varchar(40) CHARACTER SET utf8mb4", maxLength: 40, nullable: true),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Title = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Author = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Url = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Markdown = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CategoryId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    ExtraProperties = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ConcurrencyStamp = table.Column<string>(type: "varchar(40)", maxLength: 40, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    CreatorId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     LastModificationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    LastModifierId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    LastModifierId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
-                    DeleterId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    DeleterId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
@@ -762,14 +950,16 @@ namespace Ray.Blog.Migrations
                         principalTable: "BlogCategories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "IdentityServerApiResourceClaims",
                 columns: table => new
                 {
-                    Type = table.Column<string>(type: "varchar(200) CHARACTER SET utf8mb4", maxLength: 200, nullable: false),
-                    ApiResourceId = table.Column<Guid>(type: "char(36)", nullable: false)
+                    Type = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ApiResourceId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -780,15 +970,18 @@ namespace Ray.Blog.Migrations
                         principalTable: "IdentityServerApiResources",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "IdentityServerApiResourceProperties",
                 columns: table => new
                 {
-                    ApiResourceId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    Key = table.Column<string>(type: "varchar(250) CHARACTER SET utf8mb4", maxLength: 250, nullable: false),
-                    Value = table.Column<string>(type: "varchar(300) CHARACTER SET utf8mb4", maxLength: 300, nullable: false)
+                    ApiResourceId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Key = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Value = table.Column<string>(type: "varchar(300)", maxLength: 300, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -799,14 +992,16 @@ namespace Ray.Blog.Migrations
                         principalTable: "IdentityServerApiResources",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "IdentityServerApiResourceScopes",
                 columns: table => new
                 {
-                    ApiResourceId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    Scope = table.Column<string>(type: "varchar(200) CHARACTER SET utf8mb4", maxLength: 200, nullable: false)
+                    ApiResourceId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Scope = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -817,16 +1012,20 @@ namespace Ray.Blog.Migrations
                         principalTable: "IdentityServerApiResources",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "IdentityServerApiResourceSecrets",
                 columns: table => new
                 {
-                    Type = table.Column<string>(type: "varchar(250) CHARACTER SET utf8mb4", maxLength: 250, nullable: false),
-                    Value = table.Column<string>(type: "varchar(300) CHARACTER SET utf8mb4", maxLength: 300, nullable: false),
-                    ApiResourceId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    Description = table.Column<string>(type: "varchar(1000) CHARACTER SET utf8mb4", maxLength: 1000, nullable: true),
+                    Type = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Value = table.Column<string>(type: "varchar(300)", maxLength: 300, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ApiResourceId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Description = table.Column<string>(type: "varchar(1000)", maxLength: 1000, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Expiration = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
@@ -838,14 +1037,16 @@ namespace Ray.Blog.Migrations
                         principalTable: "IdentityServerApiResources",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "IdentityServerApiScopeClaims",
                 columns: table => new
                 {
-                    Type = table.Column<string>(type: "varchar(200) CHARACTER SET utf8mb4", maxLength: 200, nullable: false),
-                    ApiScopeId = table.Column<Guid>(type: "char(36)", nullable: false)
+                    Type = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ApiScopeId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -856,15 +1057,18 @@ namespace Ray.Blog.Migrations
                         principalTable: "IdentityServerApiScopes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "IdentityServerApiScopeProperties",
                 columns: table => new
                 {
-                    ApiScopeId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    Key = table.Column<string>(type: "varchar(250) CHARACTER SET utf8mb4", maxLength: 250, nullable: false),
-                    Value = table.Column<string>(type: "varchar(300) CHARACTER SET utf8mb4", maxLength: 300, nullable: false)
+                    ApiScopeId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Key = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Value = table.Column<string>(type: "varchar(300)", maxLength: 300, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -875,15 +1079,18 @@ namespace Ray.Blog.Migrations
                         principalTable: "IdentityServerApiScopes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "IdentityServerClientClaims",
                 columns: table => new
                 {
-                    ClientId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    Type = table.Column<string>(type: "varchar(250) CHARACTER SET utf8mb4", maxLength: 250, nullable: false),
-                    Value = table.Column<string>(type: "varchar(250) CHARACTER SET utf8mb4", maxLength: 250, nullable: false)
+                    ClientId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Type = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Value = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -894,14 +1101,16 @@ namespace Ray.Blog.Migrations
                         principalTable: "IdentityServerClients",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "IdentityServerClientCorsOrigins",
                 columns: table => new
                 {
-                    ClientId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    Origin = table.Column<string>(type: "varchar(150) CHARACTER SET utf8mb4", maxLength: 150, nullable: false)
+                    ClientId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Origin = table.Column<string>(type: "varchar(150)", maxLength: 150, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -912,14 +1121,16 @@ namespace Ray.Blog.Migrations
                         principalTable: "IdentityServerClients",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "IdentityServerClientGrantTypes",
                 columns: table => new
                 {
-                    ClientId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    GrantType = table.Column<string>(type: "varchar(250) CHARACTER SET utf8mb4", maxLength: 250, nullable: false)
+                    ClientId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    GrantType = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -930,14 +1141,16 @@ namespace Ray.Blog.Migrations
                         principalTable: "IdentityServerClients",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "IdentityServerClientIdPRestrictions",
                 columns: table => new
                 {
-                    ClientId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    Provider = table.Column<string>(type: "varchar(200) CHARACTER SET utf8mb4", maxLength: 200, nullable: false)
+                    ClientId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Provider = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -948,14 +1161,16 @@ namespace Ray.Blog.Migrations
                         principalTable: "IdentityServerClients",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "IdentityServerClientPostLogoutRedirectUris",
                 columns: table => new
                 {
-                    ClientId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    PostLogoutRedirectUri = table.Column<string>(type: "varchar(300) CHARACTER SET utf8mb4", maxLength: 300, nullable: false)
+                    ClientId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    PostLogoutRedirectUri = table.Column<string>(type: "varchar(300)", maxLength: 300, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -966,15 +1181,18 @@ namespace Ray.Blog.Migrations
                         principalTable: "IdentityServerClients",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "IdentityServerClientProperties",
                 columns: table => new
                 {
-                    ClientId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    Key = table.Column<string>(type: "varchar(250) CHARACTER SET utf8mb4", maxLength: 250, nullable: false),
-                    Value = table.Column<string>(type: "varchar(300) CHARACTER SET utf8mb4", maxLength: 300, nullable: false)
+                    ClientId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Key = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Value = table.Column<string>(type: "varchar(300)", maxLength: 300, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -985,14 +1203,16 @@ namespace Ray.Blog.Migrations
                         principalTable: "IdentityServerClients",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "IdentityServerClientRedirectUris",
                 columns: table => new
                 {
-                    ClientId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    RedirectUri = table.Column<string>(type: "varchar(300) CHARACTER SET utf8mb4", maxLength: 300, nullable: false)
+                    ClientId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    RedirectUri = table.Column<string>(type: "varchar(300)", maxLength: 300, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -1003,14 +1223,16 @@ namespace Ray.Blog.Migrations
                         principalTable: "IdentityServerClients",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "IdentityServerClientScopes",
                 columns: table => new
                 {
-                    ClientId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    Scope = table.Column<string>(type: "varchar(200) CHARACTER SET utf8mb4", maxLength: 200, nullable: false)
+                    ClientId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Scope = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -1021,16 +1243,20 @@ namespace Ray.Blog.Migrations
                         principalTable: "IdentityServerClients",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "IdentityServerClientSecrets",
                 columns: table => new
                 {
-                    Type = table.Column<string>(type: "varchar(250) CHARACTER SET utf8mb4", maxLength: 250, nullable: false),
-                    Value = table.Column<string>(type: "varchar(300) CHARACTER SET utf8mb4", maxLength: 300, nullable: false),
-                    ClientId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    Description = table.Column<string>(type: "varchar(2000) CHARACTER SET utf8mb4", maxLength: 2000, nullable: true),
+                    Type = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Value = table.Column<string>(type: "varchar(300)", maxLength: 300, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ClientId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Description = table.Column<string>(type: "varchar(2000)", maxLength: 2000, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Expiration = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
@@ -1042,14 +1268,16 @@ namespace Ray.Blog.Migrations
                         principalTable: "IdentityServerClients",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "IdentityServerIdentityResourceClaims",
                 columns: table => new
                 {
-                    Type = table.Column<string>(type: "varchar(200) CHARACTER SET utf8mb4", maxLength: 200, nullable: false),
-                    IdentityResourceId = table.Column<Guid>(type: "char(36)", nullable: false)
+                    Type = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    IdentityResourceId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -1060,15 +1288,18 @@ namespace Ray.Blog.Migrations
                         principalTable: "IdentityServerIdentityResources",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "IdentityServerIdentityResourceProperties",
                 columns: table => new
                 {
-                    IdentityResourceId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    Key = table.Column<string>(type: "varchar(250) CHARACTER SET utf8mb4", maxLength: 250, nullable: false),
-                    Value = table.Column<string>(type: "varchar(300) CHARACTER SET utf8mb4", maxLength: 300, nullable: false)
+                    IdentityResourceId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Key = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Value = table.Column<string>(type: "varchar(300)", maxLength: 300, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -1079,19 +1310,24 @@ namespace Ray.Blog.Migrations
                         principalTable: "IdentityServerIdentityResources",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "AbpEntityPropertyChanges",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    TenantId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    EntityChangeId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    NewValue = table.Column<string>(type: "varchar(512) CHARACTER SET utf8mb4", maxLength: 512, nullable: true),
-                    OriginalValue = table.Column<string>(type: "varchar(512) CHARACTER SET utf8mb4", maxLength: 512, nullable: true),
-                    PropertyName = table.Column<string>(type: "varchar(128) CHARACTER SET utf8mb4", maxLength: 128, nullable: false),
-                    PropertyTypeFullName = table.Column<string>(type: "varchar(64) CHARACTER SET utf8mb4", maxLength: 64, nullable: false)
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    TenantId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    EntityChangeId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    NewValue = table.Column<string>(type: "varchar(512)", maxLength: 512, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    OriginalValue = table.Column<string>(type: "varchar(512)", maxLength: 512, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    PropertyName = table.Column<string>(type: "varchar(128)", maxLength: 128, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    PropertyTypeFullName = table.Column<string>(type: "varchar(64)", maxLength: 64, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -1102,24 +1338,28 @@ namespace Ray.Blog.Migrations
                         principalTable: "AbpEntityChanges",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "BlogComments",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    PostId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    RepliedCommentId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    Text = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    ExtraProperties = table.Column<string>(type: "longtext CHARACTER SET utf8mb4", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "varchar(40) CHARACTER SET utf8mb4", maxLength: 40, nullable: true),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    PostId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    RepliedCommentId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    Text = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ExtraProperties = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ConcurrencyStamp = table.Column<string>(type: "varchar(40)", maxLength: 40, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    CreatorId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     LastModificationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    LastModifierId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    LastModifierId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     IsDeleted = table.Column<bool>(type: "tinyint(1)", nullable: false, defaultValue: false),
-                    DeleterId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    DeleterId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     DeletionTime = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
@@ -1129,24 +1369,24 @@ namespace Ray.Blog.Migrations
                         name: "FK_BlogComments_BlogComments_RepliedCommentId",
                         column: x => x.RepliedCommentId,
                         principalTable: "BlogComments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_BlogComments_BlogPosts_PostId",
                         column: x => x.PostId,
                         principalTable: "BlogPosts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "BlogRelatePostTags",
                 columns: table => new
                 {
-                    PostId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    TagId = table.Column<Guid>(type: "char(36)", nullable: false),
+                    PostId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    TagId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "char(36)", nullable: true)
+                    CreatorId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -1163,7 +1403,8 @@ namespace Ray.Blog.Migrations
                         principalTable: "BlogTags",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AbpAuditLogActions_AuditLogId",
@@ -1208,7 +1449,8 @@ namespace Ray.Blog.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_AbpFeatureValues_Name_ProviderName_ProviderKey",
                 table: "AbpFeatureValues",
-                columns: new[] { "Name", "ProviderName", "ProviderKey" });
+                columns: new[] { "Name", "ProviderName", "ProviderKey" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AbpLinkUsers_SourceUserId_SourceTenantId_TargetUserId_Target~",
@@ -1232,9 +1474,10 @@ namespace Ray.Blog.Migrations
                 column: "ParentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AbpPermissionGrants_Name_ProviderName_ProviderKey",
+                name: "IX_AbpPermissionGrants_TenantId_Name_ProviderName_ProviderKey",
                 table: "AbpPermissionGrants",
-                columns: new[] { "Name", "ProviderName", "ProviderKey" });
+                columns: new[] { "TenantId", "Name", "ProviderName", "ProviderKey" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AbpRoleClaims_RoleId",
@@ -1269,7 +1512,8 @@ namespace Ray.Blog.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_AbpSettings_Name_ProviderName_ProviderKey",
                 table: "AbpSettings",
-                columns: new[] { "Name", "ProviderName", "ProviderKey" });
+                columns: new[] { "Name", "ProviderName", "ProviderKey" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AbpTenants_Name",

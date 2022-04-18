@@ -1,9 +1,24 @@
-﻿{
+{
+  "iisSettings": {
+    "windowsAuthentication": false, 
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "https://localhost:44306",
+      "sslPort": 44306
+    }
+  },
   "profiles": {
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
     "Ray.Blog.IdentityServer": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:44308",
+      "applicationUrl": "https://localhost:44306",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

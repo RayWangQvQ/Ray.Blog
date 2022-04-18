@@ -1,43 +1,49 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Ray.Blog.Data;
 using Serilog;
 using Volo.Abp;
 
-namespace Ray.Blog.DbMigrator
+namespace Ray.Blog.DbMigrator;
+
+public class DbMigratorHostedService : IHostedService
 {
-    public class DbMigratorHostedService : IHostedService
+    private readonly IHostApplicationLifetime _hostApplicationLifetime;
+    private readonly IConfiguration _configuration;
+
+    public DbMigratorHostedService(IHostApplicationLifetime hostApplicationLifetime, IConfiguration configuration)
     {
-        private readonly IHostApplicationLifetime _hostApplicationLifetime;
+        _hostApplicationLifetime = hostApplicationLifetime;
+        _configuration = configuration;
+    }
 
-        public DbMigratorHostedService(IHostApplicationLifetime hostApplicationLifetime)
+    public async Task StartAsync(CancellationToken cancellationToken)
+    {
+        using (var application = await AbpApplicationFactory.CreateAsync<BlogDbMigratorModule>(options =>
         {
-            _hostApplicationLifetime = hostApplicationLifetime;
-        }
-
-        public async Task StartAsync(CancellationToken cancellationToken)
+           options.Services.ReplaceConfiguration(_configuration);
+           options.UseAutofac();
+           options.Services.AddLogging(c => c.AddSerilog());
+        }))
         {
-            using (var application = AbpApplicationFactory.Create<BlogDbMigratorModule>(options =>
-            {
-                options.UseAutofac();
-                options.Services.AddLogging(c => c.AddSerilog());
-            }))
-            {
-                application.Initialize();
+            await application.InitializeAsync();
 
-                await application
-                    .ServiceProvider
-                    .GetRequiredService<BlogDbMigrationService>()
-                    .MigrateAsync();
+            await application
+                .ServiceProvider
+                .GetRequiredService<BlogDbMigrationService>()
+                .MigrateAsync();
 
-                application.Shutdown();
+            await application.ShutdownAsync();
 
-                _hostApplicationLifetime.StopApplication();
-            }
+            _hostApplicationLifetime.StopApplication();
         }
+    }
 
-        public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
+    public Task StopAsync(CancellationToken cancellationToken)
+    {
+        return Task.CompletedTask;
     }
 }

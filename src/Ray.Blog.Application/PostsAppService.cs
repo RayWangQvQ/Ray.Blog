@@ -42,7 +42,7 @@ namespace Ray.Blog
             IQueryable<Post> queryable = await Repository.WithDetailsAsync(x => x.RelatePostTags);
             //Prepare a query to join books and authors
             var query = from post in queryable
-                        join category in _categoryepository on post.CategoryId equals category.Id
+                        join category in await _categoryepository.GetQueryableAsync() on post.CategoryId equals category.Id
                         where post.Id == id
                         select new { post, category };
 
@@ -87,7 +87,7 @@ namespace Ray.Blog
 
             //Prepare a query to join books and authors
             var query = from post in queryable
-                        join category in _categoryepository on post.CategoryId equals category.Id
+                        join category in await _categoryepository.GetQueryableAsync() on post.CategoryId equals category.Id
                         select new { post, category };
 
             //Paging

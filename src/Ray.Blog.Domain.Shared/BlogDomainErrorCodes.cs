@@ -1,7 +1,6 @@
-﻿namespace Ray.Blog
+﻿namespace Ray.Blog;
+
+public static class BlogDomainErrorCodes
 {
-    public static class BlogDomainErrorCodes
-    {
-        /* You can add your business exception error codes here, as constants */
-    }
+    /* You can add your business exception error codes here, as constants */
 }

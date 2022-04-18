@@ -1,13 +1,12 @@
 ﻿using Volo.Abp.Settings;
 
-namespace Ray.Blog.Settings
+namespace Ray.Blog.Settings;
+
+public class BlogSettingDefinitionProvider : SettingDefinitionProvider
 {
-    public class BlogSettingDefinitionProvider : SettingDefinitionProvider
+    public override void Define(ISettingDefinitionContext context)
     {
-        public override void Define(ISettingDefinitionContext context)
-        {
-            //Define your own settings here. Example:
-            //context.Add(new SettingDefinition(BlogSettings.MySetting1));
-        }
+        //Define your own settings here. Example:
+        //context.Add(new SettingDefinition(BlogSettings.MySetting1));
     }
 }

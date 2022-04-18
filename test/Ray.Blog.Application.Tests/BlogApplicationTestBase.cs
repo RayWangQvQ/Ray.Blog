@@ -1,7 +1,6 @@
-﻿namespace Ray.Blog
-{
-    public abstract class BlogApplicationTestBase : BlogTestBase<BlogApplicationTestModule> 
-    {
+﻿namespace Ray.Blog;
 
-    }
+public abstract class BlogApplicationTestBase : BlogTestBase<BlogApplicationTestModule>
+{
+
 }

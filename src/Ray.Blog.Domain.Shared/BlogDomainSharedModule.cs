@@ -13,47 +13,46 @@ using Volo.Abp.TenantManagement;
 using Volo.Abp.Validation.Localization;
 using Volo.Abp.VirtualFileSystem;
 
-namespace Ray.Blog
+namespace Ray.Blog;
+
+[DependsOn(
+    typeof(AbpAuditLoggingDomainSharedModule),
+    typeof(AbpBackgroundJobsDomainSharedModule),
+    typeof(AbpFeatureManagementDomainSharedModule),
+    typeof(AbpIdentityDomainSharedModule),
+    typeof(AbpIdentityServerDomainSharedModule),
+    typeof(AbpPermissionManagementDomainSharedModule),
+    typeof(AbpSettingManagementDomainSharedModule),
+    typeof(AbpTenantManagementDomainSharedModule)
+    )]
+public class BlogDomainSharedModule : AbpModule
 {
-    [DependsOn(
-        typeof(AbpAuditLoggingDomainSharedModule),
-        typeof(AbpBackgroundJobsDomainSharedModule),
-        typeof(AbpFeatureManagementDomainSharedModule),
-        typeof(AbpIdentityDomainSharedModule),
-        typeof(AbpIdentityServerDomainSharedModule),
-        typeof(AbpPermissionManagementDomainSharedModule),
-        typeof(AbpSettingManagementDomainSharedModule),
-        typeof(AbpTenantManagementDomainSharedModule)
-        )]
-    public class BlogDomainSharedModule : AbpModule
+    public override void PreConfigureServices(ServiceConfigurationContext context)
     {
-        public override void PreConfigureServices(ServiceConfigurationContext context)
+        BlogGlobalFeatureConfigurator.Configure();
+        BlogModuleExtensionConfigurator.Configure();
+    }
+
+    public override void ConfigureServices(ServiceConfigurationContext context)
+    {
+        Configure<AbpVirtualFileSystemOptions>(options =>
         {
-            BlogGlobalFeatureConfigurator.Configure();
-            BlogModuleExtensionConfigurator.Configure();
-        }
+            options.FileSets.AddEmbedded<BlogDomainSharedModule>();
+        });
 
-        public override void ConfigureServices(ServiceConfigurationContext context)
+        Configure<AbpLocalizationOptions>(options =>
         {
-            Configure<AbpVirtualFileSystemOptions>(options =>
-            {
-                options.FileSets.AddEmbedded<BlogDomainSharedModule>();
-            });
+            options.Resources
+                .Add<BlogResource>("en")
+                .AddBaseTypes(typeof(AbpValidationResource))
+                .AddVirtualJson("/Localization/Blog");
 
-            Configure<AbpLocalizationOptions>(options =>
-            {
-                options.Resources
-                    .Add<BlogResource>("en")
-                    .AddBaseTypes(typeof(AbpValidationResource))
-                    .AddVirtualJson("/Localization/Blog");
+            options.DefaultResourceType = typeof(BlogResource);
+        });
 
-                options.DefaultResourceType = typeof(BlogResource);
-            });
-
-            Configure<AbpExceptionLocalizationOptions>(options =>
-            {
-                options.MapCodeNamespace("Blog", typeof(BlogResource));
-            });
-        }
+        Configure<AbpExceptionLocalizationOptions>(options =>
+        {
+            options.MapCodeNamespace("Blog", typeof(BlogResource));
+        });
     }
 }

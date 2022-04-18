@@ -1,14 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Volo.Abp.AspNetCore.Mvc;
 
-namespace Ray.Blog.Controllers
+namespace Ray.Blog.Controllers;
+
+public class HomeController : AbpController
 {
-    public class HomeController : AbpController
+    public ActionResult Index()
     {
-        public ActionResult Index()
-        {
-            return Redirect("~/swagger");
-        }
+        return Redirect("~/swagger");
     }
 }

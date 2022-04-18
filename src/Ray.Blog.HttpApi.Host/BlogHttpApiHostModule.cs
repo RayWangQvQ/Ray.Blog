@@ -26,210 +26,199 @@ using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.VirtualFileSystem;
-using Swashbuckle.AspNetCore.SwaggerUI;
-using Ray.Blog.BackgroundJobs;
 
-namespace Ray.Blog
+namespace Ray.Blog;
+
+[DependsOn(
+    typeof(BlogHttpApiModule),
+    typeof(AbpAutofacModule),
+    typeof(AbpCachingStackExchangeRedisModule),
+    typeof(AbpAspNetCoreMvcUiMultiTenancyModule),
+    typeof(BlogApplicationModule),
+    typeof(BlogEntityFrameworkCoreModule),
+    typeof(AbpAspNetCoreSerilogModule),
+    typeof(AbpSwashbuckleModule)
+)]
+public class BlogHttpApiHostModule : AbpModule
 {
-    [DependsOn(
-        typeof(BlogHttpApiModule),
-        typeof(AbpAutofacModule),
-        typeof(AbpCachingStackExchangeRedisModule),
-        typeof(AbpAspNetCoreMvcUiMultiTenancyModule),
-        typeof(BlogApplicationModule),
-        typeof(BlogEntityFrameworkCoreDbMigrationsModule),
-        typeof(AbpAspNetCoreSerilogModule),
-        typeof(AbpSwashbuckleModule),
-        typeof(BlogBackgroundWorkersModule),
-        typeof(BlogBackgroundJobsModule)
-    )]
-    public class BlogHttpApiHostModule : AbpModule
+    public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        private const string DefaultCorsPolicyName = "Default";
+        var configuration = context.Services.GetConfiguration();
+        var hostingEnvironment = context.Services.GetHostingEnvironment();
 
-        public override void ConfigureServices(ServiceConfigurationContext context)
+        ConfigureConventionalControllers();
+        ConfigureAuthentication(context, configuration);
+        ConfigureLocalization();
+        ConfigureCache(configuration);
+        ConfigureVirtualFileSystem(context);
+        ConfigureDataProtection(context, configuration, hostingEnvironment);
+        ConfigureCors(context, configuration);
+        ConfigureSwaggerServices(context, configuration);
+    }
+
+    private void ConfigureCache(IConfiguration configuration)
+    {
+        Configure<AbpDistributedCacheOptions>(options => { options.KeyPrefix = "Blog:"; });
+    }
+
+    private void ConfigureVirtualFileSystem(ServiceConfigurationContext context)
+    {
+        var hostingEnvironment = context.Services.GetHostingEnvironment();
+
+        if (hostingEnvironment.IsDevelopment())
         {
-            var configuration = context.Services.GetConfiguration();
-            var hostingEnvironment = context.Services.GetHostingEnvironment();
-
-            ConfigureConventionalControllers();
-            ConfigureAuthentication(context, configuration);
-            ConfigureLocalization();
-            ConfigureCache(configuration);
-            ConfigureVirtualFileSystem(context);
-            ConfigureRedis(context, configuration, hostingEnvironment);
-            ConfigureCors(context, configuration);
-            ConfigureSwaggerServices(context, configuration);
-        }
-
-        private void ConfigureCache(IConfiguration configuration)
-        {
-            Configure<AbpDistributedCacheOptions>(options => { options.KeyPrefix = "Blog:"; });
-        }
-
-        private void ConfigureVirtualFileSystem(ServiceConfigurationContext context)
-        {
-            var hostingEnvironment = context.Services.GetHostingEnvironment();
-
-            if (hostingEnvironment.IsDevelopment())
+            Configure<AbpVirtualFileSystemOptions>(options =>
             {
-                Configure<AbpVirtualFileSystemOptions>(options =>
-                {
-                    options.FileSets.ReplaceEmbeddedByPhysical<BlogDomainSharedModule>(
-                        Path.Combine(hostingEnvironment.ContentRootPath,
-                            $"..{Path.DirectorySeparatorChar}Ray.Blog.Domain.Shared"));
-                    options.FileSets.ReplaceEmbeddedByPhysical<BlogDomainModule>(
-                        Path.Combine(hostingEnvironment.ContentRootPath,
-                            $"..{Path.DirectorySeparatorChar}Ray.Blog.Domain"));
-                    options.FileSets.ReplaceEmbeddedByPhysical<BlogApplicationContractsModule>(
-                        Path.Combine(hostingEnvironment.ContentRootPath,
-                            $"..{Path.DirectorySeparatorChar}Ray.Blog.Application.Contracts"));
-                    options.FileSets.ReplaceEmbeddedByPhysical<BlogApplicationModule>(
-                        Path.Combine(hostingEnvironment.ContentRootPath,
-                            $"..{Path.DirectorySeparatorChar}Ray.Blog.Application"));
-                });
-            }
-        }
-
-        private void ConfigureConventionalControllers()
-        {
-            Configure<AbpAspNetCoreMvcOptions>(options =>
-            {
-                options.ConventionalControllers.Create(typeof(BlogApplicationModule).Assembly);
+                options.FileSets.ReplaceEmbeddedByPhysical<BlogDomainSharedModule>(
+                    Path.Combine(hostingEnvironment.ContentRootPath,
+                        $"..{Path.DirectorySeparatorChar}Ray.Blog.Domain.Shared"));
+                options.FileSets.ReplaceEmbeddedByPhysical<BlogDomainModule>(
+                    Path.Combine(hostingEnvironment.ContentRootPath,
+                        $"..{Path.DirectorySeparatorChar}Ray.Blog.Domain"));
+                options.FileSets.ReplaceEmbeddedByPhysical<BlogApplicationContractsModule>(
+                    Path.Combine(hostingEnvironment.ContentRootPath,
+                        $"..{Path.DirectorySeparatorChar}Ray.Blog.Application.Contracts"));
+                options.FileSets.ReplaceEmbeddedByPhysical<BlogApplicationModule>(
+                    Path.Combine(hostingEnvironment.ContentRootPath,
+                        $"..{Path.DirectorySeparatorChar}Ray.Blog.Application"));
             });
         }
+    }
 
-        private void ConfigureAuthentication(ServiceConfigurationContext context, IConfiguration configuration)
+    private void ConfigureConventionalControllers()
+    {
+        Configure<AbpAspNetCoreMvcOptions>(options =>
         {
-            context.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.Authority = configuration["AuthServer:Authority"];
-                    options.RequireHttpsMetadata = Convert.ToBoolean(configuration["AuthServer:RequireHttpsMetadata"]);
-                    options.Audience = "Blog";
-                });
-        }
+            options.ConventionalControllers.Create(typeof(BlogApplicationModule).Assembly);
+        });
+    }
 
-        private static void ConfigureSwaggerServices(ServiceConfigurationContext context, IConfiguration configuration)
-        {
-            context.Services.AddAbpSwaggerGenWithOAuth(
-                configuration["AuthServer:Authority"],
-                new Dictionary<string, string>
-                {
+    private void ConfigureAuthentication(ServiceConfigurationContext context, IConfiguration configuration)
+    {
+        context.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.Authority = configuration["AuthServer:Authority"];
+                options.RequireHttpsMetadata = Convert.ToBoolean(configuration["AuthServer:RequireHttpsMetadata"]);
+                options.Audience = "Blog";
+            });
+    }
+
+    private static void ConfigureSwaggerServices(ServiceConfigurationContext context, IConfiguration configuration)
+    {
+        context.Services.AddAbpSwaggerGenWithOAuth(
+            configuration["AuthServer:Authority"],
+            new Dictionary<string, string>
+            {
                     {"Blog", "Blog API"}
-                },
-                options =>
-                {
-                    options.SwaggerDoc("v1", new OpenApiInfo { Title = "Blog API", Version = "v1" });
-                    options.DocInclusionPredicate((docName, description) => true);
-                    options.CustomSchemaIds(type => type.FullName);
-                });
-        }
-
-        private void ConfigureLocalization()
-        {
-            Configure<AbpLocalizationOptions>(options =>
+            },
+            options =>
             {
-                options.Languages.Add(new LanguageInfo("ar", "ar", "العربية"));
-                options.Languages.Add(new LanguageInfo("cs", "cs", "Čeština"));
-                options.Languages.Add(new LanguageInfo("en", "en", "English"));
-                options.Languages.Add(new LanguageInfo("en-GB", "en-GB", "English (UK)"));
-                options.Languages.Add(new LanguageInfo("fr", "fr", "Français"));
-                options.Languages.Add(new LanguageInfo("hu", "hu", "Magyar"));
-                options.Languages.Add(new LanguageInfo("pt-BR", "pt-BR", "Português"));
-                options.Languages.Add(new LanguageInfo("ru", "ru", "Русский"));
-                options.Languages.Add(new LanguageInfo("tr", "tr", "Türkçe"));
-                options.Languages.Add(new LanguageInfo("zh-Hans", "zh-Hans", "简体中文"));
-                options.Languages.Add(new LanguageInfo("zh-Hant", "zh-Hant", "繁體中文"));
-                options.Languages.Add(new LanguageInfo("de-DE", "de-DE", "Deutsch", "de"));
-                options.Languages.Add(new LanguageInfo("es", "es", "Español", "es"));
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "Blog API", Version = "v1" });
+                options.DocInclusionPredicate((docName, description) => true);
+                options.CustomSchemaIds(type => type.FullName);
             });
-        }
+    }
 
-        private void ConfigureRedis(
-            ServiceConfigurationContext context,
-            IConfiguration configuration,
-            IWebHostEnvironment hostingEnvironment)
+    private void ConfigureLocalization()
+    {
+        Configure<AbpLocalizationOptions>(options =>
         {
-            if (!hostingEnvironment.IsDevelopment())
-            {
-                var redis = ConnectionMultiplexer.Connect(configuration["Redis:Configuration"]);
-                context.Services
-                    .AddDataProtection()
-                    .PersistKeysToStackExchangeRedis(redis, "Blog-Protection-Keys");
-            }
-        }
+            options.Languages.Add(new LanguageInfo("ar", "ar", "العربية"));
+            options.Languages.Add(new LanguageInfo("cs", "cs", "Čeština"));
+            options.Languages.Add(new LanguageInfo("en", "en", "English"));
+            options.Languages.Add(new LanguageInfo("en-GB", "en-GB", "English (UK)"));
+            options.Languages.Add(new LanguageInfo("fi", "fi", "Finnish"));
+            options.Languages.Add(new LanguageInfo("fr", "fr", "Français"));
+            options.Languages.Add(new LanguageInfo("hi", "hi", "Hindi", "in"));
+            options.Languages.Add(new LanguageInfo("is", "is", "Icelandic", "is"));
+            options.Languages.Add(new LanguageInfo("it", "it", "Italiano", "it"));
+            options.Languages.Add(new LanguageInfo("ro-RO", "ro-RO", "Română"));
+            options.Languages.Add(new LanguageInfo("hu", "hu", "Magyar"));
+            options.Languages.Add(new LanguageInfo("pt-BR", "pt-BR", "Português"));
+            options.Languages.Add(new LanguageInfo("ru", "ru", "Русский"));
+            options.Languages.Add(new LanguageInfo("sk", "sk", "Slovak"));
+            options.Languages.Add(new LanguageInfo("tr", "tr", "Türkçe"));
+            options.Languages.Add(new LanguageInfo("zh-Hans", "zh-Hans", "简体中文"));
+            options.Languages.Add(new LanguageInfo("zh-Hant", "zh-Hant", "繁體中文"));
+            options.Languages.Add(new LanguageInfo("de-DE", "de-DE", "Deutsch", "de"));
+            options.Languages.Add(new LanguageInfo("es", "es", "Español", "es"));
+        });
+    }
 
-        private void ConfigureCors(ServiceConfigurationContext context, IConfiguration configuration)
+    private void ConfigureDataProtection(
+        ServiceConfigurationContext context,
+        IConfiguration configuration,
+        IWebHostEnvironment hostingEnvironment)
+    {
+        var dataProtectionBuilder = context.Services.AddDataProtection().SetApplicationName("Blog");
+        if (!hostingEnvironment.IsDevelopment())
         {
-            context.Services.AddCors(options =>
+            var redis = ConnectionMultiplexer.Connect(configuration["Redis:Configuration"]);
+            dataProtectionBuilder.PersistKeysToStackExchangeRedis(redis, "Blog-Protection-Keys");
+        }
+    }
+
+    private void ConfigureCors(ServiceConfigurationContext context, IConfiguration configuration)
+    {
+        context.Services.AddCors(options =>
+        {
+            options.AddDefaultPolicy(builder =>
             {
-                options.AddPolicy(DefaultCorsPolicyName, builder =>
-                {
-                    builder
-                        .WithOrigins(
-                            configuration["App:CorsOrigins"]
-                                .Split(",", StringSplitOptions.RemoveEmptyEntries)
-                                .Select(o => o.RemovePostFix("/"))
-                                .ToArray()
-                        )
-                        .WithAbpExposedHeaders()
-                        .SetIsOriginAllowedToAllowWildcardSubdomains()
-                        .AllowAnyHeader()
-                        .AllowAnyMethod()
-                        .AllowCredentials();
-                });
+                builder
+                    .WithOrigins(
+                        configuration["App:CorsOrigins"]
+                            .Split(",", StringSplitOptions.RemoveEmptyEntries)
+                            .Select(o => o.RemovePostFix("/"))
+                            .ToArray()
+                    )
+                    .WithAbpExposedHeaders()
+                    .SetIsOriginAllowedToAllowWildcardSubdomains()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
             });
-        }
+        });
+    }
 
-        public override void OnApplicationInitialization(ApplicationInitializationContext context)
+    public override void OnApplicationInitialization(ApplicationInitializationContext context)
+    {
+        var app = context.GetApplicationBuilder();
+        var env = context.GetEnvironment();
+
+        if (env.IsDevelopment())
         {
-            var app = context.GetApplicationBuilder();
-            var env = context.GetEnvironment();
-
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
-            app.UseAbpRequestLocalization();
-
-            if (!env.IsDevelopment())
-            {
-                app.UseErrorPage();
-            }
-
-            app.UseCorrelationId();
-            app.UseStaticFiles();
-            app.UseRouting();
-            app.UseCors(DefaultCorsPolicyName);
-            app.UseAuthentication();
-
-            if (MultiTenancyConsts.IsEnabled)
-            {
-                app.UseMultiTenancy();
-            }
-
-            app.UseAuthorization();
-
-            app.UseSwagger();
-            app.UseAbpSwaggerUI(options =>
-            {
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Blog API");
-
-                var configuration = context.GetConfiguration();
-                options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
-                options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
-                options.OAuthScopes("Blog");
-
-                //options.DefaultModelsExpandDepth(-1);
-                options.DocExpansion(DocExpansion.None);
-            });
-
-            app.UseAuditing();
-            app.UseAbpSerilogEnrichers();
-            app.UseUnitOfWork();
-            app.UseConfiguredEndpoints();
+            app.UseDeveloperExceptionPage();
         }
+
+        app.UseAbpRequestLocalization();
+        app.UseCorrelationId();
+        app.UseStaticFiles();
+        app.UseRouting();
+        app.UseCors();
+        app.UseAuthentication();
+
+        if (MultiTenancyConsts.IsEnabled)
+        {
+            app.UseMultiTenancy();
+        }
+
+        app.UseAuthorization();
+
+        app.UseSwagger();
+        app.UseAbpSwaggerUI(options =>
+        {
+            options.SwaggerEndpoint("/swagger/v1/swagger.json", "Blog API");
+
+            var configuration = context.GetConfiguration();
+            options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
+            options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
+            options.OAuthScopes("Blog");
+        });
+
+        app.UseAuditing();
+        app.UseAbpSerilogEnrichers();
+        app.UseUnitOfWork();
+        app.UseConfiguredEndpoints();
     }
 }
