@@ -1,24 +1,23 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
-namespace Ray.Blog.Blazor
+namespace Ray.Blog.Blazor;
+
+public class Program
 {
-    public class Program
+    public static async Task Main(string[] args)
     {
-        public static async Task Main(string[] args)
+        var builder = WebAssemblyHostBuilder.CreateDefault(args);
+
+        var application = await builder.AddApplicationAsync<BlogBlazorModule>(options =>
         {
-            var builder = WebAssemblyHostBuilder.CreateDefault(args);
+            options.UseAutofac();
+        });
 
-            var application = builder.AddApplication<BlogBlazorModule>(options =>
-            {
-                options.UseAutofac();
-            });
+        var host = builder.Build();
 
-            var host = builder.Build();
+        await application.InitializeApplicationAsync(host.Services);
 
-            await application.InitializeAsync(host.Services);
-
-            await host.RunAsync();
-        }
+        await host.RunAsync();
     }
 }

@@ -6,7 +6,7 @@
 <div class="tag-input">
     @foreach (var tag in SelectedTags)
     {
-        <Badge Color="Color.Primary" Margin="Margin.Is2.FromLeft" CloseClicked="() => SelectedTags.Remove(tag)">@tag.Name</Badge>
+        <Badge Color="Color.Primary" Margin="Margin.Is2.FromStart" CloseClicked="() => SelectedTags.Remove(tag)">@tag.Name</Badge>
     }
 
     <Autocomplete TItem="Tag"

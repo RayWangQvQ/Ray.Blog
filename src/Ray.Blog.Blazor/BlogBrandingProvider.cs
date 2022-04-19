@@ -1,11 +1,10 @@
 ﻿using Volo.Abp.DependencyInjection;
 using Volo.Abp.Ui.Branding;
 
-namespace Ray.Blog.Blazor
+namespace Ray.Blog.Blazor;
+
+[Dependency(ReplaceServices = true)]
+public class BlogBrandingProvider : DefaultBrandingProvider
 {
-    [Dependency(ReplaceServices = true)]
-    public class BlogBrandingProvider : DefaultBrandingProvider
-    {
-        public override string AppName => "Blog";
-    }
+    public override string AppName => "Blog";
 }

@@ -1,15 +1,12 @@
-﻿using Blazorise;
-using Microsoft.AspNetCore.Components;
-using Ray.Blog.Localization;
+﻿using Ray.Blog.Localization;
 using Volo.Abp.AspNetCore.Components;
 
-namespace Ray.Blog.Blazor
+namespace Ray.Blog.Blazor;
+
+public abstract class BlogComponentBase : AbpComponentBase
 {
-    public abstract class BlogComponentBase : AbpComponentBase
+    protected BlogComponentBase()
     {
-        protected BlogComponentBase()
-        {
-            LocalizationResource = typeof(BlogResource);
-        }
+        LocalizationResource = typeof(BlogResource);
     }
 }

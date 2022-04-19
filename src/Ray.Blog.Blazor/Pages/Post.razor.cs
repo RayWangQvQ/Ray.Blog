@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ray.Blog.Blazor.Pages
 {
-    public partial class Post
+    public partial class Post : BlogComponentBase
     {
         [Parameter]
         public Guid Id { get; set; }

@@ -8,7 +8,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace Ray.Blog.Blazor.Pages
 {
-    public partial class Tags
+    public partial class Tags: BlogComponentBase
     {
         [Inject]
         ITagAppService TagAppService { get; set; }

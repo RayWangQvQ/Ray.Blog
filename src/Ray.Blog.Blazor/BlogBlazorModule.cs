@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Net.Http;
-using Blazorise.Bootstrap;
+using Blazorise.Bootstrap5;
 using Blazorise.Icons.FontAwesome;
 using IdentityModel;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -18,87 +18,86 @@ using Volo.Abp.Identity.Blazor.WebAssembly;
 using Volo.Abp.SettingManagement.Blazor.WebAssembly;
 using Volo.Abp.TenantManagement.Blazor.WebAssembly;
 
-namespace Ray.Blog.Blazor
+namespace Ray.Blog.Blazor;
+
+[DependsOn(
+    typeof(AbpAutofacWebAssemblyModule),
+    typeof(BlogHttpApiClientModule),
+    typeof(AbpAspNetCoreComponentsWebAssemblyBasicThemeModule),
+    typeof(AbpIdentityBlazorWebAssemblyModule),
+    typeof(AbpTenantManagementBlazorWebAssemblyModule),
+    typeof(AbpSettingManagementBlazorWebAssemblyModule)
+)]
+public class BlogBlazorModule : AbpModule
 {
-    [DependsOn(
-        typeof(AbpAutofacWebAssemblyModule),
-        typeof(BlogHttpApiClientModule),
-        typeof(AbpAspNetCoreComponentsWebAssemblyBasicThemeModule),
-        typeof(AbpIdentityBlazorWebAssemblyModule),
-        typeof(AbpTenantManagementBlazorWebAssemblyModule),
-        typeof(AbpSettingManagementBlazorWebAssemblyModule)
-    )]
-    public class BlogBlazorModule : AbpModule
+    public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        public override void ConfigureServices(ServiceConfigurationContext context)
-        {
-            var environment = context.Services.GetSingletonInstance<IWebAssemblyHostEnvironment>();
-            var builder = context.Services.GetSingletonInstance<WebAssemblyHostBuilder>();
+        var environment = context.Services.GetSingletonInstance<IWebAssemblyHostEnvironment>();
+        var builder = context.Services.GetSingletonInstance<WebAssemblyHostBuilder>();
 
-            ConfigureAuthentication(builder);
-            ConfigureHttpClient(context, environment);
-            ConfigureBlazorise(context);
-            ConfigureRouter(context);
-            ConfigureUI(builder);
-            ConfigureMenu(context);
-            ConfigureAutoMapper(context);
-        }
+        ConfigureAuthentication(builder);
+        ConfigureHttpClient(context, environment);
+        ConfigureBlazorise(context);
+        ConfigureRouter(context);
+        ConfigureUI(builder);
+        ConfigureMenu(context);
+        ConfigureAutoMapper(context);
+    }
 
-        private void ConfigureRouter(ServiceConfigurationContext context)
+    private void ConfigureRouter(ServiceConfigurationContext context)
+    {
+        Configure<AbpRouterOptions>(options =>
         {
-            Configure<AbpRouterOptions>(options =>
-            {
-                options.AppAssembly = typeof(BlogBlazorModule).Assembly;
-            });
-        }
+            options.AppAssembly = typeof(BlogBlazorModule).Assembly;
+        });
+    }
 
-        private void ConfigureMenu(ServiceConfigurationContext context)
+    private void ConfigureMenu(ServiceConfigurationContext context)
+    {
+        Configure<AbpNavigationOptions>(options =>
         {
-            Configure<AbpNavigationOptions>(options =>
-            {
-                options.MenuContributors.Add(new BlogMenuContributor(context.Services.GetConfiguration()));
-            });
-        }
+            options.MenuContributors.Add(new BlogMenuContributor(context.Services.GetConfiguration()));
+        });
+    }
 
-        private void ConfigureBlazorise(ServiceConfigurationContext context)
-        {
-            context.Services
-                .AddBootstrapProviders()
-                .AddFontAwesomeIcons();
-        }
+    private void ConfigureBlazorise(ServiceConfigurationContext context)
+    {
+        context.Services
+            .AddBootstrap5Providers()
+            .AddFontAwesomeIcons();
+    }
 
-        private static void ConfigureAuthentication(WebAssemblyHostBuilder builder)
+    private static void ConfigureAuthentication(WebAssemblyHostBuilder builder)
+    {
+        builder.Services.AddOidcAuthentication(options =>
         {
-            builder.Services.AddOidcAuthentication(options =>
-            {
-                builder.Configuration.Bind("AuthServer", options.ProviderOptions);
-                options.UserOptions.RoleClaim = JwtClaimTypes.Role;
-                options.ProviderOptions.DefaultScopes.Add("Blog");
-                options.ProviderOptions.DefaultScopes.Add("role");
-                options.ProviderOptions.DefaultScopes.Add("email");
-                options.ProviderOptions.DefaultScopes.Add("phone");
-            });
-        }
+            builder.Configuration.Bind("AuthServer", options.ProviderOptions);
+            options.UserOptions.RoleClaim = JwtClaimTypes.Role;
+            options.ProviderOptions.DefaultScopes.Add("Blog");
+            options.ProviderOptions.DefaultScopes.Add("role");
+            options.ProviderOptions.DefaultScopes.Add("email");
+            options.ProviderOptions.DefaultScopes.Add("phone");
+        });
+    }
 
-        private static void ConfigureUI(WebAssemblyHostBuilder builder)
-        {
-            builder.RootComponents.Add<App>("#ApplicationContainer");
-        }
+    private static void ConfigureUI(WebAssemblyHostBuilder builder)
+    {
+        builder.RootComponents.Add<App>("#ApplicationContainer");
+    }
 
-        private static void ConfigureHttpClient(ServiceConfigurationContext context, IWebAssemblyHostEnvironment environment)
+    private static void ConfigureHttpClient(ServiceConfigurationContext context, IWebAssemblyHostEnvironment environment)
+    {
+        context.Services.AddTransient(sp => new HttpClient
         {
-            context.Services.AddTransient(sp => new HttpClient
-            {
-                BaseAddress = new Uri(environment.BaseAddress)
-            });
-        }
+            BaseAddress = new Uri(environment.BaseAddress)
+        });
+    }
 
-        private void ConfigureAutoMapper(ServiceConfigurationContext context)
+    private void ConfigureAutoMapper(ServiceConfigurationContext context)
+    {
+        Configure<AbpAutoMapperOptions>(options =>
         {
-            Configure<AbpAutoMapperOptions>(options =>
-            {
-                options.AddMaps<BlogBlazorModule>();
-            });
-        }
+            options.AddMaps<BlogBlazorModule>();
+        });
     }
 }

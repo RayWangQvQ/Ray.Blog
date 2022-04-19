@@ -98,7 +98,7 @@
 
 
 <Modal @ref="@CreateModal">
-    <ModalBackdrop />
+    @*<ModalBackdrop />*@
     <ModalContent IsCentered="true" Size="ModalSize.ExtraLarge">
         <Form>
             <ModalHeader>
@@ -149,7 +149,7 @@
                             @foreach (var tagId in NewEntity.TagIds)
                             {
                                 <Badge Color="Color.Info"
-                                   Margin="Margin.Is2.FromLeft"
+                                   Margin="Margin.Is2.FromStart"
                                    CloseClicked="() => NewEntity.TagIds.Remove(tagId)">
                                     @GetTagById(tagId).Name
                                 </Badge>
@@ -186,7 +186,7 @@
 
 
 <Modal @ref="@EditModal">
-    <ModalBackdrop />
+    @*<ModalBackdrop />*@
     <ModalContent IsCentered="true" Size="ModalSize.ExtraLarge">
         <Form>
             <ModalHeader>
@@ -236,7 +236,7 @@
                             @foreach (var tagId in EditingEntity.TagIds)
                             {
                                 <Badge Color="Color.Info"
-                                   Margin="Margin.Is2.FromLeft"
+                                   Margin="Margin.Is2.FromStart"
                                    CloseClicked="() => EditingEntity.TagIds.Remove(tagId)">
                                     @GetTagById(tagId).Name
                                 </Badge>

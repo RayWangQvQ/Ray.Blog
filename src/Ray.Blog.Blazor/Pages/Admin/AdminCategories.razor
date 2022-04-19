@@ -6,11 +6,11 @@
 @using Ray.Blog.Localization
 @using Microsoft.Extensions.Localization
 
-@inherits AbpCrudPageBase<ICategoryAppService, CategoryDto, Guid, PagedAndSortedResultRequestDto, CreateCategoryDto>
-@attribute [Authorize(BlogPermissions.Categories.Default)]
-
 @inject IStringLocalizer<BlogResource> L
 @inject AbpBlazorMessageLocalizerHelper<BlogResource> LH
+
+@inherits AbpCrudPageBase<ICategoryAppService, CategoryDto, Guid, PagedAndSortedResultRequestDto, CreateCategoryDto>
+@attribute [Authorize(BlogPermissions.Categories.Default)]
 
 <Card>
 
@@ -84,7 +84,7 @@
 
 
 <Modal @ref="@CreateModal">
-    <ModalBackdrop />
+    @*<ModalBackdrop />*@
     <ModalContent IsCentered="true">
         <Form>
             <ModalHeader>
@@ -129,7 +129,7 @@
 
 
 <Modal @ref="@EditModal">
-    <ModalBackdrop />
+    @*<ModalBackdrop />*@
     <ModalContent IsCentered="true">
         <Form>
             <ModalHeader>

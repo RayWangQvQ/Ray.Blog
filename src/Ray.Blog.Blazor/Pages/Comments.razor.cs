@@ -8,72 +8,71 @@ using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 
-namespace Ray.Blog.Blazor.Pages
+namespace Ray.Blog.Blazor.Pages;
+
+public partial class Comments: BlogComponentBase
 {
-    public partial class Comments
+    [Parameter]
+    public Guid PostId { get; set; }
+
+    [Inject]
+    ICommentsAppService CommentsAppService { get; set; }
+
+    CreateCommentDto NewComment { get; set; } = new CreateCommentDto() { Text = "" };
+
+    private IReadOnlyList<CommentDto> CommentList { get; set; } = new List<CommentDto>();
+
+    private int PageSize { get; } = LimitedResultRequestDto.DefaultMaxResultCount;
+    private int CurrentPage { get; set; }
+    private string CurrentSorting { get; set; }
+    private int TotalCount { get; set; }
+
+    protected override async Task OnInitializedAsync()
     {
-        [Parameter]
-        public Guid PostId { get; set; }
+        await GetCommentsAsync();
+    }
 
-        [Inject]
-        ICommentsAppService CommentsAppService { get; set; }
+    private async Task GetCommentsAsync()
+    {
+        var result = await CommentsAppService.GetListAsync(
+            new GetCommentListDto
+            {
+                MaxResultCount = PageSize,
+                SkipCount = CurrentPage * PageSize,
+                Sorting = CurrentSorting,
 
-        CreateCommentDto NewComment { get; set; } = new CreateCommentDto() { Text = "" };
+                PostId = this.PostId
+            }
+        );
 
-        private IReadOnlyList<CommentDto> CommentList { get; set; } = new List<CommentDto>();
+        CommentList = result.Items;
+        TotalCount = (int)result.TotalCount;
+    }
 
-        private int PageSize { get; } = LimitedResultRequestDto.DefaultMaxResultCount;
-        private int CurrentPage { get; set; }
-        private string CurrentSorting { get; set; }
-        private int TotalCount { get; set; }
+    private async Task OnDataGridReadAsync(DataGridReadDataEventArgs<CommentDto> e)
+    {
+        CurrentSorting = e.Columns
+            .Where(c => c.SortDirection != SortDirection.Default)
+            .Select(c => c.Field + (c.SortDirection == SortDirection.Descending ? " DESC" : ""))
+            .JoinAsString(",");
+        CurrentPage = e.Page - 1;
 
-        protected override async Task OnInitializedAsync()
-        {
-            await GetCommentsAsync();
-        }
+        await GetCommentsAsync();
 
-        private async Task GetCommentsAsync()
-        {
-            var result = await CommentsAppService.GetListAsync(
-                new GetCommentListDto
-                {
-                    MaxResultCount = PageSize,
-                    SkipCount = CurrentPage * PageSize,
-                    Sorting = CurrentSorting,
+        await InvokeAsync(StateHasChanged);
+    }
 
-                    PostId = this.PostId
-                }
-            );
+    private async Task OnAddCommentButtonClickedAsync()
+    {
+        //新增评论
+        NewComment.PostId = this.PostId;
+        await CommentsAppService.CreateAsync(NewComment);
 
-            CommentList = result.Items;
-            TotalCount = (int)result.TotalCount;
-        }
+        //弹提示框
+        await this.Notify.Success("评论发送成功");
 
-        private async Task OnDataGridReadAsync(DataGridReadDataEventArgs<CommentDto> e)
-        {
-            CurrentSorting = e.Columns
-                .Where(c => c.Direction != SortDirection.None)
-                .Select(c => c.Field + (c.Direction == SortDirection.Descending ? " DESC" : ""))
-                .JoinAsString(",");
-            CurrentPage = e.Page - 1;
-
-            await GetCommentsAsync();
-
-            await InvokeAsync(StateHasChanged);
-        }
-
-        private async Task OnAddCommentButtonClickedAsync()
-        {
-            //新增评论
-            NewComment.PostId = this.PostId;
-            await CommentsAppService.CreateAsync(NewComment);
-
-            //弹提示框
-            await this.Notify.Success("评论发送成功");
-
-            //刷新评论列表
-            NewComment = new CreateCommentDto() { Text = "" };
-            await GetCommentsAsync();
-        }
+        //刷新评论列表
+        NewComment = new CreateCommentDto() { Text = "" };
+        await GetCommentsAsync();
     }
 }

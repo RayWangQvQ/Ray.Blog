@@ -1,32 +1,58 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
+  <Import Project="..\..\common.props" />
+
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
-    <BlazorWebAssemblyEnableLinking>false</BlazorWebAssemblyEnableLinking>
-    <PublishTrimmed>false</PublishTrimmed>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Blazorise.Bootstrap" Version="0.9.4.2" />
-    <PackageReference Include="Blazorise.Components" Version="0.9.4.2" />
-    <PackageReference Include="Blazorise.Icons.FontAwesome" Version="0.9.4.2" />
-    <PackageReference Include="Blazorise.Markdown" Version="0.9.4.2" />
-    <PackageReference Include="Blazorise.TreeView" Version="0.9.4.2" />
-    <PackageReference Include="Markdig" Version="0.25.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.*" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.*" />
+    <None Include="Pages\Admin\AdminCategories.razor" />
+    <None Include="Pages\Admin\AdminPosts.razor" />
+    <None Include="Pages\Admin\AdminTags.razor" />
+    <None Include="Pages\Categories.razor" />
+    <None Include="Pages\Comments.razor" />
+    <None Include="Pages\Index.razor" />
+    <None Include="Pages\Posts.razor" />
+    <None Include="Pages\RankingList\ReadingRankingList.razor" />
+    <None Include="Pages\RankingList\RecentCommentRankingList.razor" />
+    <None Include="Pages\RankingList\ThumbsUpRankingList.razor" />
+    <None Include="Pages\Tags.razor" />
+    <None Include="Pages\Test\Abp\UiNotificationAlertTest.razor" />
+    <None Include="Pages\Test\Components\AccordionTest.razor" />
+    <None Include="Pages\Test\Components\GridTest.razor" />
+    <None Include="Pages\Test\Components\ListGroupTest.razor" />
+    <None Include="Pages\Test\Components\RatingTest.razor" />
+    <None Include="Pages\Test\Components\RepeaterTest.razor" />
+    <None Include="Pages\Test\Components\StepTest.razor" />
+    <None Include="Pages\Test\Extensions\AutocompleteTest.razor" />
+    <None Include="Pages\Test\Extensions\TreeViewTest.razor" />
+    <None Include="Pages\Test\Index.razor" />
+    <None Include="Pages\Test\Services\MessageTest.razor" />
+    <None Include="Pages\Test\Services\NotificationTest.razor" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.Autofac.WebAssembly" Version="4.4.0" />
-    <PackageReference Include="Volo.Abp.AspNetCore.Components.WebAssembly.BasicTheme" Version="4.4.0" />
+    <PackageReference Include="Blazorise.Bootstrap5" Version="1.0.2" />
+    <PackageReference Include="Blazorise.Components" Version="1.0.2" />
+    <PackageReference Include="Blazorise.Icons.FontAwesome" Version="1.0.2" />
+    <PackageReference Include="Blazorise.Markdown" Version="0.9.5.1" />
+    <PackageReference Include="Blazorise.TreeView" Version="0.9.5.1" />
+    <PackageReference Include="Markdig" Version="0.28.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.Identity.Blazor.WebAssembly" Version="4.4.0" />
-    <PackageReference Include="Volo.Abp.TenantManagement.Blazor.WebAssembly" Version="4.4.0" />
-    <PackageReference Include="Volo.Abp.SettingManagement.Blazor.WebAssembly" Version="4.4.0" />
+    <PackageReference Include="Volo.Abp.Autofac.WebAssembly" Version="5.2.0" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Components.WebAssembly.BasicTheme" Version="5.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.Identity.Blazor.WebAssembly" Version="5.2.0" />
+    <PackageReference Include="Volo.Abp.TenantManagement.Blazor.WebAssembly" Version="5.2.0" />
+    <PackageReference Include="Volo.Abp.SettingManagement.Blazor.WebAssembly" Version="5.2.0" />
   </ItemGroup>
 
   <ItemGroup>

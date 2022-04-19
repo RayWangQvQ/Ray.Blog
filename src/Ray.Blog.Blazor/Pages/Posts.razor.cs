@@ -13,7 +13,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace Ray.Blog.Blazor.Pages
 {
-    public partial class Posts
+    public partial class Posts: BlogComponentBase
     {
         [Inject]
         IPostsAppService PostAppService { get; set; }
@@ -92,8 +92,8 @@ namespace Ray.Blog.Blazor.Pages
         private async Task OnDataGridReadAsync(DataGridReadDataEventArgs<PostDto> e)
         {
             CurrentSorting = e.Columns
-                .Where(c => c.Direction != SortDirection.None)
-                .Select(c => c.Field + (c.Direction == SortDirection.Descending ? " DESC" : ""))
+                .Where(c => c.SortDirection != SortDirection.Default)
+                .Select(c => c.Field + (c.SortDirection == SortDirection.Descending ? " DESC" : ""))
                 .JoinAsString(",");
             CurrentPage = e.Page - 1;
 
@@ -148,21 +148,21 @@ namespace Ray.Blog.Blazor.Pages
 
         private async Task CreateAuthorAsync()
         {
-            if (CreateValidationsRef.ValidateAll())
+            if (await CreateValidationsRef.ValidateAll())
             {
                 await PostAppService.CreateAsync(NewAuthor);
                 await GetAuthorsAsync();
-                CreateAuthorModal.Hide();
+                await CreateAuthorModal.Hide();
             }
         }
 
         private async Task UpdateAuthorAsync()
         {
-            if (EditValidationsRef.ValidateAll())
+            if (await EditValidationsRef.ValidateAll())
             {
                 await PostAppService.UpdateAsync(EditingAuthorId, EditingAuthor);
                 await GetAuthorsAsync();
-                EditAuthorModal.Hide();
+                await EditAuthorModal.Hide();
             }
         }
     }
