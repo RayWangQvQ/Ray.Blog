@@ -1,5 +1,6 @@
 ﻿@using Ray.Blog.Comments
 @using Volo.Abp.Application.Dtos
+
 @inherits BlogComponentBase
 
 <DataGrid TItem="KeyValuePair<int, CommentDto>"
@@ -20,11 +21,9 @@
                 </Column>
             </Row>
             <Row>
-                <Text Alignment="TextAlignment.Right">——@context.Value.Id</Text>
+                <Text Alignment="TextAlignment.Right">——@context.Value.CreatorId</Text>
             </Row>
         }
-
-
     </DetailRowTemplate>
 </DataGrid>
 
@@ -49,18 +48,19 @@
     {
         var result = await CommentsAppService.GetListAsync(
             new GetCommentListDto
-            {
-                MaxResultCount = PageSize,
-                SkipCount = CurrentPage * PageSize,
-                Sorting = CurrentSorting,
-            }
+                {
+                    MaxResultCount = PageSize,
+                    SkipCount = CurrentPage * PageSize,
+                    Sorting = CurrentSorting,
+                }
         );
 
-        CommentList = result.Items;
+        CommentList = result.Items.ToList();
         var dicList = new List<KeyValuePair<int, CommentDto>>();
         for (int i = 0; i < PageSize; i++)
         {
-            dicList.Add(new KeyValuePair<int, CommentDto>(i + 1, result.Items[i]));
+            dicList.Add(new KeyValuePair<int, CommentDto>(i + 1,
+                i < result.Items.Count - 1 ? result.Items[i] : new CommentDto()));
         }
         CommentDicList = dicList;
 

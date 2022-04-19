@@ -9,8 +9,8 @@
 <CardDeck>
     @foreach (var item in this.TagList)
     {
-        <Card ColumnSize="ColumnSize.Is1">
-            <Badge Link="/posts">@item.Name</Badge>
+        <Card ColumnSize="ColumnSize.Is4">
+            <Badge Link="/posts" TextColor="TextColor.Black50">@item.Name</Badge>
         </Card>
     }
 </CardDeck>
