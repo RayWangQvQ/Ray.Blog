@@ -30,6 +30,8 @@ public partial class Comments: BlogComponentBase
     protected override async Task OnInitializedAsync()
     {
         await GetCommentsAsync();
+
+        await base.OnInitializedAsync();
     }
 
     private async Task GetCommentsAsync()

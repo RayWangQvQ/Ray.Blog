@@ -35,22 +35,32 @@
     private IReadOnlyList<KeyValuePair<int, CommentDto>> CommentDicList { get; set; } = new List<KeyValuePair<int, CommentDto>>();
 
     private int PageSize { get; } = 5;
-    private int CurrentPage { get; set; } = 1;
+    private int CurrentPage { get; set; }
     private string CurrentSorting { get; set; } = $"{nameof(CommentDto.CreationTime)} desc";
     private int TotalCount { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        await GetAuthorsAsync();
+        //await GetCommentsAsync();
+        await base.OnInitializedAsync();
     }
 
-    private async Task GetAuthorsAsync()
+    private async Task OnDataGridReadAsync(DataGridReadDataEventArgs<KeyValuePair<int, CommentDto>> e)
+    {
+        CurrentPage = e.Page - 1;
+
+        await GetCommentsAsync();
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task GetCommentsAsync()
     {
         var result = await CommentsAppService.GetListAsync(
             new GetCommentListDto
                 {
                     MaxResultCount = PageSize,
-                    SkipCount = CurrentPage * PageSize,
+                    SkipCount = 0,
                     Sorting = CurrentSorting,
                 }
         );
@@ -65,14 +75,5 @@
         CommentDicList = dicList;
 
         TotalCount = (int)result.TotalCount;
-    }
-
-    private async Task OnDataGridReadAsync(DataGridReadDataEventArgs<KeyValuePair<int, CommentDto>> e)
-    {
-        CurrentPage = e.Page - 1;
-
-        await GetAuthorsAsync();
-
-        await InvokeAsync(StateHasChanged);
     }
 }

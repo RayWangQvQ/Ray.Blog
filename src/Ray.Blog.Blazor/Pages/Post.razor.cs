@@ -31,7 +31,7 @@ namespace Ray.Blog.Blazor.Pages
 
             markdownHtml = Markdig.Markdown.ToHtml(PostDto.Markdown ?? string.Empty);
 
-            base.OnInitialized();
+            await base.OnInitializedAsync();
         }
     }
 }

@@ -63,7 +63,7 @@ namespace Ray.Blog.Blazor.Pages
             }
 
             await SetPermissionsAsync();
-            await GetAuthorsAsync();
+            //await GetPostsAsync();
         }
 
         private async Task SetPermissionsAsync()
@@ -78,7 +78,7 @@ namespace Ray.Blog.Blazor.Pages
                 .IsGrantedAsync(BlogPermissions.Posts.Delete);
         }
 
-        private async Task GetAuthorsAsync()
+        private async Task GetPostsAsync()
         {
             GetPostListRequest.MaxResultCount = PageSize;
             GetPostListRequest.SkipCount = CurrentPage * PageSize;
@@ -97,14 +97,14 @@ namespace Ray.Blog.Blazor.Pages
                 .JoinAsString(",");
             CurrentPage = e.Page - 1;
 
-            await GetAuthorsAsync();
+            await GetPostsAsync();
 
             await InvokeAsync(StateHasChanged);
         }
 
         private async Task OnSearchButtonClickAsync()
         {
-            await GetAuthorsAsync();
+            await GetPostsAsync();
         }
 
         private void OpenCreateAuthorModal()
@@ -138,7 +138,7 @@ namespace Ray.Blog.Blazor.Pages
             }
 
             await PostAppService.DeleteAsync(author.Id);
-            await GetAuthorsAsync();
+            await GetPostsAsync();
         }
 
         private void CloseEditAuthorModal()
@@ -151,7 +151,7 @@ namespace Ray.Blog.Blazor.Pages
             if (await CreateValidationsRef.ValidateAll())
             {
                 await PostAppService.CreateAsync(NewAuthor);
-                await GetAuthorsAsync();
+                await GetPostsAsync();
                 await CreateAuthorModal.Hide();
             }
         }
@@ -161,7 +161,7 @@ namespace Ray.Blog.Blazor.Pages
             if (await EditValidationsRef.ValidateAll())
             {
                 await PostAppService.UpdateAsync(EditingAuthorId, EditingAuthor);
-                await GetAuthorsAsync();
+                await GetPostsAsync();
                 await EditAuthorModal.Hide();
             }
         }
