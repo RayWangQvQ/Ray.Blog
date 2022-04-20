@@ -7,38 +7,59 @@
 
     <Divider DividerType="DividerType.TextContent" Text="评论列表" />
 
-    <DataGrid TItem="CommentDto"
-              Data="CommentList"
-              ReadData="OnDataGridReadAsync"
-              TotalItems="TotalCount"
-              ShowPager="true"
-              PageSize="PageSize"
-              Borderless="true">
+    @*    <DataGrid TItem="CommentDto"
+        Data="CommentList"
+        ReadData="OnDataGridReadAsync"
+        TotalItems="TotalCount"
+        ShowPager="true"
+        PageSize="PageSize"
+        Borderless="true">
         <DetailRowTemplate>
-            <Row Background="Background.White">
-                <Column ColumnSize="ColumnSize.Is1">
-                    这是头像
-                </Column>
-                <Column ColumnSize="ColumnSize.Is11">
-                    <Row>
-                        <Column>
-                            <Text Color="TextColor.Warning">这是用户名</Text>
-                            <Text TextColor="TextColor.Secondary" Italic="true" Margin="Margin.Is3">2021/8/15 11:03</Text>
-                        </Column>
-                    </Row>
-                    <Row>
-                        <Alert Visible="true">@context.Text</Alert>
-                    </Row>
-                    <Row>
-                        <Column Float="Float.End" TextAlignment="TextAlignment.End">这是点赞数</Column>
-                    </Row>
-                </Column>
-            </Row>
+        <Row Background="Background.White">
+        <Column ColumnSize="ColumnSize.Is1">
+        这是头像
+        </Column>
+        <Column ColumnSize="ColumnSize.Is11">
+        <Row>
+        <Column>
+        <Text Color="TextColor.Warning">这是用户名</Text>
+        <Text TextColor="TextColor.Secondary" Italic="true" Margin="Margin.Is3">2021/8/15 11:03</Text>
+        </Column>
+        </Row>
+        <Row>
+        <Alert Visible="true">@context.Text</Alert>
+        </Row>
+        <Row>
+        <Column Float="Float.End" TextAlignment="TextAlignment.End">这是点赞数</Column>
+        </Row>
+        </Column>
+        </Row>
         </DetailRowTemplate>
-    </DataGrid>
+        </DataGrid>*@
 
-    <Markdown @bind-Value="NewComment.Text" Height="Height.Is25" Width="Width.Is50"></Markdown>
+
+
+
+    <ListGroup Flush>
+        @{
+            for (int i = 0; i < this.CommentList.Count; i++)
+            {
+                var item = this.CommentList[i];
+                <ListGroupItem>
+                    <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                        <Heading Size="HeadingSize.Is5" Margin="Margin.Is1.FromBottom">List group item heading</Heading>
+                        <Small>@item.CreationTime</Small>
+                    </Div>
+                    <Paragraph Margin="Margin.Is1.FromBottom">@item.Text</Paragraph>
+                    <Small>And some small print.</Small>
+                </ListGroupItem>
+            }
+        }
+    </ListGroup>
+
+    @*<Markdown @bind-Value="this.NewComment.Text" Height="Height.Is25" Width="Width.Is50"></Markdown>*@
     <Button Color="Color.Primary" Clicked="OnAddCommentButtonClickedAsync">发送</Button>
+
 </Container>
 
 @code {

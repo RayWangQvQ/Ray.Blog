@@ -23,7 +23,7 @@ public partial class Comments: BlogComponentBase
     private IReadOnlyList<CommentDto> CommentList { get; set; } = new List<CommentDto>();
 
     private int PageSize { get; } = LimitedResultRequestDto.DefaultMaxResultCount;
-    private int CurrentPage { get; set; }
+    private int CurrentPage { get; set; } = 1;
     private string CurrentSorting { get; set; }
     private int TotalCount { get; set; }
 
@@ -40,7 +40,7 @@ public partial class Comments: BlogComponentBase
             new GetCommentListDto
             {
                 MaxResultCount = PageSize,
-                SkipCount = CurrentPage * PageSize,
+                SkipCount = (CurrentPage-1) * PageSize,
                 Sorting = CurrentSorting,
 
                 PostId = this.PostId
@@ -49,19 +49,6 @@ public partial class Comments: BlogComponentBase
 
         CommentList = result.Items;
         TotalCount = (int)result.TotalCount;
-    }
-
-    private async Task OnDataGridReadAsync(DataGridReadDataEventArgs<CommentDto> e)
-    {
-        CurrentSorting = e.Columns
-            .Where(c => c.SortDirection != SortDirection.Default)
-            .Select(c => c.Field + (c.SortDirection == SortDirection.Descending ? " DESC" : ""))
-            .JoinAsString(",");
-        CurrentPage = e.Page - 1;
-
-        await GetCommentsAsync();
-
-        await InvokeAsync(StateHasChanged);
     }
 
     private async Task OnAddCommentButtonClickedAsync()
