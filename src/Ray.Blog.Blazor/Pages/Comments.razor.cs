@@ -10,7 +10,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace Ray.Blog.Blazor.Pages;
 
-public partial class Comments: BlogComponentBase
+public partial class Comments : BlogComponentBase
 {
     [Parameter]
     public Guid PostId { get; set; }
@@ -23,7 +23,7 @@ public partial class Comments: BlogComponentBase
     private IReadOnlyList<CommentDto> CommentList { get; set; } = new List<CommentDto>();
 
     private int PageSize { get; } = LimitedResultRequestDto.DefaultMaxResultCount;
-    private int CurrentPage { get; set; } = 1;
+    private int CurrentPage => int.Parse(this.currentPage);
     private string CurrentSorting { get; set; }
     private int TotalCount { get; set; }
 
@@ -40,7 +40,7 @@ public partial class Comments: BlogComponentBase
             new GetCommentListDto
             {
                 MaxResultCount = PageSize,
-                SkipCount = (CurrentPage-1) * PageSize,
+                SkipCount = (CurrentPage - 1) * PageSize,
                 Sorting = CurrentSorting,
 
                 PostId = this.PostId
