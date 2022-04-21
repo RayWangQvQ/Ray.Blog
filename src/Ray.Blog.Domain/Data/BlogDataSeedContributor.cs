@@ -36,13 +36,18 @@ namespace Ray.Blog.Data
         public async Task SeedAsync(DataSeedContext context)
         {
             //分类
-            Category category = await _categoryRepository.FirstOrDefaultAsync(x => x.Name == "Food");
-            if (category == null)
+            Category foodCategory = await _categoryRepository.FirstOrDefaultAsync(x => x.Name == "Food");
+            if (foodCategory == null)
             {
-                category = await _categoryRepository.InsertAsync(new Category("Food", "美食区"), true);
+                foodCategory = await _categoryRepository.InsertAsync(new Category("Food", "美食区"), true);
             }
 
             //标签
+            Tag dotNetTag = await _tagRepository.FirstOrDefaultAsync(x => x.Name == "DotNet");
+            if (dotNetTag == null)
+            {
+                dotNetTag = await _tagRepository.InsertAsync(new Tag("DotNet", "DotNet"), true);
+            }
             Tag tag = await _tagRepository.FirstOrDefaultAsync(x => x.Name == "Food");
             if (tag == null)
             {
@@ -53,7 +58,8 @@ namespace Ray.Blog.Data
             var post = await _postRepository.FirstOrDefaultAsync(x => x.Title == "美食日记（1）");
             if (post == null)
             {
-                post = new Post(category.Id, "美食日记（1）");
+                post = new Post(foodCategory.Id, "美食日记（1）");
+                post.Markdown = "这是一篇美食博客";
                 post = await _postRepository.InsertAsync(post, true);
 
                 post.AddTag(tag.Id);
@@ -61,10 +67,13 @@ namespace Ray.Blog.Data
             }
 
             //评论
-            var comment = await _commentRepository.FirstOrDefaultAsync(x => x.PostId == post.Id && x.Text == "太棒了");
-            if (comment == null)
+            if (await _commentRepository.FirstOrDefaultAsync(x => x.PostId == post.Id && x.Text == "太棒了") == null)
             {
-                comment = await _commentRepository.InsertAsync(new Comment(post.Id, "太棒了"), true);
+                await _commentRepository.InsertAsync(new Comment(post.Id, "太棒了"), true);
+            }
+            if (await _commentRepository.FirstOrDefaultAsync(x => x.PostId == post.Id && x.Text == "赞") == null)
+            {
+                await _commentRepository.InsertAsync(new Comment(post.Id, "赞"), true);
             }
         }
     }

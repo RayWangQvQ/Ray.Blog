@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Markdig;
 
 namespace Ray.Blog.Blazor.Pages
 {
@@ -15,7 +16,7 @@ namespace Ray.Blog.Blazor.Pages
         [Inject]
         IPostsAppService PostAppService { get; set; }
 
-        string markdownHtml;
+        string _markdownHtml;
 
         PostDto PostDto { get; set; } = new PostDto();
 
@@ -29,7 +30,7 @@ namespace Ray.Blog.Blazor.Pages
             //获取详情
             PostDto = await PostAppService.GetAsync(Id);
 
-            markdownHtml = Markdig.Markdown.ToHtml(PostDto.Markdown ?? string.Empty);
+            _markdownHtml = Markdown.ToHtml(PostDto.Markdown ?? string.Empty);
 
             await base.OnInitializedAsync();
         }
