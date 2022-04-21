@@ -3,55 +3,32 @@
 
 @inherits BlogComponentBase
 
-<DataGrid TItem="KeyValuePair<int, CommentDto>"
-          Data="CommentDicList"
-          ReadData="OnDataGridReadAsync"
-          TotalItems="TotalCount"
-          ShowPager="false"
-          PageSize="PageSize"
-          Borderless="true">
-    <DetailRowTemplate>
-        @{
-            <Row>
-                <Column ColumnSize="ColumnSize.Is1">
-                    <Text TextColor="TextColor.Secondary">@context.Key</Text>
-                </Column>
-                <Column>
-                    <Text>@context.Value.Text</Text>
-                </Column>
-            </Row>
-            <Row>
-                <Text Alignment="TextAlignment.Right">——@context.Value.CreatorId</Text>
-            </Row>
+<ListGroup Flush>
+    @{
+        foreach (var item in CommentList)
+        {
+            <ListGroupItem>
+                <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                    <Paragraph Margin="Margin.Is1.FromStart">@item.Text</Paragraph>
+                </Div>
+            </ListGroupItem>
         }
-    </DetailRowTemplate>
-</DataGrid>
+    }
+</ListGroup>
 
 @code {
     [Inject]
     ICommentsAppService CommentsAppService { get; set; }
 
-    private IReadOnlyList<CommentDto> CommentList { get; set; } = new List<CommentDto>();
-    private IReadOnlyList<KeyValuePair<int, CommentDto>> CommentDicList { get; set; } = new List<KeyValuePair<int, CommentDto>>();
+    private List<CommentDto> CommentList { get; set; } = new List<CommentDto>();
 
     private int PageSize { get; } = 5;
-    private int CurrentPage { get; set; }
     private string CurrentSorting { get; set; } = $"{nameof(CommentDto.CreationTime)} desc";
-    private int TotalCount { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        //await GetCommentsAsync();
-        await base.OnInitializedAsync();
-    }
-
-    private async Task OnDataGridReadAsync(DataGridReadDataEventArgs<KeyValuePair<int, CommentDto>> e)
-    {
-        CurrentPage = e.Page - 1;
-
         await GetCommentsAsync();
-
-        await InvokeAsync(StateHasChanged);
+        await base.OnInitializedAsync();
     }
 
     private async Task GetCommentsAsync()
@@ -66,14 +43,5 @@
         );
 
         CommentList = result.Items.ToList();
-        var dicList = new List<KeyValuePair<int, CommentDto>>();
-        for (int i = 0; i < PageSize; i++)
-        {
-            dicList.Add(new KeyValuePair<int, CommentDto>(i + 1,
-                i < result.Items.Count - 1 ? result.Items[i] : new CommentDto()));
-        }
-        CommentDicList = dicList;
-
-        TotalCount = (int)result.TotalCount;
     }
 }
