@@ -29,8 +29,12 @@ namespace Ray.Blog.Blazor.Pages
         {
             //获取详情
             PostDto = await PostAppService.GetAsync(Id);
+            var markdown = PostDto.Markdown ?? string.Empty;
 
-            _markdownHtml = Markdown.ToHtml(PostDto.Markdown ?? string.Empty);
+            var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
+            _markdownHtml = Markdown.Normalize(markdown);
+            _markdownHtml = Markdown.ToHtml(_markdownHtml, pipeline);
+            _markdownHtml = ((MarkupString)_markdownHtml).ToString();
 
             await base.OnInitializedAsync();
         }
