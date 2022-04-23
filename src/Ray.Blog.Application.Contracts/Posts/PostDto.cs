@@ -3,6 +3,7 @@ using Ray.Blog.Tags;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Ray.Blog.ThumbUps;
 using Volo.Abp.Application.Dtos;
 
 namespace Ray.Blog.Posts
@@ -33,5 +34,7 @@ namespace Ray.Blog.Posts
         public string CategoryName { get; set; }
 
         public List<TagLookupDto> Tags { get; set; } = new();
+
+        public List<ThumbUpDto> ThumbUps { get; set; } = new();
     }
 }

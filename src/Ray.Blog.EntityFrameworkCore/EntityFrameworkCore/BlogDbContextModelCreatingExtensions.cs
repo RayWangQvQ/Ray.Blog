@@ -3,11 +3,16 @@ using Ray.Blog.Categories;
 using Ray.Blog.Comments;
 using Ray.Blog.Posts;
 using Ray.Blog.Tags;
+using Ray.Blog.ThumbUps;
 using Volo.Abp;
 using Volo.Abp.EntityFrameworkCore.Modeling;
 
 namespace Ray.Blog.EntityFrameworkCore
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <remarks>https://docs.microsoft.com/zh-cn/ef/core/modeling/relationships?tabs=fluent-api%2Cfluent-api-simple-key%2Csimple-key</remarks>
     public static class BlogDbContextModelCreatingExtensions
     {
         public static void ConfigureBlog(this ModelBuilder builder)
@@ -27,6 +32,11 @@ namespace Ray.Blog.EntityFrameworkCore
             {
                 b.ToTable(BlogConsts.DbTablePrefix + "Categories", BlogConsts.DbSchema);
                 b.ConfigureByConvention();
+
+                //b.HasMany(c => c.Posts)
+                //    .WithOne(p => p.Category)
+                //    .HasForeignKey(p => p.CategoryId)
+                //    .IsRequired();
             });
 
             builder.Entity<Post>(b =>
@@ -34,10 +44,11 @@ namespace Ray.Blog.EntityFrameworkCore
                 b.ToTable(BlogConsts.DbTablePrefix + "Posts", BlogConsts.DbSchema);
                 b.ConfigureByConvention();
 
-                b.HasOne<Category>()
-                    .WithMany()
+                b.HasOne<Category>(p=>p.Category)
+                    .WithMany(c=>c.Posts)
+                    .HasForeignKey(p => p.CategoryId)
                     .IsRequired()
-                    .HasForeignKey(p => p.CategoryId);
+                    ;
             });
 
             builder.Entity<Tag>(b =>
@@ -74,6 +85,18 @@ namespace Ray.Blog.EntityFrameworkCore
                 b.HasOne<Comment>()
                 .WithMany()
                 .HasForeignKey(c => c.RepliedCommentId);
+            });
+
+            builder.Entity<ThumbUp>(b =>
+            {
+                b.ToTable(BlogConsts.DbTablePrefix + "ThumbUps", BlogConsts.DbSchema);
+                b.ConfigureByConvention();
+
+                b.HasOne<Post>(t=>t.Post)
+                    .WithMany(p=>p.ThumbUps)
+                    .HasForeignKey(t => t.PostId)
+                    .IsRequired()
+                    ;
             });
         }
     }

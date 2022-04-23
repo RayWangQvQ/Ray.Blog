@@ -12,7 +12,7 @@ using Volo.Abp.EntityFrameworkCore;
 namespace Ray.Blog.Migrations
 {
     [DbContext(typeof(BlogDbContext))]
-    [Migration("20220418172714_Initial")]
+    [Migration("20220423103829_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,7 +20,7 @@ namespace Ray.Blog.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("_Abp_DatabaseProvider", EfCoreDatabaseProvider.MySql)
-                .HasAnnotation("ProductVersion", "6.0.0")
+                .HasAnnotation("ProductVersion", "6.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Ray.Blog.Categories.Category", b =>
@@ -286,6 +286,61 @@ namespace Ray.Blog.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("BlogTags", (string)null);
+                });
+
+            modelBuilder.Entity("Ray.Blog.ThumbUps.ThumbUp", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasMaxLength(40)
+                        .HasColumnType("varchar(40)")
+                        .HasColumnName("ConcurrencyStamp");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("CreationTime");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("CreatorId");
+
+                    b.Property<Guid?>("DeleterId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("DeleterId");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("DeletionTime");
+
+                    b.Property<string>("ExtraProperties")
+                        .HasColumnType("longtext")
+                        .HasColumnName("ExtraProperties");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint(1)")
+                        .HasDefaultValue(false)
+                        .HasColumnName("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("LastModificationTime");
+
+                    b.Property<Guid?>("LastModifierId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("LastModifierId");
+
+                    b.Property<Guid>("PostId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("BlogThumbUps", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>
@@ -2227,11 +2282,13 @@ namespace Ray.Blog.Migrations
 
             modelBuilder.Entity("Ray.Blog.Posts.Post", b =>
                 {
-                    b.HasOne("Ray.Blog.Categories.Category", null)
-                        .WithMany()
+                    b.HasOne("Ray.Blog.Categories.Category", "Category")
+                        .WithMany("Posts")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Ray.Blog.Posts.RelatePostTag", b =>
@@ -2247,6 +2304,17 @@ namespace Ray.Blog.Migrations
                         .HasForeignKey("TagId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Ray.Blog.ThumbUps.ThumbUp", b =>
+                {
+                    b.HasOne("Ray.Blog.Posts.Post", "Post")
+                        .WithMany("ThumbUps")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLogAction", b =>
@@ -2526,9 +2594,16 @@ namespace Ray.Blog.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Ray.Blog.Categories.Category", b =>
+                {
+                    b.Navigation("Posts");
+                });
+
             modelBuilder.Entity("Ray.Blog.Posts.Post", b =>
                 {
                     b.Navigation("RelatePostTags");
+
+                    b.Navigation("ThumbUps");
                 });
 
             modelBuilder.Entity("Ray.Blog.Tags.Tag", b =>

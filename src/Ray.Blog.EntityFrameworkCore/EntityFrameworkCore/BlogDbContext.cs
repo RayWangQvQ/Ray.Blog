@@ -3,6 +3,7 @@ using Ray.Blog.Categories;
 using Ray.Blog.Comments;
 using Ray.Blog.Posts;
 using Ray.Blog.Tags;
+using Ray.Blog.ThumbUps;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.Data;
@@ -63,6 +64,8 @@ public class BlogDbContext :
     public DbSet<Tag> Tags { get; set; }
 
     public DbSet<Comment> Comments { get; set; }
+
+    public DbSet<ThumbUp> ThumbUps { get; set; }
 
     public BlogDbContext(DbContextOptions<BlogDbContext> options)
         : base(options)

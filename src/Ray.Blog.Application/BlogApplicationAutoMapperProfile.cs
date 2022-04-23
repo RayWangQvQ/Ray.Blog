@@ -3,6 +3,7 @@ using Ray.Blog.Categories;
 using Ray.Blog.Comments;
 using Ray.Blog.Posts;
 using Ray.Blog.Tags;
+using Ray.Blog.ThumbUps;
 
 namespace Ray.Blog;
 
@@ -30,5 +31,8 @@ public class BlogApplicationAutoMapperProfile : Profile
 
         CreateMap<Comment, CommentDto>();
         CreateMap<CreateCommentDto, Comment>();
+
+        CreateMap<ThumbUp, ThumbUpDto>();
+        CreateMap<ThumbUpDto, ThumbUp>();
     }
 }

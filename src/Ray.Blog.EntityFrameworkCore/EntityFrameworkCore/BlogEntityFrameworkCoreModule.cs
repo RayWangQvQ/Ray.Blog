@@ -39,18 +39,21 @@ public class BlogEntityFrameworkCoreModule : AbpModule
     {
         context.Services.AddAbpDbContext<BlogDbContext>(options =>
         {
-                /* Remove "includeAllEntities: true" to create
-                 * default repositories only for aggregate roots */
+            /* Remove "includeAllEntities: true" to create
+             * default repositories only for aggregate roots */
             options.AddDefaultRepositories(includeAllEntities: true);
 
             options.Entity<Post>(o =>
-                o.DefaultWithDetailsFunc = q => q.Include(p => p.RelatePostTags));
+                o.DefaultWithDetailsFunc = q =>
+                    q.Include(p => p.RelatePostTags)
+                    .Include(p => p.ThumbUps)
+                    );
         });
 
         Configure<AbpDbContextOptions>(options =>
         {
-                /* The main point to change your DBMS.
-                 * See also BlogMigrationsDbContextFactory for EF Core tooling. */
+            /* The main point to change your DBMS.
+             * See also BlogMigrationsDbContextFactory for EF Core tooling. */
             options.UseMySQL();
         });
     }
