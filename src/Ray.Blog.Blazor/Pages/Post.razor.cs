@@ -32,9 +32,7 @@ namespace Ray.Blog.Blazor.Pages
             var markdown = PostDto.Markdown ?? string.Empty;
 
             var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
-            _markdownHtml = Markdown.Normalize(markdown);
-            _markdownHtml = Markdown.ToHtml(_markdownHtml, pipeline);
-            _markdownHtml = ((MarkupString)_markdownHtml).ToString();
+            _markdownHtml = Markdown.ToHtml(markdown, pipeline);
 
             await base.OnInitializedAsync();
         }
