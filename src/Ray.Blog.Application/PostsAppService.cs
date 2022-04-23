@@ -39,25 +39,19 @@ namespace Ray.Blog
 
             //var entity = await GetEntityByIdAsync(id);
             //Get the IQueryable<Book> from the repository
-            IQueryable<Post> queryable = await Repository.WithDetailsAsync(x => x.RelatePostTags);
-            //Prepare a query to join books and authors
-            var query = from post in queryable
-                        join category in await _categoryepository.GetQueryableAsync() on post.CategoryId equals category.Id
-                        where post.Id == id
-                        select new { post, category };
+            IQueryable<Post> queryable = await Repository.WithDetailsAsync();
 
             //Execute the query and get the book with author
-            var queryResult = await AsyncExecuter.FirstOrDefaultAsync(query);
+            var queryResult = await AsyncExecuter.FirstOrDefaultAsync(queryable);
 
             if (queryResult == null)
             {
                 throw new EntityNotFoundException(typeof(Post), id);
             }
 
-            var dto = await MapToGetOutputDtoAsync(queryResult.post);
-            dto.CategoryName = queryResult.category.Name;
+            var dto = await MapToGetOutputDtoAsync(queryResult);
 
-            await SetTagsOfPost(dto, queryResult.post.RelatePostTags.Select(x => x.TagId));
+            await SetTagsOfPost(dto, queryResult.RelatePostTags.Select(x => x.TagId));
 
             return dto;
         }
@@ -66,7 +60,7 @@ namespace Ray.Blog
         public override async Task<PagedResultDto<PostDto>> GetListAsync(GetPostListDto input)
         {
             //Get the IQueryable<Book> from the repository
-            IQueryable<Post> queryable = await Repository.WithDetailsAsync(x => x.RelatePostTags);
+            IQueryable<Post> queryable = await Repository.WithDetailsAsync();
 
             //Filter
             if (!string.IsNullOrWhiteSpace(input.Title))
@@ -85,13 +79,8 @@ namespace Ray.Blog
                 }
             }
 
-            //Prepare a query to join books and authors
-            var query = from post in queryable
-                        join category in await _categoryepository.GetQueryableAsync() on post.CategoryId equals category.Id
-                        select new { post, category };
-
             //Paging
-            query = query
+            var query = queryable
                 .OrderBy(NormalizeSorting(input.Sorting))
                 .Skip(input.SkipCount)
                 .Take(input.MaxResultCount);
@@ -102,9 +91,8 @@ namespace Ray.Blog
             //Convert the query result to a list of BookDto objects
             var dtos = queryResult.Select(x =>
             {
-                var bookDto = ObjectMapper.Map<Post, PostDto>(x.post);
-                bookDto.CategoryName = x.category.Name;
-                SetTagsOfPost(bookDto, x.post.RelatePostTags.Select(x => x.TagId)).Wait();
+                var bookDto = ObjectMapper.Map<Post, PostDto>(x);
+                SetTagsOfPost(bookDto, x.RelatePostTags.Select(x => x.TagId)).Wait();
                 return bookDto;
             }).ToList();
 
@@ -202,7 +190,7 @@ namespace Ray.Blog
         {
             if (sorting.IsNullOrEmpty())
             {
-                return $"post.{nameof(Post.Title)}";
+                return $"{nameof(Post.Title)}";
             }
 
             if (sorting.Contains("categoryName", StringComparison.OrdinalIgnoreCase))
@@ -214,7 +202,7 @@ namespace Ray.Blog
                 );
             }
 
-            return $"book.{sorting}";
+            return sorting;
         }
     }
 }

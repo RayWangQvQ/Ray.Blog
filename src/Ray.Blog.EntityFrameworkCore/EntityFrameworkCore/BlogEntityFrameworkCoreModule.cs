@@ -5,6 +5,7 @@ using Ray.Blog.Posts;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore.MySQL;
 using Volo.Abp.FeatureManagement.EntityFrameworkCore;
 using Volo.Abp.Identity.EntityFrameworkCore;
@@ -42,12 +43,6 @@ public class BlogEntityFrameworkCoreModule : AbpModule
             /* Remove "includeAllEntities: true" to create
              * default repositories only for aggregate roots */
             options.AddDefaultRepositories(includeAllEntities: true);
-
-            options.Entity<Post>(o =>
-                o.DefaultWithDetailsFunc = q =>
-                    q.Include(p => p.RelatePostTags)
-                    .Include(p => p.ThumbUps)
-                    );
         });
 
         Configure<AbpDbContextOptions>(options =>
@@ -55,6 +50,17 @@ public class BlogEntityFrameworkCoreModule : AbpModule
             /* The main point to change your DBMS.
              * See also BlogMigrationsDbContextFactory for EF Core tooling. */
             options.UseMySQL();
+        });
+
+        Configure<AbpEntityOptions>(options =>
+        {
+            options.Entity<Post>(postOptions =>
+            {
+                postOptions.DefaultWithDetailsFunc = query =>
+                    query.Include(p => p.Category)
+                        .Include(p => p.RelatePostTags)
+                        .Include(p => p.ThumbUps);
+            });
         });
     }
 }
