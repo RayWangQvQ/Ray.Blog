@@ -14,6 +14,8 @@
 </Jumbotron>
 
 <Div TextAlignment="TextAlignment.Center">
-    <Button Margin="Margin.Is2" Size="Size.Large">👍@this.PostDto.ThumbUps.Count</Button>
+    <Button Margin="Margin.Is2" Size="Size.Large">
+        <Icon Name="IconName.ThumbsUp"/>@this.PostDto.ThumbUps.Count
+    </Button>
 </Div>
 <Comments PostId="@Id"></Comments>
