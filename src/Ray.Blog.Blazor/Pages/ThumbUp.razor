@@ -1,0 +1,64 @@
+﻿@using Ray.Blog.Posts
+@using Ray.Blog.ThumbUps
+@using Volo.Abp.Users
+
+<Button Margin="Margin.Is2" Size="Size.Large" Border="@_thumbButtonBorder" Shadow="Shadow.Large" onclick="@OnThumbUpClicked">
+    <Icon Name="IconName.ThumbsUp" TextColor="@_textColor" />@this.PostDto.ThumbUps.Count
+</Button>
+
+@code {
+    [Parameter]
+    public PostDto PostDto { get; set; }
+
+    [Inject]
+    private IThumbUpAppService ThumbUpAppService { get; set; }
+
+    [Inject]
+    private ICurrentUser CurrentUser { get; set; }
+
+    private IFluentBorderColorWithSide _thumbButtonBorder = Border.Is1.Rounded.Secondary;
+    private TextColor _textColor=TextColor.Secondary;
+
+    private bool _isThumbUped => PostDto.ThumbUps.Any(x => x.CreatorId == CurrentUser.Id);
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (_isThumbUped)
+        {
+            SetThumbUp();
+        }
+        else
+        {
+            SetUnThumbUp();
+        }
+
+        await base.OnInitializedAsync();
+    }
+
+    public async Task OnThumbUpClicked()
+    {
+        if (!_isThumbUped)
+        {
+            await ThumbUpAppService.CreateAsync(new ThumbUpDto() {PostId = PostDto.Id});
+            SetThumbUp();
+        }
+
+        var id = PostDto.ThumbUps.FirstOrDefault(x => x.CreatorId == CurrentUser.Id)?.Id;
+        if (id.HasValue)
+        {
+            await ThumbUpAppService.DeleteAsync(id.Value);
+            SetUnThumbUp();
+        }
+    }
+
+    private void SetUnThumbUp()
+    {
+        _thumbButtonBorder = Border.Is1.Rounded.Secondary;
+    }
+
+    private void SetThumbUp()
+    {
+        _thumbButtonBorder = Border.Is1.Rounded.Success;
+        _textColor=TextColor.Success;
+    }
+}

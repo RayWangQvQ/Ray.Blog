@@ -14,8 +14,12 @@
 </Jumbotron>
 
 <Div TextAlignment="TextAlignment.Center">
-    <Button Margin="Margin.Is2" Size="Size.Large">
-        <Icon Name="IconName.ThumbsUp"/>@this.PostDto.ThumbUps.Count
-    </Button>
+    <ThumbUp PostDto="@PostDto"></ThumbUp>
 </Div>
+
 <Comments PostId="@Id"></Comments>
+
+@code
+{
+
+}

@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Ray.Blog.Posts;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise;
 using Markdig;
+using Volo.Abp.Users;
 
 namespace Ray.Blog.Blazor.Pages
 {
@@ -16,9 +17,17 @@ namespace Ray.Blog.Blazor.Pages
         [Inject]
         IPostsAppService PostAppService { get; set; }
 
+
+
+        [Inject]
+        private ICurrentUser CurrentUser { get; set; }
+
         string _markdownHtml;
 
         PostDto PostDto { get; set; } = new PostDto();
+
+        private IFluentBorderColorWithSide _thumbButtonBorder = Border.Is1.Rounded.Secondary;
+        private bool _isThumbUped => PostDto.ThumbUps.Any(x => x.CreatorId == CurrentUser.Id);
 
         public Post()
         {
@@ -33,6 +42,11 @@ namespace Ray.Blog.Blazor.Pages
 
             var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
             _markdownHtml = Markdown.ToHtml(markdown, pipeline);
+
+            if (_isThumbUped)
+            {
+                _thumbButtonBorder = Border.Is1.Rounded.Success;
+            }
 
             await base.OnInitializedAsync();
         }

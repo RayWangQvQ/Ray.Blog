@@ -13,9 +13,9 @@ using Volo.Abp.Domain.Repositories;
 
 namespace Ray.Blog
 {
-    //[Authorize("Blog_Tag")]
+    [Authorize]
     public class ThumbUpAppService : CrudAppService<ThumbUp, ThumbUpDto, Guid, PagedAndSortedResultRequestDto>,
-        IThumbUpAppService
+    IThumbUpAppService
     {
         public ThumbUpAppService(IRepository<ThumbUp, Guid> repository) : base(repository)
         {
@@ -25,12 +25,6 @@ namespace Ray.Blog
         public override async Task<PagedResultDto<ThumbUpDto>> GetListAsync(PagedAndSortedResultRequestDto input)
         {
             return await base.GetListAsync(input);
-        }
-
-        [Authorize]
-        public override async Task<ThumbUpDto> CreateAsync(ThumbUpDto input)
-        {
-            return await base.CreateAsync(input);
         }
     }
 }
