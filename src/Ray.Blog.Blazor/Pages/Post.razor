@@ -1,5 +1,6 @@
 ﻿@page "/posts/{Id:guid}"
 
+@using Ray.Blog.ThumbUps
 @inherits BlogComponentBase
 
 <Jumbotron Background="Background.Transparent" Margin="Margin.Is4.FromBottom">
@@ -14,7 +15,7 @@
 </Jumbotron>
 
 <Div TextAlignment="TextAlignment.Center">
-    <ThumbUp SourceId="@Id"></ThumbUp>
+    <ThumbUp SourceId="@Id" ThumbUpSourceType="@ThumbUpSourceType.Post" Size="Size.Large"></ThumbUp>
 </Div>
 
 <Comments PostId="@Id"></Comments>

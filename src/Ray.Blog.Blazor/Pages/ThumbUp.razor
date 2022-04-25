@@ -3,13 +3,19 @@
 @using Volo.Abp.Application.Dtos
 @using Volo.Abp.Users
 
-<Button Margin="Margin.Is2" Size="Size.Large" Border="@_thumbButtonBorder" Shadow="Shadow.Large" onclick="@OnThumbUpClicked">
+<Button Margin="Margin.Is2" Size="@this.Size" Border="@_thumbButtonBorder" Shadow="Shadow.Large" onclick="@OnThumbUpClicked">
     <Icon Name="IconName.ThumbsUp" TextColor="@_textColor" /> @this._thumbUpDtos.Count
 </Button>
 
 @code {
     [Parameter]
     public Guid SourceId { get; set; }
+
+    [Parameter]
+    public ThumbUpSourceType ThumbUpSourceType { get; set; }
+
+    [Parameter]
+    public Size Size { get; set; }
 
     [Inject]
     private IThumbUpAppService ThumbUpAppService { get; set; }
@@ -22,13 +28,13 @@
     private IFluentBorderColorWithSide _thumbButtonBorder = Border.Is1.Rounded.Secondary;
     private TextColor _textColor = TextColor.Secondary;
 
-    private bool _isThumbUped => _thumbUpDtos.Any(x => x.CreatorId == CurrentUser.Id);
+    private bool IsThumbUped => _thumbUpDtos.Any(x => x.CreatorId == CurrentUser.Id);
 
     protected override async Task OnInitializedAsync()
     {
         await SetThumbUpDtos();
 
-        if (_isThumbUped)
+        if (IsThumbUped)
         {
             SetThumbUp();
         }
@@ -51,9 +57,13 @@
 
     public async Task OnThumbUpClicked()
     {
-        if (!_isThumbUped)
+        if (!IsThumbUped)
         {
-            await ThumbUpAppService.CreateAsync(new ThumbUpDto() { SourceId = this.SourceId });
+            await ThumbUpAppService.CreateAsync(new ThumbUpDto()
+                {
+                    SourceType = this.ThumbUpSourceType,
+                    SourceId = this.SourceId
+                });
             SetThumbUp();
             await SetThumbUpDtos();
             return;
