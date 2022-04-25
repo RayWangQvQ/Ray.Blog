@@ -19,7 +19,11 @@
                     </Div>
                     <Paragraph Margin="Margin.Is1.FromBottom">@item.Text</Paragraph>
                     <Small>And some small print.</Small>
-                    <ThumbUp SourceId="@item.Id" ThumbUpSourceType="@ThumbUps.ThumbUpSourceType.Comment" Size="Size.Small"></ThumbUp>
+                    <ThumbUp SourceId="@item.Id"
+                            ThumbUpSourceType="@ThumbUps.ThumbUpSourceType.Comment"
+                            Size="Size.Small"
+                            ThumbButtonBorderBefore="Border.Is0.Rounded.Secondary"
+                            ThumbButtonBorderAfter="Border.Is0.Rounded.Success"/>
                 </ListGroupItem>
             }
         }
@@ -96,7 +100,7 @@
     }
 
     private async Task SetActive(string page)
-    { 
+    {
         currentPage = page;
         await GetCommentsAsync();
     }

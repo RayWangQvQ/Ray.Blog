@@ -15,7 +15,11 @@
 </Jumbotron>
 
 <Div TextAlignment="TextAlignment.Center">
-    <ThumbUp SourceId="@Id" ThumbUpSourceType="@ThumbUpSourceType.Post" Size="Size.Large"></ThumbUp>
+    <ThumbUp SourceId="@Id"
+             ThumbUpSourceType="@ThumbUpSourceType.Post"
+             Size="Size.Large"
+             ThumbButtonBorderBefore="Border.Is1.Rounded.Secondary"
+             ThumbButtonBorderAfter="Border.Is1.Rounded.Success"/>
 </Div>
 
 <Comments PostId="@Id"></Comments>

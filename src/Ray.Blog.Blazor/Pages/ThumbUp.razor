@@ -17,6 +17,11 @@
     [Parameter]
     public Size Size { get; set; }
 
+    [Parameter]
+    public IFluentBorder ThumbButtonBorderBefore { get; set; }
+    [Parameter]
+    public IFluentBorder ThumbButtonBorderAfter { get; set; }
+
     [Inject]
     private IThumbUpAppService ThumbUpAppService { get; set; }
 
@@ -25,7 +30,8 @@
 
     private IReadOnlyList<ThumbUpDto> _thumbUpDtos = new List<ThumbUpDto>();
 
-    private IFluentBorderColorWithSide _thumbButtonBorder = Border.Is1.Rounded.Secondary;
+    private IFluentBorder _thumbButtonBorder = Border.Is1.Rounded.Secondary;
+
     private TextColor _textColor = TextColor.Secondary;
 
     private bool IsThumbUped => _thumbUpDtos.Any(x => x.CreatorId == CurrentUser.Id);
@@ -80,13 +86,15 @@
 
     private void SetUnThumbUp()
     {
-        _thumbButtonBorder = Border.Is1.Rounded.Secondary;
+        if (ThumbButtonBorderBefore != null)
+            _thumbButtonBorder = ThumbButtonBorderBefore;
         _textColor = TextColor.Secondary;
     }
 
     private void SetThumbUp()
     {
-        _thumbButtonBorder = Border.Is1.Rounded.Success;
+        if (ThumbButtonBorderAfter != null)
+            _thumbButtonBorder = ThumbButtonBorderAfter;
         _textColor = TextColor.Success;
     }
 }

@@ -51,7 +51,7 @@
                     @foreach (var tag in context.Tags)
                             {
                     <Badge Color="Color.Info">@tag.Name</Badge>
-                    }
+                            }
                 </Paragraph>
 
             </DetailRowTemplate>
@@ -71,19 +71,24 @@
 
         @*点赞排行*@
         <Row>
-            <Text TextColor="TextColor.Secondary">👍 点赞排行</Text>
+            <Div>
+                <Icon Name="IconName.ThumbsUp" TextColor="TextColor.Success" />
+                <Text TextColor="TextColor.Secondary"> 点赞排行</Text>
+            </Div>
         </Row>
         <Row>
             <ThumbsUpRankingList />
         </Row>
 
         @*阅读排行*@
-        <Row>
+        @*
+            <Row>
             <Text TextColor="TextColor.Secondary">👀 阅读排行</Text>
-        </Row>
-        <Row>
+            </Row>
+            <Row>
             <ReadingRankingList />
-        </Row>
+            </Row>
+        *@
     </Column>
 </Row>
 
