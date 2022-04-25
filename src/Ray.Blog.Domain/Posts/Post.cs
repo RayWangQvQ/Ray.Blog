@@ -47,11 +47,6 @@ namespace Ray.Blog.Posts
         public virtual List<RelatePostTag> RelatePostTags { get; protected set; } = new List<RelatePostTag>();
 
         /// <summary>
-        /// 点赞列表
-        /// </summary>
-        public virtual List<ThumbUp> ThumbUps { get; set; } = new List<ThumbUp>();
-
-        /// <summary>
         /// 添加标签
         /// </summary>
         /// <param name="tagId"></param>

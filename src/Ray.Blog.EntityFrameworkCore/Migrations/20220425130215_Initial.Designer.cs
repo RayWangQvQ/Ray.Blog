@@ -12,7 +12,7 @@ using Volo.Abp.EntityFrameworkCore;
 namespace Ray.Blog.Migrations
 {
     [DbContext(typeof(BlogDbContext))]
-    [Migration("20220423103829_Initial")]
+    [Migration("20220425130215_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -333,12 +333,13 @@ namespace Ray.Blog.Migrations
                         .HasColumnType("char(36)")
                         .HasColumnName("LastModifierId");
 
-                    b.Property<Guid>("PostId")
+                    b.Property<Guid>("SourceId")
                         .HasColumnType("char(36)");
 
-                    b.HasKey("Id");
+                    b.Property<int>("SourceType")
+                        .HasColumnType("int");
 
-                    b.HasIndex("PostId");
+                    b.HasKey("Id");
 
                     b.ToTable("BlogThumbUps", (string)null);
                 });
@@ -2306,17 +2307,6 @@ namespace Ray.Blog.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Ray.Blog.ThumbUps.ThumbUp", b =>
-                {
-                    b.HasOne("Ray.Blog.Posts.Post", "Post")
-                        .WithMany("ThumbUps")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Post");
-                });
-
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLogAction", b =>
                 {
                     b.HasOne("Volo.Abp.AuditLogging.AuditLog", null)
@@ -2602,8 +2592,6 @@ namespace Ray.Blog.Migrations
             modelBuilder.Entity("Ray.Blog.Posts.Post", b =>
                 {
                     b.Navigation("RelatePostTags");
-
-                    b.Navigation("ThumbUps");
                 });
 
             modelBuilder.Entity("Ray.Blog.Tags.Tag", b =>

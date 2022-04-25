@@ -36,7 +36,5 @@ namespace Ray.Blog.Posts
         public string CategoryName => Category.Name;
 
         public List<TagLookupDto> Tags { get; set; } = new();
-
-        public List<ThumbUpDto> ThumbUps { get; set; } = new();
     }
 }

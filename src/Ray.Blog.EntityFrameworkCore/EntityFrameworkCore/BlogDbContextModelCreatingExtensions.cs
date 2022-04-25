@@ -91,12 +91,6 @@ namespace Ray.Blog.EntityFrameworkCore
             {
                 b.ToTable(BlogConsts.DbTablePrefix + "ThumbUps", BlogConsts.DbSchema);
                 b.ConfigureByConvention();
-
-                b.HasOne<Post>(t=>t.Post)
-                    .WithMany(p=>p.ThumbUps)
-                    .HasForeignKey(t => t.PostId)
-                    .IsRequired()
-                    ;
             });
         }
     }

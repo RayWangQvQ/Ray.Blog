@@ -1,14 +1,15 @@
 ﻿@using Ray.Blog.Posts
 @using Ray.Blog.ThumbUps
+@using Volo.Abp.Application.Dtos
 @using Volo.Abp.Users
 
 <Button Margin="Margin.Is2" Size="Size.Large" Border="@_thumbButtonBorder" Shadow="Shadow.Large" onclick="@OnThumbUpClicked">
-    <Icon Name="IconName.ThumbsUp" TextColor="@_textColor" />@this.PostDto.ThumbUps.Count
+    <Icon Name="IconName.ThumbsUp" TextColor="@_textColor" /> @this._thumbUpDtos.Count
 </Button>
 
 @code {
     [Parameter]
-    public PostDto PostDto { get; set; }
+    public Guid SourceId { get; set; }
 
     [Inject]
     private IThumbUpAppService ThumbUpAppService { get; set; }
@@ -16,13 +17,17 @@
     [Inject]
     private ICurrentUser CurrentUser { get; set; }
 
-    private IFluentBorderColorWithSide _thumbButtonBorder = Border.Is1.Rounded.Secondary;
-    private TextColor _textColor=TextColor.Secondary;
+    private IReadOnlyList<ThumbUpDto> _thumbUpDtos = new List<ThumbUpDto>();
 
-    private bool _isThumbUped => PostDto.ThumbUps.Any(x => x.CreatorId == CurrentUser.Id);
+    private IFluentBorderColorWithSide _thumbButtonBorder = Border.Is1.Rounded.Secondary;
+    private TextColor _textColor = TextColor.Secondary;
+
+    private bool _isThumbUped => _thumbUpDtos.Any(x => x.CreatorId == CurrentUser.Id);
 
     protected override async Task OnInitializedAsync()
     {
+        await SetThumbUpDtos();
+
         if (_isThumbUped)
         {
             SetThumbUp();
@@ -35,30 +40,43 @@
         await base.OnInitializedAsync();
     }
 
+    private async Task SetThumbUpDtos()
+    {
+        _thumbUpDtos = (await ThumbUpAppService.GetListAsync(new GetThumbUpListDto()
+            {
+                SourceId = this.SourceId,
+                MaxResultCount = LimitedResultRequestDto.MaxMaxResultCount
+            })).Items;
+    }
+
     public async Task OnThumbUpClicked()
     {
         if (!_isThumbUped)
         {
-            await ThumbUpAppService.CreateAsync(new ThumbUpDto() {PostId = PostDto.Id});
+            await ThumbUpAppService.CreateAsync(new ThumbUpDto() { SourceId = this.SourceId });
             SetThumbUp();
+            await SetThumbUpDtos();
+            return;
         }
 
-        var id = PostDto.ThumbUps.FirstOrDefault(x => x.CreatorId == CurrentUser.Id)?.Id;
+        var id = _thumbUpDtos.FirstOrDefault(x => x.SourceId == this.SourceId && x.CreatorId == CurrentUser.Id)?.Id;
         if (id.HasValue)
         {
             await ThumbUpAppService.DeleteAsync(id.Value);
             SetUnThumbUp();
+            await SetThumbUpDtos();
         }
     }
 
     private void SetUnThumbUp()
     {
         _thumbButtonBorder = Border.Is1.Rounded.Secondary;
+        _textColor = TextColor.Secondary;
     }
 
     private void SetThumbUp()
     {
         _thumbButtonBorder = Border.Is1.Rounded.Success;
-        _textColor=TextColor.Success;
+        _textColor = TextColor.Success;
     }
 }

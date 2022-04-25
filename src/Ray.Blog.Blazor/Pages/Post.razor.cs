@@ -26,9 +26,6 @@ namespace Ray.Blog.Blazor.Pages
 
         PostDto PostDto { get; set; } = new PostDto();
 
-        private IFluentBorderColorWithSide _thumbButtonBorder = Border.Is1.Rounded.Secondary;
-        private bool _isThumbUped => PostDto.ThumbUps.Any(x => x.CreatorId == CurrentUser.Id);
-
         public Post()
         {
             PostDto = new PostDto();
@@ -42,11 +39,6 @@ namespace Ray.Blog.Blazor.Pages
 
             var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
             _markdownHtml = Markdown.ToHtml(markdown, pipeline);
-
-            if (_isThumbUped)
-            {
-                _thumbButtonBorder = Border.Is1.Rounded.Success;
-            }
 
             await base.OnInitializedAsync();
         }

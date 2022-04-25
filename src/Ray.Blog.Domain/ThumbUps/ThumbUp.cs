@@ -10,8 +10,8 @@ namespace Ray.Blog.ThumbUps
 {
     public class ThumbUp : FullAuditedAggregateRoot<Guid>
     {
-        public virtual Guid PostId { get; set; }
+        public ThumbUpSourceType SourceType { get; set; }
 
-        public Post Post { get; set; }
+        public Guid SourceId { get; set; }
     }
 }
