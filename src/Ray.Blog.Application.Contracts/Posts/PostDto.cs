@@ -32,9 +32,14 @@ namespace Ray.Blog.Posts
 
         public Guid CategoryId { get; set; }
 
+        /*
         public CategoryDto Category { get; set; }
         public string CategoryName => Category.Name;
+        */
 
         public List<TagLookupDto> Tags { get; set; } = new();
+
+        public List<PostThumbUpHistoryDto> ThumbUpHistories { get; set; } = new();
+        public int ThumbUpCount => ThumbUpHistories.Count;
     }
 }

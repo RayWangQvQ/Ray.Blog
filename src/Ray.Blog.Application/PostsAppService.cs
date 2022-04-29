@@ -25,8 +25,7 @@ namespace Ray.Blog
         public PostsAppService(
             IRepository<Post, Guid> repository,
             IRepository<Category, Guid> categoryepository,
-            IRepository<Tag, Guid> tagRepository
-            ) : base(repository)
+            IRepository<Tag, Guid> tagRepository) : base(repository)
         {
             _categoryepository = categoryepository;
             _tagRepository = tagRepository;
@@ -91,9 +90,9 @@ namespace Ray.Blog
             //Convert the query result to a list of BookDto objects
             var dtos = queryResult.Select(x =>
             {
-                var bookDto = ObjectMapper.Map<Post, PostDto>(x);
-                SetTagsOfPost(bookDto, x.RelatePostTags.Select(x => x.TagId)).Wait();
-                return bookDto;
+                var postDto = ObjectMapper.Map<Post, PostDto>(x);
+                SetTagsOfPost(postDto, x.RelatePostTags.Select(r => r.TagId)).Wait();
+                return postDto;
             }).ToList();
 
             //Get the total count with another query
@@ -190,9 +189,10 @@ namespace Ray.Blog
         {
             if (sorting.IsNullOrEmpty())
             {
+                //return $"{nameof(Post.Title)}";
                 return $"{nameof(Post.Title)}";
             }
-
+            /*
             if (sorting.Contains("categoryName", StringComparison.OrdinalIgnoreCase))
             {
                 return sorting.Replace(
@@ -201,6 +201,7 @@ namespace Ray.Blog
                     StringComparison.OrdinalIgnoreCase
                 );
             }
+            */
 
             return sorting;
         }

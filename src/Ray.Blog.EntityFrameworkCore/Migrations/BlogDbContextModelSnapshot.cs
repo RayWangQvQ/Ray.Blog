@@ -207,6 +207,27 @@ namespace Ray.Blog.Migrations
                     b.ToTable("BlogPosts", (string)null);
                 });
 
+            modelBuilder.Entity("Ray.Blog.Posts.PostThumbUpHistory", b =>
+                {
+                    b.Property<Guid>("PostId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("CreationTime");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("CreatorId");
+
+                    b.HasKey("PostId", "UserId");
+
+                    b.ToTable("BlogPostThumbUpHistories", (string)null);
+                });
+
             modelBuilder.Entity("Ray.Blog.Posts.RelatePostTag", b =>
                 {
                     b.Property<Guid>("PostId")
@@ -284,62 +305,6 @@ namespace Ray.Blog.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("BlogTags", (string)null);
-                });
-
-            modelBuilder.Entity("Ray.Blog.ThumbUps.ThumbUp", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasMaxLength(40)
-                        .HasColumnType("varchar(40)")
-                        .HasColumnName("ConcurrencyStamp");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime(6)")
-                        .HasColumnName("CreationTime");
-
-                    b.Property<Guid?>("CreatorId")
-                        .HasColumnType("char(36)")
-                        .HasColumnName("CreatorId");
-
-                    b.Property<Guid?>("DeleterId")
-                        .HasColumnType("char(36)")
-                        .HasColumnName("DeleterId");
-
-                    b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("datetime(6)")
-                        .HasColumnName("DeletionTime");
-
-                    b.Property<string>("ExtraProperties")
-                        .HasColumnType("longtext")
-                        .HasColumnName("ExtraProperties");
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("tinyint(1)")
-                        .HasDefaultValue(false)
-                        .HasColumnName("IsDeleted");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime(6)")
-                        .HasColumnName("LastModificationTime");
-
-                    b.Property<Guid?>("LastModifierId")
-                        .HasColumnType("char(36)")
-                        .HasColumnName("LastModifierId");
-
-                    b.Property<Guid>("SourceId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<int>("SourceType")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("BlogThumbUps", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>
@@ -2281,13 +2246,20 @@ namespace Ray.Blog.Migrations
 
             modelBuilder.Entity("Ray.Blog.Posts.Post", b =>
                 {
-                    b.HasOne("Ray.Blog.Categories.Category", "Category")
-                        .WithMany("Posts")
+                    b.HasOne("Ray.Blog.Categories.Category", null)
+                        .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
 
-                    b.Navigation("Category");
+            modelBuilder.Entity("Ray.Blog.Posts.PostThumbUpHistory", b =>
+                {
+                    b.HasOne("Ray.Blog.Posts.Post", null)
+                        .WithMany("ThumbUpHistories")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Ray.Blog.Posts.RelatePostTag", b =>
@@ -2582,14 +2554,11 @@ namespace Ray.Blog.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Ray.Blog.Categories.Category", b =>
-                {
-                    b.Navigation("Posts");
-                });
-
             modelBuilder.Entity("Ray.Blog.Posts.Post", b =>
                 {
                     b.Navigation("RelatePostTags");
+
+                    b.Navigation("ThumbUpHistories");
                 });
 
             modelBuilder.Entity("Ray.Blog.Tags.Tag", b =>

@@ -65,7 +65,7 @@ public class BlogDbContext :
 
     public DbSet<Comment> Comments { get; set; }
 
-    public DbSet<ThumbUp> ThumbUps { get; set; }
+    public DbSet<PostThumbUpHistory> PostThumbUpHistories { get; set; }
 
     public BlogDbContext(DbContextOptions<BlogDbContext> options)
         : base(options)

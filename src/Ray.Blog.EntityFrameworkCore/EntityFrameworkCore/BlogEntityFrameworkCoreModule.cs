@@ -57,8 +57,9 @@ public class BlogEntityFrameworkCoreModule : AbpModule
             options.Entity<Post>(postOptions =>
             {
                 postOptions.DefaultWithDetailsFunc = query =>
-                    query.Include(p => p.Category)
-                        .Include(p => p.RelatePostTags);
+                    query
+                        .Include(p => p.RelatePostTags)
+                        .Include(p => p.ThumbUpHistories);
             });
         });
     }

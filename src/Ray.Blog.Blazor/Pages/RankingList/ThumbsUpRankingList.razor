@@ -1,20 +1,46 @@
-﻿@inherits BlogComponentBase
+﻿@using Ray.Blog.Posts;
 
-<ListGroup Flush="true" Visibility="Visibility.Visible">
-    <ListGroupItem Flex="Flex.JustifyContent.Between.AlignItems.Center" Background="Background.Transparent">
-        A list item
-        <Badge Color="Color.Primary" Pill="true">14</Badge>
-    </ListGroupItem>
-    <ListGroupItem Flex="Flex.JustifyContent.Between.AlignItems.Center" Background="Background.Transparent">
-        A second list item
-        <Badge Color="Color.Primary" Pill="true">2</Badge>
-    </ListGroupItem>
-    <ListGroupItem Flex="Flex.JustifyContent.Between.AlignItems.Center" Background="Background.Transparent">
-        A third list item
-        <Badge Color="Color.Primary" Pill="true">1</Badge>
-    </ListGroupItem>
+@inherits BlogComponentBase
+
+<ListGroup Flush>
+    @{
+        foreach (var item in PostList)
+        {
+            <ListGroupItem>
+                <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
+                    <Paragraph Margin="Margin.Is1.FromStart">@item.Title</Paragraph>
+                </Div>
+            </ListGroupItem>
+        }
+    }
 </ListGroup>
 
 @code {
+    [Inject]
+    IPostsAppService PostsAppService { get; set; }
 
+    private List<PostDto> PostList { get; set; } = new List<PostDto>();
+
+    private int PageSize { get; } = 5;
+    private string CurrentSorting { get; set; } = $"{nameof(PostDto.ThumbUpTotalBackup)} desc";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetCommentsAsync();
+        await base.OnInitializedAsync();
+    }
+
+    private async Task GetCommentsAsync()
+    {
+        var result = await PostsAppService.GetListAsync(
+            new GetPostListDto
+                {
+                    MaxResultCount = PageSize,
+                    SkipCount = 0,
+                    Sorting = CurrentSorting,
+                }
+        );
+
+        PostList = result.Items.ToList();
+    }
 }

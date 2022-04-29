@@ -26,7 +26,5 @@ namespace Ray.Blog.Categories
         /// 别名
         /// </summary>
         public string Alias { get; set; }
-
-        public ICollection<Post> Posts { get; set; }
     }
 }

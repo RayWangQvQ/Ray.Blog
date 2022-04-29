@@ -63,6 +63,7 @@ namespace Ray.Blog.Data
                 post = await _postRepository.InsertAsync(post, true);
 
                 post.AddTag(tag.Id);
+                post.ThumbUp(post.CategoryId);
                 await _postRepository.UpdateAsync(post, true);
             }
 

@@ -44,11 +44,14 @@ namespace Ray.Blog.EntityFrameworkCore
                 b.ToTable(BlogConsts.DbTablePrefix + "Posts", BlogConsts.DbSchema);
                 b.ConfigureByConvention();
 
-                b.HasOne<Category>(p=>p.Category)
-                    .WithMany(c=>c.Posts)
+                b.HasOne<Category>()
+                    .WithMany()
                     .HasForeignKey(p => p.CategoryId)
-                    .IsRequired()
-                    ;
+                    .IsRequired();
+
+                b.HasMany<PostThumbUpHistory>(x=>x.ThumbUpHistories)
+                    .WithOne()
+                    .HasForeignKey(h => h.PostId);
             });
 
             builder.Entity<Tag>(b =>
@@ -87,10 +90,11 @@ namespace Ray.Blog.EntityFrameworkCore
                 .HasForeignKey(c => c.RepliedCommentId);
             });
 
-            builder.Entity<ThumbUp>(b =>
+            builder.Entity<PostThumbUpHistory>(b =>
             {
-                b.ToTable(BlogConsts.DbTablePrefix + "ThumbUps", BlogConsts.DbSchema);
+                b.ToTable(BlogConsts.DbTablePrefix + "PostThumbUpHistories", BlogConsts.DbSchema);
                 b.ConfigureByConvention();
+                b.HasKey(x => new {x.PostId, x.UserId });
             });
         }
     }
