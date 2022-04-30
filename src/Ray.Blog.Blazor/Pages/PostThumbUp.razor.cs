@@ -13,16 +13,16 @@ namespace Ray.Blog.Blazor.Pages
         [Parameter]
         public PostDto Post { get; set; } = new PostDto();
 
-        [Parameter]
-        public List<PostThumbUpHistoryDto> PostThumbUpHistories { get; set; }
-
         [Inject]
         public IPostsAppService PostsAppService { get; set; }
 
         [Inject]
         public ICurrentUser CurrentUser { get; set; }
 
-        private bool IsCurrentUserThumbUped => Post.ThumbUpHistories.Any(x => x.UserId == CurrentUser.Id);
+        protected int Count => Post.ThumbUpHistories.Count;
+        protected string CountStr => Count == 0 ? "" : $"{Count}";
+
+        protected bool IsCurrentUserThumbUped => Post.ThumbUpHistories.Any(x => x.UserId == CurrentUser.Id);
 
         protected IFluentBorder ThumbButtonBorder => IsCurrentUserThumbUped ? Border.Is1.Rounded.Success : Border.Is1.Rounded.Secondary;
 
@@ -37,14 +37,14 @@ namespace Ray.Blog.Blazor.Pages
         {
             if (!IsCurrentUserThumbUped)
             {
-                Post = await PostsAppService.ThumbUpAsync(Post.Id);
+                Post.ThumbUpHistories = (await PostsAppService.ThumbUpAsync(Post.Id)).ThumbUpHistories;
                 return;
             }
 
             var id = Post.ThumbUpHistories.FirstOrDefault(x => x.PostId == this.Post.Id && x.UserId == CurrentUser.Id)?.Id;
             if (id.HasValue)
             {
-                Post = await PostsAppService.CancelThumbUpAsync(Post.Id);
+                Post.ThumbUpHistories = (await PostsAppService.CancelThumbUpAsync(Post.Id)).ThumbUpHistories;
             }
         }
     }

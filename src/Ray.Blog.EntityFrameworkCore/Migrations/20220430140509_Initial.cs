@@ -1392,6 +1392,12 @@ namespace Ray.Blog.Migrations
                 {
                     table.PrimaryKey("PK_BlogPostThumbUpHistories", x => new { x.PostId, x.UserId });
                     table.ForeignKey(
+                        name: "FK_BlogPostThumbUpHistories_AbpUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AbpUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_BlogPostThumbUpHistories_BlogPosts_PostId",
                         column: x => x.PostId,
                         principalTable: "BlogPosts",
@@ -1422,6 +1428,33 @@ namespace Ray.Blog.Migrations
                         name: "FK_BlogRelatePostTags_BlogTags_TagId",
                         column: x => x.TagId,
                         principalTable: "BlogTags",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "BlogCommentThumbUpHistories",
+                columns: table => new
+                {
+                    CommentId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    CreatorId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BlogCommentThumbUpHistories", x => new { x.CommentId, x.UserId });
+                    table.ForeignKey(
+                        name: "FK_BlogCommentThumbUpHistories_AbpUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AbpUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BlogCommentThumbUpHistories_BlogComments_CommentId",
+                        column: x => x.CommentId,
+                        principalTable: "BlogComments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -1592,9 +1625,19 @@ namespace Ray.Blog.Migrations
                 column: "RepliedCommentId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_BlogCommentThumbUpHistories_UserId",
+                table: "BlogCommentThumbUpHistories",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_BlogPosts_CategoryId",
                 table: "BlogPosts",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BlogPostThumbUpHistories_UserId",
+                table: "BlogPostThumbUpHistories",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BlogRelatePostTags_TagId",
@@ -1692,7 +1735,7 @@ namespace Ray.Blog.Migrations
                 name: "AbpUserTokens");
 
             migrationBuilder.DropTable(
-                name: "BlogComments");
+                name: "BlogCommentThumbUpHistories");
 
             migrationBuilder.DropTable(
                 name: "BlogPostThumbUpHistories");
@@ -1770,10 +1813,10 @@ namespace Ray.Blog.Migrations
                 name: "AbpRoles");
 
             migrationBuilder.DropTable(
-                name: "AbpUsers");
+                name: "BlogComments");
 
             migrationBuilder.DropTable(
-                name: "BlogPosts");
+                name: "AbpUsers");
 
             migrationBuilder.DropTable(
                 name: "BlogTags");
@@ -1792,6 +1835,9 @@ namespace Ray.Blog.Migrations
 
             migrationBuilder.DropTable(
                 name: "AbpAuditLogs");
+
+            migrationBuilder.DropTable(
+                name: "BlogPosts");
 
             migrationBuilder.DropTable(
                 name: "BlogCategories");

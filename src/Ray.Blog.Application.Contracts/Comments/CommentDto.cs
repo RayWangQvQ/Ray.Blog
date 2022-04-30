@@ -12,5 +12,7 @@ namespace Ray.Blog.Comments
         public Guid? RepliedCommentId { get; set; }
 
         public string Text { get; set; }
+
+        public List<CommentThumbUpHistoryDto> ThumbUpHistories { get; set; } = new();
     }
 }

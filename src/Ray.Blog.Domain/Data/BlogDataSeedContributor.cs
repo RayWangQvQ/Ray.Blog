@@ -10,23 +10,27 @@ using Ray.Blog.Tags;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Repositories;
+using Volo.Abp.Identity;
 
 namespace Ray.Blog.Data
 {
     public class BlogDataSeedContributor : IDataSeedContributor, ITransientDependency
     {
+        private readonly IRepository<IdentityUser, Guid> _identityUseRepository;
         private readonly IRepository<Category, Guid> _categoryRepository;
         private readonly IRepository<Tag, Guid> _tagRepository;
         private readonly IRepository<Post, Guid> _postRepository;
         private readonly IRepository<Comment, Guid> _commentRepository;
 
         public BlogDataSeedContributor(
+            IRepository<IdentityUser,Guid> identityUseRepository,
             IRepository<Category, Guid> categoryRepository,
             IRepository<Tag, Guid> tagRepository,
             IRepository<Post, Guid> postRepository,
             IRepository<Comment, Guid> commentRepository
             )
         {
+            _identityUseRepository = identityUseRepository;
             _categoryRepository = categoryRepository;
             _tagRepository = tagRepository;
             _postRepository = postRepository;
@@ -35,6 +39,8 @@ namespace Ray.Blog.Data
 
         public async Task SeedAsync(DataSeedContext context)
         {
+            var user = await _identityUseRepository.FirstOrDefaultAsync();
+
             //分类
             Category foodCategory = await _categoryRepository.FirstOrDefaultAsync(x => x.Name == "Food");
             if (foodCategory == null)
@@ -63,7 +69,7 @@ namespace Ray.Blog.Data
                 post = await _postRepository.InsertAsync(post, true);
 
                 post.AddTag(tag.Id);
-                post.ThumbUp(post.CategoryId);
+                post.ThumbUp(user.Id);
                 await _postRepository.UpdateAsync(post, true);
             }
 
@@ -74,7 +80,9 @@ namespace Ray.Blog.Data
             }
             if (await _commentRepository.FirstOrDefaultAsync(x => x.PostId == post.Id && x.Text == "赞") == null)
             {
-                await _commentRepository.InsertAsync(new Comment(post.Id, "赞"), true);
+                var comment= await _commentRepository.InsertAsync(new Comment(post.Id, "赞"), true);
+                comment.ThumbUp(user.Id);
+                await _commentRepository.UpdateAsync(comment);
             }
         }
     }

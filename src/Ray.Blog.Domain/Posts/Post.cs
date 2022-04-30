@@ -77,7 +77,7 @@ namespace Ray.Blog.Posts
 
         public virtual void CancelThumbUp(Guid userId)
         {
-            ThumbUpHistories.RemoveAll(x => x.PostId == Id && x.CreatorId == userId);
+            ThumbUpHistories.RemoveAll(x => x.PostId == Id && x.UserId == userId);
         }
     }
 }

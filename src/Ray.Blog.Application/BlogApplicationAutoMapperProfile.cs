@@ -33,5 +33,6 @@ public class BlogApplicationAutoMapperProfile : Profile
         CreateMap<CreateCommentDto, Comment>();
 
         CreateMap<PostThumbUpHistory, PostThumbUpHistoryDto>();
+        CreateMap<CommentThumbUpHistory, CommentThumbUpHistoryDto>();
     }
 }

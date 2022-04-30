@@ -164,7 +164,7 @@ namespace Ray.Blog
         {
             var post = await Repository.GetAsync(postId);
             post.ThumbUp(_currentUser.Id.Value);
-            await Repository.UpdateAsync(post);
+            await Repository.UpdateAsync(post, true);
             return await MapToGetOutputDtoAsync(post);
         }
 
@@ -173,7 +173,7 @@ namespace Ray.Blog
         {
             var post = await Repository.GetAsync(postId);
             post.CancelThumbUp(_currentUser.Id.Value);
-            post= await Repository.UpdateAsync(post);
+            post = await Repository.UpdateAsync(post, true);
             return await MapToGetOutputDtoAsync(post);
         }
 

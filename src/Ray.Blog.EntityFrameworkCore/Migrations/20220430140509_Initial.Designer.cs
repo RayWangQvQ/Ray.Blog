@@ -12,7 +12,7 @@ using Volo.Abp.EntityFrameworkCore;
 namespace Ray.Blog.Migrations
 {
     [DbContext(typeof(BlogDbContext))]
-    [Migration("20220429161408_Initial")]
+    [Migration("20220430140509_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -142,6 +142,29 @@ namespace Ray.Blog.Migrations
                     b.ToTable("BlogComments", (string)null);
                 });
 
+            modelBuilder.Entity("Ray.Blog.Comments.CommentThumbUpHistory", b =>
+                {
+                    b.Property<Guid>("CommentId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("CreationTime");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("CreatorId");
+
+                    b.HasKey("CommentId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("BlogCommentThumbUpHistories", (string)null);
+                });
+
             modelBuilder.Entity("Ray.Blog.Posts.Post", b =>
                 {
                     b.Property<Guid>("Id")
@@ -226,6 +249,8 @@ namespace Ray.Blog.Migrations
                         .HasColumnName("CreatorId");
 
                     b.HasKey("PostId", "UserId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("BlogPostThumbUpHistories", (string)null);
                 });
@@ -2246,6 +2271,21 @@ namespace Ray.Blog.Migrations
                         .HasForeignKey("RepliedCommentId");
                 });
 
+            modelBuilder.Entity("Ray.Blog.Comments.CommentThumbUpHistory", b =>
+                {
+                    b.HasOne("Ray.Blog.Comments.Comment", null)
+                        .WithMany("ThumbUpHistories")
+                        .HasForeignKey("CommentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Volo.Abp.Identity.IdentityUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Ray.Blog.Posts.Post", b =>
                 {
                     b.HasOne("Ray.Blog.Categories.Category", null)
@@ -2260,6 +2300,12 @@ namespace Ray.Blog.Migrations
                     b.HasOne("Ray.Blog.Posts.Post", null)
                         .WithMany("ThumbUpHistories")
                         .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Volo.Abp.Identity.IdentityUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -2554,6 +2600,11 @@ namespace Ray.Blog.Migrations
                         .HasForeignKey("TenantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Ray.Blog.Comments.Comment", b =>
+                {
+                    b.Navigation("ThumbUpHistories");
                 });
 
             modelBuilder.Entity("Ray.Blog.Posts.Post", b =>

@@ -25,5 +25,18 @@ namespace Ray.Blog.Comments
         public Guid? RepliedCommentId { get; set; }
 
         public string Text { get; set; }
+
+        public virtual List<CommentThumbUpHistory> ThumbUpHistories { get; protected set; } = new List<CommentThumbUpHistory>();
+
+        public virtual void ThumbUp(Guid userId)
+        {
+            ThumbUpHistories.AddIfNotContains(x => x.UserId == userId,
+                () => new CommentThumbUpHistory(Id, userId));
+        }
+
+        public virtual void CancelThumbUp(Guid userId)
+        {
+            ThumbUpHistories.RemoveAll(x => x.CommentId == Id && x.UserId == userId);
+        }
     }
 }

@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Domain.Repositories;
+using Volo.Abp.Users;
 
 namespace Ray.Blog
 {
@@ -14,8 +16,11 @@ namespace Ray.Blog
         GetCommentListDto, CreateCommentDto>,
         ICommentsAppService
     {
-        public CommentsAppService(IRepository<Comment, Guid> repository) : base(repository)
+        private readonly ICurrentUser _currentUser;
+
+        public CommentsAppService(IRepository<Comment, Guid> repository, ICurrentUser currentUser) : base(repository)
         {
+            _currentUser = currentUser;
         }
 
         public override async Task<PagedResultDto<CommentDto>> GetListAsync(GetCommentListDto input)
@@ -43,8 +48,7 @@ namespace Ray.Blog
 
         protected override async Task<IQueryable<Comment>> CreateFilteredQueryAsync(GetCommentListDto input)
         {
-            IQueryable<Comment> query = await base.CreateFilteredQueryAsync(input);
-
+            IQueryable<Comment> query = await Repository.WithDetailsAsync();
             if (input.PostId.HasValue)
             {
                 query = query.Where(x => x.PostId == input.PostId);
@@ -60,6 +64,24 @@ namespace Ray.Blog
                 input.Sorting = nameof(Comment.CreationTime);
             }
             return base.ApplySorting(query, input);
+        }
+
+        [Authorize]
+        public async Task<CommentDto> ThumbUpAsync(Guid commentId)
+        {
+            var comment = await Repository.GetAsync(commentId);
+            comment.ThumbUp(_currentUser.Id.Value);
+            await Repository.UpdateAsync(comment, true);
+            return await MapToGetOutputDtoAsync(comment);
+        }
+
+        [Authorize]
+        public async Task<CommentDto> CancelThumbUpAsync(Guid commentId)
+        {
+            var comment = await Repository.GetAsync(commentId);
+            comment.CancelThumbUp(_currentUser.Id.Value);
+            comment = await Repository.UpdateAsync(comment, true);
+            return await MapToGetOutputDtoAsync(comment);
         }
     }
 }

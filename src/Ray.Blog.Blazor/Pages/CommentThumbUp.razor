@@ -5,10 +5,9 @@
 
 @inherits BlogComponentBase
 
-<Button Margin="Margin.Is2"
-        Size="Size.Large"
-        Border="@ThumbButtonBorder"
-        Shadow="Shadow.Large"
+<Button Margin="Margin.Is2" 
+        Size="Size.Small"
+        Active="@ButtonActive"
         onclick="@OnThumbUpClicked">
     <Icon Name="IconName.ThumbsUp" TextColor="@ThumbColor" /> @CountStr
 </Button>

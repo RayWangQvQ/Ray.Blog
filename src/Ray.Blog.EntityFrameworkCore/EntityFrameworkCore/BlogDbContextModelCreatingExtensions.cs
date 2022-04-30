@@ -6,6 +6,7 @@ using Ray.Blog.Tags;
 using Ray.Blog.ThumbUps;
 using Volo.Abp;
 using Volo.Abp.EntityFrameworkCore.Modeling;
+using Volo.Abp.Identity;
 
 namespace Ray.Blog.EntityFrameworkCore
 {
@@ -32,11 +33,6 @@ namespace Ray.Blog.EntityFrameworkCore
             {
                 b.ToTable(BlogConsts.DbTablePrefix + "Categories", BlogConsts.DbSchema);
                 b.ConfigureByConvention();
-
-                //b.HasMany(c => c.Posts)
-                //    .WithOne(p => p.Category)
-                //    .HasForeignKey(p => p.CategoryId)
-                //    .IsRequired();
             });
 
             builder.Entity<Post>(b =>
@@ -49,7 +45,7 @@ namespace Ray.Blog.EntityFrameworkCore
                     .HasForeignKey(p => p.CategoryId)
                     .IsRequired();
 
-                b.HasMany<PostThumbUpHistory>(x=>x.ThumbUpHistories)
+                b.HasMany<PostThumbUpHistory>(x => x.ThumbUpHistories)
                     .WithOne()
                     .HasForeignKey(h => h.PostId);
             });
@@ -88,13 +84,33 @@ namespace Ray.Blog.EntityFrameworkCore
                 b.HasOne<Comment>()
                 .WithMany()
                 .HasForeignKey(c => c.RepliedCommentId);
+
+                b.HasMany(c => c.ThumbUpHistories)
+                    .WithOne()
+                    .HasForeignKey(c => c.CommentId);
             });
 
             builder.Entity<PostThumbUpHistory>(b =>
             {
                 b.ToTable(BlogConsts.DbTablePrefix + "PostThumbUpHistories", BlogConsts.DbSchema);
                 b.ConfigureByConvention();
-                b.HasKey(x => new {x.PostId, x.UserId });
+                b.HasKey(x => new { x.PostId, x.UserId });
+
+                b.HasOne<IdentityUser>()
+                    .WithMany()
+                    .IsRequired()
+                    .HasForeignKey(t => t.UserId);
+            });
+            builder.Entity<CommentThumbUpHistory>(b =>
+            {
+                b.ToTable(BlogConsts.DbTablePrefix + "CommentThumbUpHistories", BlogConsts.DbSchema);
+                b.ConfigureByConvention();
+                b.HasKey(x => new { x.CommentId, x.UserId });
+
+                b.HasOne<IdentityUser>()
+                    .WithMany()
+                    .IsRequired()
+                    .HasForeignKey(t => t.UserId);
             });
         }
     }

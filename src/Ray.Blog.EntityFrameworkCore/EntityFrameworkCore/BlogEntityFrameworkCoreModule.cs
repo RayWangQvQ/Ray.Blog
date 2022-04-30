@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Ray.Blog.Comments;
 using Ray.Blog.Posts;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
@@ -60,6 +61,12 @@ public class BlogEntityFrameworkCoreModule : AbpModule
                     query
                         .Include(p => p.RelatePostTags)
                         .Include(p => p.ThumbUpHistories);
+            });
+
+            options.Entity<Comment>(options =>
+            {
+                options.DefaultWithDetailsFunc = query =>
+                    query.Include(c => c.ThumbUpHistories);
             });
         });
     }
