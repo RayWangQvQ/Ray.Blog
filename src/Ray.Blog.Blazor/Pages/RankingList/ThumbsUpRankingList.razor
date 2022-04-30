@@ -22,8 +22,7 @@
     private List<PostDto> PostList { get; set; } = new List<PostDto>();
 
     private int PageSize { get; } = 5;
-    //private string CurrentSorting { get; set; } = $"{nameof(PostDto.ThumbUpCount)} desc";
-    private string CurrentSorting { get; set; } = $"";
+    private string CurrentSorting { get; set; } = $"{nameof(PostDto.ThumbUpHistories)}.Count desc";
 
     protected override async Task OnInitializedAsync()
     {
