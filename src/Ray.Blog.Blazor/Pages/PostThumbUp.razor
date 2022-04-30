@@ -1,0 +1,14 @@
+﻿@using Ray.Blog.Posts
+@using Ray.Blog.ThumbUps
+@using Volo.Abp.Application.Dtos
+@using Volo.Abp.Users
+
+@inherits BlogComponentBase
+
+<Button Margin="Margin.Is2" 
+        Size="Size.Large" 
+        Border="@ThumbButtonBorder" 
+        Shadow="Shadow.Large" 
+        onclick="@OnThumbUpClicked">
+    <Icon Name="IconName.ThumbsUp" TextColor="@ThumbColor" /> @this.Post.ThumbUpHistories.Count
+</Button>

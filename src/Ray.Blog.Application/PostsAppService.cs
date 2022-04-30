@@ -12,6 +12,7 @@ using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Repositories;
+using Volo.Abp.Users;
 
 namespace Ray.Blog
 {
@@ -19,16 +20,19 @@ namespace Ray.Blog
         GetPostListDto, CreatePostDto>,
         IPostsAppService
     {
-        private readonly IRepository<Category, Guid> _categoryepository;
+        private readonly IRepository<Category, Guid> _categoryRepository;
         private readonly IRepository<Tag, Guid> _tagRepository;
+        private readonly ICurrentUser _currentUser;
 
         public PostsAppService(
             IRepository<Post, Guid> repository,
-            IRepository<Category, Guid> categoryepository,
-            IRepository<Tag, Guid> tagRepository) : base(repository)
+            IRepository<Category, Guid> categoryRepository,
+            IRepository<Tag, Guid> tagRepository,
+            ICurrentUser currentUser) : base(repository)
         {
-            _categoryepository = categoryepository;
+            _categoryRepository = categoryRepository;
             _tagRepository = tagRepository;
+            _currentUser = currentUser;
         }
 
         [AllowAnonymous]
@@ -141,7 +145,7 @@ namespace Ray.Blog
 
         public async Task<ListResultDto<CategoryLookupDto>> GetCategoryLookupAsync()
         {
-            var categories = await _categoryepository.GetListAsync();
+            var categories = await _categoryRepository.GetListAsync();
             return new ListResultDto<CategoryLookupDto>(
                 ObjectMapper.Map<List<Category>, List<CategoryLookupDto>>(categories)
             );
@@ -153,6 +157,24 @@ namespace Ray.Blog
             return new ListResultDto<TagLookupDto>(
                 ObjectMapper.Map<List<Tag>, List<TagLookupDto>>(tags)
             );
+        }
+
+        [Authorize]
+        public async Task<PostDto> ThumbUpAsync(Guid postId)
+        {
+            var post = await Repository.GetAsync(postId);
+            post.ThumbUp(_currentUser.Id.Value);
+            await Repository.UpdateAsync(post);
+            return await MapToGetOutputDtoAsync(post);
+        }
+
+        [Authorize]
+        public async Task<PostDto> CancelThumbUpAsync(Guid postId)
+        {
+            var post = await Repository.GetAsync(postId);
+            post.CancelThumbUp(_currentUser.Id.Value);
+            post= await Repository.UpdateAsync(post);
+            return await MapToGetOutputDtoAsync(post);
         }
 
         protected override IQueryable<Post> ApplySorting(IQueryable<Post> query, GetPostListDto input)

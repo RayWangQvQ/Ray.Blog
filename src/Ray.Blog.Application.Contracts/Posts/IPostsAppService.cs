@@ -13,5 +13,8 @@ namespace Ray.Blog.Posts
         Task<ListResultDto<CategoryLookupDto>> GetCategoryLookupAsync();
 
         Task<ListResultDto<TagLookupDto>> GetTagLookupAsync();
+
+        Task<PostDto> ThumbUpAsync(Guid postId);
+        Task<PostDto> CancelThumbUpAsync(Guid postId);
     }
 }

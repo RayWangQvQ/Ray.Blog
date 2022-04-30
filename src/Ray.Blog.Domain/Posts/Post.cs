@@ -50,6 +50,7 @@ namespace Ray.Blog.Posts
         public virtual List<RelatePostTag> RelatePostTags { get; protected set; } = new List<RelatePostTag>();
 
         public virtual List<PostThumbUpHistory> ThumbUpHistories { get; protected set; } = new List<PostThumbUpHistory>();
+        public int ThumbUpCount => ThumbUpHistories.Count;
 
         /// <summary>
         /// 添加标签
@@ -75,7 +76,7 @@ namespace Ray.Blog.Posts
                 () => new PostThumbUpHistory(Id, userId));
         }
 
-        public virtual void RemoveThumbUp(Guid userId)
+        public virtual void CancelThumbUp(Guid userId)
         {
             ThumbUpHistories.RemoveAll(x => x.PostId == Id && x.CreatorId == userId);
         }

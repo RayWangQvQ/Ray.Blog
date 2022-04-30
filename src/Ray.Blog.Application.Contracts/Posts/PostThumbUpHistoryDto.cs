@@ -6,6 +6,8 @@ namespace Ray.Blog.Posts
 {
     public class PostThumbUpHistoryDto : CreationAuditedEntityDto<Guid>
     {
-        public Guid SourceId { get; set; }
+        public virtual Guid PostId { get; set; }
+
+        public virtual Guid UserId { get; set; }
     }
 }
