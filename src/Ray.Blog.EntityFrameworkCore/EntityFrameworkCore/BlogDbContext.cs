@@ -20,9 +20,9 @@ using Volo.Abp.TenantManagement.EntityFrameworkCore;
 
 namespace Ray.Blog.EntityFrameworkCore;
 
-[ReplaceDbContext(typeof(IIdentityDbContext))]
-[ReplaceDbContext(typeof(ITenantManagementDbContext))]
-[ConnectionStringName("Default")]
+[ReplaceDbContext(typeof(IIdentityDbContext))]//取代Identity模块的DbContext，ABP模块化思想，每个module都可能有自己的DbContext
+[ReplaceDbContext(typeof(ITenantManagementDbContext))]//取代Tenant模块的DbContext，使用同一个DbContext的好处是可以方便的建立实体间的关联
+[ConnectionStringName("Default")]//使用Default的连接字符串
 public class BlogDbContext :
     AbpDbContext<BlogDbContext>,
     IIdentityDbContext,
@@ -80,10 +80,10 @@ public class BlogDbContext :
 
         /* Include modules to your migration db context */
 
-        builder.ConfigurePermissionManagement();
-        builder.ConfigureSettingManagement();
+        //builder.ConfigurePermissionManagement();
+        //builder.ConfigureSettingManagement();
         builder.ConfigureBackgroundJobs();
-        builder.ConfigureAuditLogging();
+        //builder.ConfigureAuditLogging();
         builder.ConfigureIdentity();
         builder.ConfigureIdentityServer();
         builder.ConfigureFeatureManagement();

@@ -16,11 +16,8 @@ namespace Ray.Blog
         GetCommentListDto, CreateCommentDto>,
         ICommentsAppService
     {
-        private readonly ICurrentUser _currentUser;
-
-        public CommentsAppService(IRepository<Comment, Guid> repository, ICurrentUser currentUser) : base(repository)
+        public CommentsAppService(IRepository<Comment, Guid> repository) : base(repository)
         {
-            _currentUser = currentUser;
         }
 
         public override async Task<PagedResultDto<CommentDto>> GetListAsync(GetCommentListDto input)
@@ -70,7 +67,7 @@ namespace Ray.Blog
         public async Task<CommentDto> ThumbUpAsync(Guid commentId)
         {
             var comment = await Repository.GetAsync(commentId);
-            comment.ThumbUp(_currentUser.Id.Value);
+            comment.ThumbUp(CurrentUser.Id.Value);
             await Repository.UpdateAsync(comment, true);
             return await MapToGetOutputDtoAsync(comment);
         }
@@ -79,7 +76,7 @@ namespace Ray.Blog
         public async Task<CommentDto> CancelThumbUpAsync(Guid commentId)
         {
             var comment = await Repository.GetAsync(commentId);
-            comment.CancelThumbUp(_currentUser.Id.Value);
+            comment.CancelThumbUp(CurrentUser.Id.Value);
             comment = await Repository.UpdateAsync(comment, true);
             return await MapToGetOutputDtoAsync(comment);
         }

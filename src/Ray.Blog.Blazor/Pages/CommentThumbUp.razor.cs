@@ -18,11 +18,8 @@ namespace Ray.Blog.Blazor.Pages
         [Inject]
         public ICommentsAppService CommentsAppService { get; set; }
 
-        [Inject]
-        public ICurrentUser CurrentUser { get; set; }
-
         protected int Count => Comment.ThumbUpHistories.Count;
-        protected string CountStr => Count == 0 ? "" : $"{Count}";
+        protected string CountStr => Count == 0 ? " " : $"{Count}";
 
         private bool IsCurrentUserThumbUped => Comment.ThumbUpHistories.Any(x => x.UserId == CurrentUser.Id);
 

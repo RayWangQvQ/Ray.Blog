@@ -22,17 +22,14 @@ namespace Ray.Blog
     {
         private readonly IRepository<Category, Guid> _categoryRepository;
         private readonly IRepository<Tag, Guid> _tagRepository;
-        private readonly ICurrentUser _currentUser;
 
         public PostsAppService(
             IRepository<Post, Guid> repository,
             IRepository<Category, Guid> categoryRepository,
-            IRepository<Tag, Guid> tagRepository,
-            ICurrentUser currentUser) : base(repository)
+            IRepository<Tag, Guid> tagRepository) : base(repository)
         {
             _categoryRepository = categoryRepository;
             _tagRepository = tagRepository;
-            _currentUser = currentUser;
         }
 
         [AllowAnonymous]
@@ -163,7 +160,7 @@ namespace Ray.Blog
         public async Task<PostDto> ThumbUpAsync(Guid postId)
         {
             var post = await Repository.GetAsync(postId);
-            post.ThumbUp(_currentUser.Id.Value);
+            post.ThumbUp(CurrentUser.Id.Value);
             await Repository.UpdateAsync(post, true);
             return await MapToGetOutputDtoAsync(post);
         }
@@ -172,7 +169,7 @@ namespace Ray.Blog
         public async Task<PostDto> CancelThumbUpAsync(Guid postId)
         {
             var post = await Repository.GetAsync(postId);
-            post.CancelThumbUp(_currentUser.Id.Value);
+            post.CancelThumbUp(CurrentUser.Id.Value);
             post = await Repository.UpdateAsync(post, true);
             return await MapToGetOutputDtoAsync(post);
         }

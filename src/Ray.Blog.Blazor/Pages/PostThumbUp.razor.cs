@@ -16,11 +16,8 @@ namespace Ray.Blog.Blazor.Pages
         [Inject]
         public IPostsAppService PostsAppService { get; set; }
 
-        [Inject]
-        public ICurrentUser CurrentUser { get; set; }
-
         protected int Count => Post.ThumbUpHistories.Count;
-        protected string CountStr => Count == 0 ? "" : $"{Count}";
+        protected string CountStr => Count == 0 ? " " : $"{Count}";
 
         protected bool IsCurrentUserThumbUped => Post.ThumbUpHistories.Any(x => x.UserId == CurrentUser.Id);
 

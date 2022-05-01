@@ -14,12 +14,13 @@
                 var item = this.CommentList[i];
                 <ListGroupItem>
                     <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                        <Heading Size="HeadingSize.Is5" Margin="Margin.Is1.FromBottom">List group item heading</Heading>
-                        <Small>@item.CreationTime</Small>
+                        <Heading Size="HeadingSize.Is5" Margin="Margin.Is1.FromBottom">Zai7Lou</Heading>
+                        <CommentThumbUp Comment="@item"></CommentThumbUp>
                     </Div>
                     <Paragraph Margin="Margin.Is1.FromBottom">@item.Text</Paragraph>
-                    <Small>And some small print.</Small>
-                    <CommentThumbUp Comment="@item"></CommentThumbUp>
+                    <Div TextAlignment="TextAlignment.End">
+                        <Small>@item.CreationTime</Small>
+                    </Div>
                 </ListGroupItem>
             }
         }
