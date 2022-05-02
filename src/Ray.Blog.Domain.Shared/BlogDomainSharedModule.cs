@@ -1,4 +1,4 @@
-﻿using Ray.Blog.Localization;
+using Ray.Blog.Localization;
 using Volo.Abp.AuditLogging;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.FeatureManagement;
@@ -12,6 +12,7 @@ using Volo.Abp.SettingManagement;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.Validation.Localization;
 using Volo.Abp.VirtualFileSystem;
+using Volo.Abp.BlobStoring.Database;
 
 namespace Ray.Blog;
 
@@ -25,6 +26,7 @@ namespace Ray.Blog;
     typeof(AbpSettingManagementDomainSharedModule),
     typeof(AbpTenantManagementDomainSharedModule)
     )]
+[DependsOn(typeof(BlobStoringDatabaseDomainSharedModule))]
 public class BlogDomainSharedModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)

@@ -3,7 +3,6 @@ using Ray.Blog.Tags;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Ray.Blog.ThumbUps;
 using Volo.Abp.Application.Dtos;
 
 namespace Ray.Blog.Posts

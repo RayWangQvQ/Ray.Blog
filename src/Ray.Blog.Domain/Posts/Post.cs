@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Ray.Blog.Categories;
-using Ray.Blog.ThumbUps;
 using Volo.Abp.Domain.Entities.Auditing;
 
 namespace Ray.Blog.Posts

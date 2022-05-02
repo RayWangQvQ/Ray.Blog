@@ -35,5 +35,10 @@ public class EntityFrameworkCoreBlogDbSchemaMigrator
             .GetRequiredService<BlogSecondDbContext>()
             .Database
             .MigrateAsync();
+
+        await _serviceProvider
+            .GetRequiredService<BlogBlobDbContext>()
+            .Database
+            .MigrateAsync();
     }
 }

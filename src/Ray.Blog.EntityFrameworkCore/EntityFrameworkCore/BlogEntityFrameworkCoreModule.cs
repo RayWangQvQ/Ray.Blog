@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Ray.Blog.Comments;
@@ -15,6 +15,9 @@ using Volo.Abp.Modularity;
 using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
+using Volo.Abp.BlobStoring.Database.EntityFrameworkCore;
+using Volo.Abp.BlobStoring;
+using Volo.Abp.BlobStoring.Database;
 
 namespace Ray.Blog.EntityFrameworkCore;
 
@@ -30,6 +33,7 @@ namespace Ray.Blog.EntityFrameworkCore;
     typeof(AbpTenantManagementEntityFrameworkCoreModule),
     typeof(AbpFeatureManagementEntityFrameworkCoreModule)
     )]
+[DependsOn(typeof(BlobStoringDatabaseEntityFrameworkCoreModule))]
 public class BlogEntityFrameworkCoreModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
@@ -47,6 +51,7 @@ public class BlogEntityFrameworkCoreModule : AbpModule
         });
 
         context.Services.AddAbpDbContext<BlogSecondDbContext>();
+        context.Services.AddAbpDbContext<BlogBlobDbContext>();
 
         Configure<AbpDbContextOptions>(options =>
         {

@@ -1,9 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Ray.Blog.Categories;
 using Ray.Blog.Comments;
 using Ray.Blog.Posts;
 using Ray.Blog.Tags;
-using Ray.Blog.ThumbUps;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.Data;
@@ -17,6 +16,7 @@ using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
 using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
+using Volo.Abp.BlobStoring.Database.EntityFrameworkCore;
 
 namespace Ray.Blog.EntityFrameworkCore;
 
@@ -98,5 +98,6 @@ public class BlogDbContext :
         //    //...
         //});
         builder.ConfigureBlog();
-    }
+        builder.ConfigureBlobStoring();
+        }
 }

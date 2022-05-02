@@ -3,7 +3,6 @@ using Ray.Blog.Categories;
 using Ray.Blog.Comments;
 using Ray.Blog.Posts;
 using Ray.Blog.Tags;
-using Ray.Blog.ThumbUps;
 using Volo.Abp;
 using Volo.Abp.EntityFrameworkCore.Modeling;
 using Volo.Abp.Identity;
