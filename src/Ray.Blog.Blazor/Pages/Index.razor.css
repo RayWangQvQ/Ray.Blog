@@ -1,1 +1,40 @@
 /* Write here your styles for the Index page */
+.intro {
+    transform: translateY(3vh);
+    text-align: center;
+}
+
+.intro .avatar {
+    padding: 10px;
+}
+
+.intro .avatar img {
+    width: 200px;
+    height: auto;
+    display: inline-block;
+    -webkit-border-radius: 100%;
+    border-radius: 100%;
+    -webkit-box-shadow: 0 0 0 0.3618em rgba(0, 0, 0, 0.05);
+    box-shadow: 0 0 0 0.3618em rgba(0, 0, 0, 0.05);
+    margin: 0 auto;
+    -webkit-transition: all ease 0.4s;
+    -moz-transition: all ease 0.4s;
+    -o-transition: all ease 0.4s;
+    transition: all ease 0.4s;
+    cursor: pointer;
+}
+
+.intro .avatar img:hover {
+    position: relative;
+    -webkit-transform: translateY(-0.75em);
+    -moz-transform: translateY(-0.75em);
+    -ms-transform: translateY(-0.75em);
+    -o-transform: translateY(-0.75em);
+    transform: translateY(-0.75em);
+    cursor: pointer;
+}
+
+.nickname {
+    font-size: 2em;
+    font-weight: normal;
+}

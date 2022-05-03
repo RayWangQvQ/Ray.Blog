@@ -7,17 +7,28 @@
 @inject ICurrentTenant CurrentTenant
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
-<Container>
+<div class="intro">
+    <div class="avatar">
+        <a href="/"><img src="https://avatars.githubusercontent.com/u/31154238?v=4"></a>
+    </div>
+    <div class="nickname">Ray</div>
 
-    <Jumbotron Background="Background.Transparent" Margin="Margin.Is4.FromBottom" TextAlignment="TextAlignment.Center">
-        <JumbotronTitle Size="JumbotronTitleSize.Is4">Hello, Ray Blog!</JumbotronTitle>
+    <Jumbotron Background="Background.Transparent"
+               TextAlignment="TextAlignment.Center">
+        <JumbotronTitle Size="JumbotronTitleSize.Is4">Hello, Word!</JumbotronTitle>
         <JumbotronSubtitle>
-            最好的学习方法就是分享
+            最好的学习方法是分享
         </JumbotronSubtitle>
-        <Divider></Divider>
-        <Paragraph>
-            这是我的个人博客，欢迎享用~
-        </Paragraph>
     </Jumbotron>
+</div>
 
-</Container>
+<Div TextAlignment="TextAlignment.Center"
+     VerticalAlignment="VerticalAlignment.Bottom">
+    <Paragraph>
+        这是我的个人博客，欢迎享用~
+    </Paragraph>
+    <Divider></Divider>
+    <Small>
+        .net 6.0 runs on Linux
+    </Small>
+</Div>
