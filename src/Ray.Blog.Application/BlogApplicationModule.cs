@@ -1,3 +1,5 @@
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Volo.Abp.Account;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.FeatureManagement;
@@ -9,6 +11,7 @@ using Volo.Abp.TenantManagement;
 using Volo.Abp.BlobStoring.FileSystem;
 using Volo.Abp.BlobStoring;
 using Volo.Abp.BlobStoring.Database;
+using Ray.Blog.BlobContainers;
 
 namespace Ray.Blog;
 
@@ -22,7 +25,7 @@ namespace Ray.Blog;
     typeof(AbpFeatureManagementApplicationModule),
     typeof(AbpSettingManagementApplicationModule)
     )]
-//[DependsOn(typeof(AbpBlobStoringFileSystemModule))]
+[DependsOn(typeof(AbpBlobStoringFileSystemModule))]
 public class BlogApplicationModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
@@ -36,12 +39,15 @@ public class BlogApplicationModule : AbpModule
         {
             options.Containers.ConfigureDefault(container =>
             {
-                //container.UseFileSystem(fileSystem =>
-                //{
-                //    fileSystem.BasePath = "./";
-                //});
-
                 container.UseDatabase();
+            });
+
+            options.Containers.Configure<PostImgContainer>(container =>
+            {
+                container.UseFileSystem(config =>
+                {
+                    config.BasePath = "./wwwroot/";
+                });
             });
         });
     }

@@ -7,8 +7,8 @@ namespace Ray.Blog.Blobs
 {
     public interface IBlobAppService : IApplicationService
     {
-        Task UploadPics(IRemoteStreamContent file);
+        Task<string> UploadPics(IRemoteStreamContent file);
 
-        Task<byte[]> GetBytesAsync();
+        Task<byte[]> GetBytesAsync(string fileName);
     }
 }

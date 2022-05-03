@@ -7,4 +7,6 @@ namespace Ray.Blog.Blazor;
 public class BlogBrandingProvider : DefaultBrandingProvider
 {
     public override string AppName => "RayBlog";
+
+    //public override string LogoUrl => "https://avatars.githubusercontent.com/u/31154238?v=4";
 }

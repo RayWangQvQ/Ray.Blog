@@ -140,7 +140,9 @@
 
                     <Field>
                         <FieldLabel>@L["Markdown"]</FieldLabel>
-                        <Markdown @bind-Value="NewEntity.Markdown" />
+                        <Markdown @bind-Value="NewEntity.Markdown"
+                                  ImageUploadChanged="@OnImageUploadChanged"
+                                  ImageUploadEnded="@OnImageUploadEnded" />
                     </Field>
 
                     <Field>

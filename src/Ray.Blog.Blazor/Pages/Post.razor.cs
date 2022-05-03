@@ -17,9 +17,6 @@ namespace Ray.Blog.Blazor.Pages
         [Inject]
         IPostsAppService PostAppService { get; set; }
 
-        [Inject]
-        private ICurrentUser CurrentUser { get; set; }
-
         string _markdownHtml;
 
         PostDto PostDto { get; set; } = new PostDto();
