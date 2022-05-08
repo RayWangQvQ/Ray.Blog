@@ -2,10 +2,11 @@
 
 @using Ray.Blog.Comments
 @using Blazorise.Markdown
+@using AntDesign
 
 <Container>
 
-    <Divider DividerType="DividerType.TextContent" Text="评论列表" />
+    <Blazorise.Divider DividerType="DividerType.TextContent" Text="评论列表" />
 
     <ListGroup Flush>
         @{
@@ -17,7 +18,7 @@
                         <Heading Size="HeadingSize.Is5" Margin="Margin.Is1.FromBottom">Zai7Lou</Heading>
                         <CommentThumbUp Comment="@item"></CommentThumbUp>
                     </Div>
-                    <Paragraph Margin="Margin.Is1.FromBottom">@item.Text</Paragraph>
+                    <Blazorise.Paragraph Margin="Margin.Is1.FromBottom">@item.Text</Blazorise.Paragraph>
                     <Div TextAlignment="TextAlignment.End">
                         <Small>@item.CreationTime</Small>
                     </Div>
@@ -26,7 +27,7 @@
         }
     </ListGroup>
 
-    <Pagination>
+    <Blazorise.Pagination>
         <PaginationItem Disabled="@IsPageNavigationDisabled(PREVIOUS)" @onclick="Previous">
             <PaginationLink>
                 <span aria-hidden="true">«</span>
@@ -48,10 +49,12 @@
                 <span aria-hidden="true">»</span>
             </PaginationLink>
         </PaginationItem>
-    </Pagination>
+    </Blazorise.Pagination>
+    
+    <AntDesign.Pagination DefaultCurrent="6" Total="500" />
 
     <Markdown @bind-Value="this.NewComment.Text" Height="Height.Is25" Width="Width.Is50"></Markdown>
-    <Button Color="Color.Primary" Clicked="OnAddCommentButtonClickedAsync">发送</Button>
+    <Blazorise.Button Color="Blazorise.Color.Primary" Clicked="OnAddCommentButtonClickedAsync">发送</Blazorise.Button>
 
 </Container>
 

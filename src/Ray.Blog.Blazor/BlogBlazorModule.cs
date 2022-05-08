@@ -42,6 +42,8 @@ public class BlogBlazorModule : AbpModule
         ConfigureUI(builder);
         ConfigureMenu(context);
         ConfigureAutoMapper(context);
+
+        ConfigureAntDesign(context);
     }
 
     private void ConfigureRouter(ServiceConfigurationContext context)
@@ -99,5 +101,10 @@ public class BlogBlazorModule : AbpModule
         {
             options.AddMaps<BlogBlazorModule>();
         });
+    }
+
+    private void ConfigureAntDesign(ServiceConfigurationContext context)
+    {
+        context.Services.AddAntDesign();
     }
 }
