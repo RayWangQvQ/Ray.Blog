@@ -7,25 +7,21 @@
 @inherits BlogComponentBase
 
 @*搜索*@
-<Row Margin="Margin.Is4" VerticalAlignment="VerticalAlignment.Middle">
-    <Div>
-        <Field Horizontal="true" Overflow="Overflow.Auto">
-            <FieldLabel>标题：</FieldLabel>
+<Row Margin="Margin.Is4">
+    <Column>
+        标题：<TextEdit @bind-Text="@this.GetPostListRequest.Title" />
+    </Column>
+    <Column>
+        <Field>
+            @*<FieldLabel>分类：</FieldLabel>*@
             <FieldBody>
-                <TextEdit @bind-Text="@this.GetPostListRequest.Title" />
+                分类：<TextEdit Text="@this.CategoryId.ToString()" />
             </FieldBody>
         </Field>
-
-        <Field Horizontal="true" Overflow="Overflow.Auto">
-            <FieldLabel>分类：</FieldLabel>
-            <FieldBody>
-                <TextEdit Text="@this.CategoryId.ToString()" />
-            </FieldBody>
-        </Field>
-    </Div>
-    <Div>
+    </Column>
+    <Column VerticalAlignment="VerticalAlignment.Middle" Margin="Margin.Is4.FromTop">
         <Button Color="Color.Primary" Clicked="OnSearchButtonClickAsync">查询</Button>
-    </Div>
+    </Column>
 </Row>
 
 @*博文列表及右侧排行榜*@
