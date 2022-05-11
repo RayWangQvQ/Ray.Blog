@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AntDesign;
 using Volo.Abp.Application.Dtos;
 
 namespace Ray.Blog.Blazor.Pages;
@@ -22,8 +23,8 @@ public partial class Comments : BlogComponentBase
 
     private IReadOnlyList<CommentDto> CommentList { get; set; } = new List<CommentDto>();
 
-    private int PageSize { get; } = LimitedResultRequestDto.DefaultMaxResultCount;
-    private int CurrentPage => int.Parse(this.currentPage);
+    private int PageSize { get; set; } = LimitedResultRequestDto.DefaultMaxResultCount;
+    private int CurrentPage { get; set; } = 1;
     private string CurrentSorting { get; set; }
     private int TotalCount { get; set; }
 
@@ -62,6 +63,24 @@ public partial class Comments : BlogComponentBase
 
         //刷新评论列表
         NewComment = new CreateCommentDto() { Text = "" };
+        await GetCommentsAsync();
+    }
+
+    private async Task OnShowSizeChange(PaginationEventArgs args)
+    {
+        var (current, pageSize) = args;
+
+        this.PageSize = pageSize;
+        this.CurrentPage=current;
+
+        await GetCommentsAsync();
+    }
+
+    async Task OnChange(PaginationEventArgs args)
+    {
+        Console.WriteLine(args.Page);
+        CurrentPage = args.Page;
+
         await GetCommentsAsync();
     }
 }
