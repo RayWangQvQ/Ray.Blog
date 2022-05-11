@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+using Blazorise.AntDesign;
 using Blazorise.Bootstrap5;
 using Blazorise.Icons.FontAwesome;
 using IdentityModel;
@@ -65,6 +66,7 @@ public class BlogBlazorModule : AbpModule
     private void ConfigureBlazorise(ServiceConfigurationContext context)
     {
         context.Services
+            //.AddAntDesignProviders()
             .AddBootstrap5Providers()
             .AddFontAwesomeIcons();
     }
