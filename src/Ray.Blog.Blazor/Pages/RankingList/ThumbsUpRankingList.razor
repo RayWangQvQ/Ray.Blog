@@ -8,7 +8,11 @@
         {
             <ListGroupItem>
                 <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                    <Paragraph Margin="Margin.Is1.FromStart">@item.Title</Paragraph>
+                    <Paragraph Margin="Margin.Is1.FromStart">
+                        <Blazorise.Link To="@("/posts/" + item.Id.ToString())" Title="@item.Title">
+                            @item.Title  <Icon Name="IconName.ThumbsUp" TextColor="TextColor.Secondary" /> @(item.ThumbUpHistories.Count==0?"":item.ThumbUpHistories.Count)
+                        </Blazorise.Link>
+                    </Paragraph>
                 </Div>
             </ListGroupItem>
         }
