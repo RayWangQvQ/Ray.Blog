@@ -44,11 +44,14 @@
                 </Div>
                 <Small>这是简介</Small>
                 <Paragraph Margin="Margin.Is1.FromBottom">
-                    @foreach (var tag in context.Tags)
-                            {
-                    <Badge Color="Color.Info">@tag.Name</Badge>
-                            }
+                    <Icon Name="IconName.ThumbsUp" TextColor="TextColor.Secondary" /> @(context.ThumbUpHistories.Count==0?" ":context.ThumbUpHistories.Count)
                 </Paragraph>
+                <Div>
+                    @foreach (var tag in context.Tags)
+                    {
+                        <Badge Color="Color.Info">@tag.Name</Badge>
+                    }
+                </Div>
 
             </DetailRowTemplate>
         </DataGrid>
