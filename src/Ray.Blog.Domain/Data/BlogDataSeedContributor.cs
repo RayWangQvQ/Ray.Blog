@@ -23,7 +23,7 @@ namespace Ray.Blog.Data
         private readonly IRepository<Comment, Guid> _commentRepository;
 
         public BlogDataSeedContributor(
-            IRepository<IdentityUser,Guid> identityUseRepository,
+            IRepository<IdentityUser, Guid> identityUseRepository,
             IRepository<Category, Guid> categoryRepository,
             IRepository<Tag, Guid> tagRepository,
             IRepository<Post, Guid> postRepository,
@@ -45,7 +45,7 @@ namespace Ray.Blog.Data
             Category foodCategory = await _categoryRepository.FirstOrDefaultAsync(x => x.Name == "Food");
             if (foodCategory == null)
             {
-                foodCategory = await _categoryRepository.InsertAsync(new Category("Food", "美食区"), true);
+                foodCategory = await _categoryRepository.InsertAsync(new Category("Food", "美食区", ""), true);
             }
 
             //标签
@@ -80,7 +80,7 @@ namespace Ray.Blog.Data
             }
             if (await _commentRepository.FirstOrDefaultAsync(x => x.PostId == post.Id && x.Text == "赞") == null)
             {
-                var comment= await _commentRepository.InsertAsync(new Comment(post.Id, "赞"), true);
+                var comment = await _commentRepository.InsertAsync(new Comment(post.Id, "赞"), true);
                 comment.ThumbUp(user.Id);
                 await _commentRepository.UpdateAsync(comment);
             }

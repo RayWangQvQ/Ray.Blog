@@ -49,6 +49,14 @@ public class BlogApplicationModule : AbpModule
                     config.BasePath = "./wwwroot/";
                 });
             });
+
+            options.Containers.Configure<CategoryImgContainer>(container =>
+            {
+                container.UseFileSystem(config =>
+                {
+                    config.BasePath = "./wwwroot/";
+                });
+            });
         });
     }
 }

@@ -11,10 +11,11 @@ namespace Ray.Blog.Categories
         {
         }
 
-        public Category(string name, string alias)
+        public Category(string name, string alias, string picUrl)
         {
             Name = name;
             Alias = alias;
+            PicUrl = picUrl;
         }
 
         /// <summary>
@@ -26,5 +27,10 @@ namespace Ray.Blog.Categories
         /// 别名
         /// </summary>
         public string Alias { get; set; }
+
+        /// <summary>
+        /// 封面图片
+        /// </summary>
+        public string PicUrl { get; set; }
     }
 }

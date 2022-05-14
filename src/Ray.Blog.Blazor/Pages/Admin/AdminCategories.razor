@@ -1,10 +1,15 @@
 ﻿@page "/admin/categories"
 
+@using Microsoft.AspNetCore.Components.WebAssembly.Hosting
+@using Microsoft.Extensions.Configuration
+@using Ray.Blog.Blobs
 @using Ray.Blog.Permissions
+@using System.IO
 @using Volo.Abp.Application.Dtos
 @using Ray.Blog.Categories
 @using Ray.Blog.Localization
 @using Microsoft.Extensions.Localization
+@using Volo.Abp.Content
 
 @inject IStringLocalizer<BlogResource> L
 @inject AbpBlazorMessageLocalizerHelper<BlogResource> LH
@@ -23,7 +28,7 @@
                 @if (HasCreatePermission)
                 {
                     <Button Color="Color.Primary"
-                            Clicked="OpenCreateModalAsync">
+                        Clicked="OpenCreateModalAsync">
                         @L["NewCatetory"]
                     </Button>
                 }
@@ -64,12 +69,12 @@
                             <EntityAction TItem="CategoryDto"
                                           Text="@L["Edit"]"
                                           Visible="HasUpdatePermission"
-                                          Clicked="() => OpenEditModalAsync(context)"/>
+                                          Clicked="() => OpenEditModalAsync(context)" />
                             <EntityAction TItem="CategoryDto"
                                           Text="@L["Delete"]"
                                           Visible="HasDeletePermission"
                                           Clicked="() => DeleteEntityAsync(context)"
-                                          ConfirmationMessage="() => GetDeleteConfirmationMessage(context)"/>
+                                          ConfirmationMessage="() => GetDeleteConfirmationMessage(context)" />
                         </EntityActions>
                     </DisplayTemplate>
                 </DataGridEntityActionsColumn>
@@ -107,6 +112,14 @@
                     <Field>
                         <FieldLabel>@L["Alias"]</FieldLabel>
                         <TextEdit @bind-Text="NewEntity.Alias" />
+                    </Field>
+                    <Field>
+                        <FieldLabel>@L["PicUrl"]</FieldLabel>
+                        <FileEdit Filter="image/*" Changed="@OnImageUploadChanged" Ended="@OnImageUploadEnded" />
+                        <Figure Size="FigureSize.Is256x256">
+                            <FigureImage Source="@NewEntity.PicUrl" AlternateText="empty-256x256" />
+                            <FigureCaption>A caption for the above image.</FigureCaption>
+                        </Figure>
                     </Field>
                 </Validations>
             </ModalBody>
@@ -153,6 +166,14 @@
                         <FieldLabel>@L["Alias"]</FieldLabel>
                         <TextEdit @bind-Text="EditingEntity.Alias" />
                     </Field>
+                    <Field>
+                        <FieldLabel>@L["PicUrl"]</FieldLabel>
+                        <FileEdit Filter="image/*" Changed="@OnImageUploadChanged" Ended="@OnImageUploadEnded" />
+                        <Figure Size="FigureSize.Is256x256">
+                            <FigureImage Source="@EditingEntity.PicUrl" AlternateText="empty-256x256" />
+                            <FigureCaption>A caption for the above image.</FigureCaption>
+                        </Figure>
+                    </Field>
                 </Validations>
             </ModalBody>
 
@@ -174,10 +195,49 @@
 
 
 @code {
+    [Inject]
+    protected IBlobAppService BlobAppService { get; set; }
+
+    [Inject]
+    protected IWebAssemblyHostEnvironment Environment { get; set; }
+
+    [Inject]
+    protected IConfiguration Configuration { get; set; }
+
     public AdminCategories()
     {
         CreatePolicyName = BlogPermissions.Categories.Create;
         UpdatePolicyName = BlogPermissions.Categories.Edit;
         DeletePolicyName = BlogPermissions.Categories.Delete;
     }
+
+    private Uri _hostBaseAddress => new Uri(Environment.BaseAddress);
+
+    #region UploadImg
+
+    private Dictionary<string, Stream> _imageStreamDictionary = new Dictionary<string, Stream>();
+
+    async Task OnImageUploadChanged(FileChangedEventArgs e)
+    {
+        var file = e.Files.FirstOrDefault();
+        await using var stream = new System.IO.MemoryStream();
+        _imageStreamDictionary.Add(file.Name, stream);
+        await file.WriteToStreamAsync(stream);
+    }
+
+    async Task OnImageUploadEnded(FileEndedEventArgs e)
+    {
+        var stream = _imageStreamDictionary[e.File.Name];
+        stream.Seek(0, SeekOrigin.Begin);
+        var imgUri = await BlobAppService.UploadCategoryPics(new RemoteStreamContent(stream, e.File.Name));
+
+        var hostBaseAddress = Configuration["RemoteServices:Default:BaseUrl"];
+        e.File.UploadUrl = $"{hostBaseAddress}{imgUri}";
+        NewEntity.PicUrl = EditingEntity.PicUrl = e.File.UploadUrl;
+        Console.WriteLine($"Finished Image: {e.File.Name}, Success: {e.Success}");
+
+        _imageStreamDictionary.Remove(e.File.Name);
+    }
+
+    #endregion
 }
