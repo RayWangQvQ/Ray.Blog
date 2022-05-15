@@ -9,18 +9,32 @@
 @*搜索*@
 <Row Margin="Margin.Is4">
     <Column>
-        标题：<TextEdit @bind-Text="@this.GetPostListRequest.Title" />
+        <FieldLabel>@L["Title"]</FieldLabel>
+        <TextEdit @bind-Text="@this.Title" />
     </Column>
     <Column>
         <Field>
-            @*<FieldLabel>分类：</FieldLabel>*@
             <FieldBody>
-                分类：<TextEdit Text="@this.CategoryId.ToString()" />
+                <FieldLabel>@L["Category"]</FieldLabel>
+                <Select TValue="Guid?" SelectedValue="@CategoryId" SelectedValueChanged="@OnSelectedValueChanged">
+                    <SelectItem TValue="Guid?" Value="@Guid.Empty">All</SelectItem>
+                    @foreach (var category in _categoryAllList)
+                                {
+                    <SelectItem TValue="Guid?" Value="@category.Id">
+                        @category.Name
+                    </SelectItem>
+                                }
+                </Select>
             </FieldBody>
         </Field>
     </Column>
     <Column VerticalAlignment="VerticalAlignment.Middle" Margin="Margin.Is4.FromTop">
-        <Button Color="Color.Primary" Clicked="OnSearchButtonClickAsync">查询</Button>
+        <Field>
+            <FieldBody>
+                <FieldLabel></FieldLabel>
+                <Button Color="Color.Primary" Clicked="OnSearchButtonClickAsync">查询</Button>
+            </FieldBody>
+        </Field>
     </Column>
 </Row>
 
@@ -48,9 +62,9 @@
                 </Paragraph>
                 <Div>
                     @foreach (var tag in context.Tags)
-                    {
-                        <Badge Color="Color.Info">@tag.Name</Badge>
-                    }
+                            {
+                    <Badge Color="Color.Info">@tag.Name</Badge>
+                            }
                 </Div>
 
             </DetailRowTemplate>

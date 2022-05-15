@@ -5,8 +5,8 @@
 <CardDeck>
     @foreach (var item in this.CategoryList)
     {
-        <Card ColumnSize="ColumnSize.Is4">
-            <CardImage Source="/img/gallery/2.jpg" Alt="Card image cap 3"></CardImage>
+        <Card>
+            <CardImage Source="@item.PicUrl" Alt="Pic"></CardImage>
             <CardBody>
                 <CardTitle Size="5">
                     <CardLink Source="@($"/categoryId/{item.Id}/posts")">@item.Name</CardLink>

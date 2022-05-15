@@ -9,14 +9,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Ray.Blog.Categories;
 using Volo.Abp.Application.Dtos;
 
 namespace Ray.Blog.Blazor.Pages
 {
-    public partial class Posts: BlogComponentBase
+    public partial class Posts : BlogComponentBase
     {
         [Inject]
         IPostsAppService PostAppService { get; set; }
+
+        [Parameter]
+        public string Title { get; set; }
 
         [Parameter]
         public Guid? CategoryId { get; set; }
@@ -26,7 +30,7 @@ namespace Ray.Blog.Blazor.Pages
 
         private IReadOnlyList<PostDto> PostList { get; set; } = new List<PostDto>();
 
-        private GetPostListDto GetPostListRequest { get; set; } = new GetPostListDto();
+        IReadOnlyList<CategoryLookupDto> _categoryAllList = new List<CategoryLookupDto>();
 
         private int PageSize { get; } = LimitedResultRequestDto.DefaultMaxResultCount;
         private int CurrentPage { get; set; }
@@ -37,10 +41,10 @@ namespace Ray.Blog.Blazor.Pages
         private bool CanEditAuthor { get; set; }
         private bool CanDeleteAuthor { get; set; }
 
-        private CreatePostDto NewAuthor { get; set; }
+        private CreatePostDto NewAuthor { get; set; } = new CreatePostDto();
 
         private Guid EditingAuthorId { get; set; }
-        private CreatePostDto EditingAuthor { get; set; }
+        private CreatePostDto EditingAuthor { get; set; } = new CreatePostDto();
 
         private Modal CreateAuthorModal { get; set; }
         private Modal EditAuthorModal { get; set; }
@@ -49,21 +53,20 @@ namespace Ray.Blog.Blazor.Pages
 
         private Validations EditValidationsRef;
 
-        public Posts()
-        {
-            NewAuthor = new CreatePostDto();
-            EditingAuthor = new CreatePostDto();
-        }
-
         protected override async Task OnInitializedAsync()
         {
-            if (CategoryId.HasValue)
-            {
-                GetPostListRequest.CategoryIds = new Guid[] { CategoryId.Value };
-            }
+            //获取类别下拉列表
+            _categoryAllList = (await PostAppService.GetCategoryLookupAsync()).Items;
 
             await SetPermissionsAsync();
-            //await GetPostsAsync();
+            await GetPostsAsync();
+        }
+
+        Task OnSelectedValueChanged(Guid? categoryId)
+        {
+            CategoryId = categoryId == Guid.Empty ? null : categoryId;
+
+            return Task.CompletedTask;
         }
 
         private async Task SetPermissionsAsync()
@@ -80,10 +83,15 @@ namespace Ray.Blog.Blazor.Pages
 
         private async Task GetPostsAsync()
         {
-            GetPostListRequest.MaxResultCount = PageSize;
-            GetPostListRequest.SkipCount = CurrentPage * PageSize;
-            GetPostListRequest.Sorting = CurrentSorting;
-            var result = await PostAppService.GetListAsync(GetPostListRequest);
+            GetPostListDto request = new GetPostListDto();
+            request.MaxResultCount = PageSize;
+            request.SkipCount = CurrentPage * PageSize;
+            request.Sorting = CurrentSorting;
+
+            if (CategoryId.HasValue)
+                request.CategoryIds = new Guid[] { CategoryId.Value };
+
+            var result = await PostAppService.GetListAsync(request);
 
             PostList = result.Items;
             TotalCount = (int)result.TotalCount;
