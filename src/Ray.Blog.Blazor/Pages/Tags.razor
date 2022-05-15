@@ -2,15 +2,11 @@
 
 @inherits BlogComponentBase
 
-<CardDeck>
-    @foreach (var item in this.TagList)
-    {
-        <Card ColumnSize="ColumnSize.Is4">
-            <Badge Link="/posts" TextColor="TextColor.Black50">@item.Name</Badge>
-        </Card>
-    }
-</CardDeck>
-
-@code {
-
+<Container>
+@foreach (var item in this.TagList)
+{
+    <Badge Link="@($"tag/{item.Id}/posts")" Color="@GetRandomBadgeColor()" Margin="Margin.Is2">
+        @item.Alias
+    </Badge>
 }
+</Container>

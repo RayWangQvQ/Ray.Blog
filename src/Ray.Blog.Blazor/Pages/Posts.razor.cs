@@ -90,6 +90,8 @@ namespace Ray.Blog.Blazor.Pages
 
             if (CategoryId.HasValue)
                 request.CategoryIds = new Guid[] { CategoryId.Value };
+            if(TagId.HasValue)
+                request.TagIds=new Guid[] { TagId.Value };
 
             var result = await PostAppService.GetListAsync(request);
 
