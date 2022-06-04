@@ -13,9 +13,10 @@
             for (int i = 0; i < this.CommentList.Count; i++)
             {
                 var item = this.CommentList[i];
+                var num=(i+1).ToString();
                 <ListGroupItem>
                     <Div>
-                        <Text TextColor="TextColor.Primary">#@(i+1)楼</Text>
+                        <Text TextColor="TextColor.Primary">#@(num)楼</Text>
                         <Text TextColor="TextColor.Secondary">@item.CreationTime.ToString("yyyy-MM-dd HH:mm:ss")</Text>
                         <Text Margin="Margin.Is1.FromBottom" TextColor="TextColor.Primary">Zai7Lou</Text>
                         <Div TextAlignment="TextAlignment.End">
