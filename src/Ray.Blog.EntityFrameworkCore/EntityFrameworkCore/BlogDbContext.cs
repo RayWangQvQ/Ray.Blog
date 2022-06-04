@@ -63,6 +63,8 @@ public class BlogDbContext :
 
     public DbSet<Tag> Tags { get; set; }
 
+    public DbSet<RelatePostTag> RelatePostTags { get; set; }
+
     public DbSet<Comment> Comments { get; set; }
 
     public DbSet<PostThumbUpHistory> PostThumbUpHistories { get; set; }

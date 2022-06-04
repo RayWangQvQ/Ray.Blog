@@ -13,7 +13,7 @@ namespace Ray.Blog.Blazor.Pages
     {
         [Inject] ITagAppService TagAppService { get; set; }
 
-        private IReadOnlyList<TagDto> TagList { get; set; } = new List<TagDto>();
+        private IReadOnlyList<TagWithCountDto> TagList { get; set; } = new List<TagWithCountDto>();
 
         private int PageSize { get; } = 1000;
         private int CurrentPage { get; set; }
@@ -27,17 +27,10 @@ namespace Ray.Blog.Blazor.Pages
 
         private async Task GetTagsAsync()
         {
-            var result = await TagAppService.GetListAsync(
-                new PagedAndSortedResultRequestDto
-                {
-                    MaxResultCount = PageSize,
-                    SkipCount = CurrentPage * PageSize,
-                    Sorting = CurrentSorting
-                }
-            );
+            var result = await TagAppService.GetTagWithCountListAsync();
 
-            TagList = result.Items;
-            TotalCount = (int)result.TotalCount;
+            TagList = result;
+            TotalCount = result.Count;
         }
 
         private Blazorise.Color GetRandomBadgeColor()
