@@ -42,7 +42,7 @@
 @*博文列表及右侧排行榜*@
 <Row Gutter="(64, 16)">
     @*博文列表*@
-    <Column ColumnSize="ColumnSize.Is9" Background="Background.White">
+    <Column ColumnSize="ColumnSize.Is9">
         <DataGrid TItem="PostDto"
                   Data="PostList"
                   ReadData="OnDataGridReadAsync"
@@ -55,10 +55,10 @@
                     <Heading Size="HeadingSize.Is5" Margin="Margin.Is1.FromBottom">
                         <Blazorise.Link To="@("/posts/"+context.Id.ToString())" Title="test">@context.Title</Blazorise.Link>
                     </Heading>
-                    <Small>@context.CreationTime</Small>
                 </Div>
                 <Small>这是简介</Small>
                 <Paragraph Margin="Margin.Is1.FromBottom">
+                    <Small>@context.CreationTime.ToString("yyyy-M-d dddd")</Small>
                     <Icon Name="IconName.ThumbsUp" TextColor="TextColor.Secondary" /> @(context.ThumbUpHistories.Count==0?" ":context.ThumbUpHistories.Count)
                 </Paragraph>
                 <Div>

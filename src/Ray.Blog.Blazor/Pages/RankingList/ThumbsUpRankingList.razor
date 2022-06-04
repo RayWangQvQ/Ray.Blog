@@ -2,11 +2,11 @@
 
 @inherits BlogComponentBase
 
-<ListGroup Flush>
+<ListGroup Flush Background="Background.Transparent">
     @{
         foreach (var item in PostList)
         {
-            <ListGroupItem>
+            <ListGroupItem Background="Background.Transparent">
                 <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
                     <Paragraph Margin="Margin.Is1.FromStart">
                         <Blazorise.Link To="@("/posts/" + item.Id.ToString())" Title="@item.Title">
