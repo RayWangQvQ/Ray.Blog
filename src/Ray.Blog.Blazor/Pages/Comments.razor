@@ -2,9 +2,9 @@
 
 @using Ray.Blog.Comments
 @using Blazorise.Markdown
-@using AntDesign
 
-<div>
+<Div>
+    <Heading Size="HeadingSize.Is5">@(TotalCount)条评论</Heading>
 
     <Blazorise.Divider DividerType="DividerType.TextContent" Text="评论列表" />
 
@@ -14,29 +14,26 @@
             {
                 var item = this.CommentList[i];
                 <ListGroupItem>
-                    <Div Flex="Flex.JustifyContent.Between" Width="Width.Is100">
-                        <Heading Size="HeadingSize.Is5" Margin="Margin.Is1.FromBottom">Zai7Lou</Heading>
-                        <CommentThumbUp Comment="@item"></CommentThumbUp>
+                    <Div>
+                        <Text TextColor="TextColor.Primary">#@(i+1)楼</Text>
+                        <Text TextColor="TextColor.Secondary">@item.CreationTime.ToString("yyyy-MM-dd HH:mm:ss")</Text>
+                        <Text Margin="Margin.Is1.FromBottom" TextColor="TextColor.Primary">Zai7Lou</Text>
+                        <Div TextAlignment="TextAlignment.End">
+                            <Blazorise.Link To="">回复</Blazorise.Link>
+                            <Blazorise.Link To="">引用</Blazorise.Link>
+                        </Div>
                     </Div>
                     <Blazorise.Paragraph Margin="Margin.Is1.FromBottom">@item.Text</Blazorise.Paragraph>
                     <Div TextAlignment="TextAlignment.End">
-                        <Small>@item.CreationTime</Small>
+                        <CommentThumbUp Comment="@item"></CommentThumbUp>
                     </Div>
                 </ListGroupItem>
             }
         }
     </ListGroup>
 
-    <Div TextAlignment="TextAlignment.End" Margin="Margin.Is3.FromTop.Is3.FromBottom">
-        <AntDesign.Pagination  DefaultCurrent="6"
-                               Total="@this.TotalCount"
-                               ShowSizeChanger
-                               OnShowSizeChange="OnShowSizeChange"
-                               PageIndex="@this.PageSize"
-                               OnChange="OnChange"/>
+    <Div Margin="Margin.Is5.FromTop">
+        <Markdown @bind-Value="this.NewComment.Text" Height="Height.Is25" Width="Width.Is50"></Markdown>
+        <Blazorise.Button Color="Blazorise.Color.Primary" Clicked="OnAddCommentButtonClickedAsync">发送</Blazorise.Button>
     </Div>
-
-    <Markdown @bind-Value="this.NewComment.Text" Height="Height.Is25" Width="Width.Is50"></Markdown>
-    <Blazorise.Button Color="Blazorise.Color.Primary" Clicked="OnAddCommentButtonClickedAsync">发送</Blazorise.Button>
-
-</div>
+</Div>
