@@ -29,6 +29,8 @@ namespace Ray.Blog.Posts
         /// </summary>
         public string Markdown { get; set; }
 
+        public string BriefIntroduction => Markdown.Length <= 100 ? Markdown : $"{Markdown.Substring(0, 100)}...";
+
         public Guid CategoryId { get; set; }
 
         /*

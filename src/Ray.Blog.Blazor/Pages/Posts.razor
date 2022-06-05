@@ -56,7 +56,7 @@
                         <Blazorise.Link To="@("/posts/"+context.Id.ToString())" Title="test">@context.Title</Blazorise.Link>
                     </Heading>
                 </Div>
-                <Small>这是简介</Small>
+                <Small>@context.BriefIntroduction</Small>
                 <Paragraph Margin="Margin.Is1.FromBottom">
                     <Small>@context.CreationTime.ToString("yyyy-M-d dddd")</Small>
                     <Icon Name="IconName.ThumbsUp" TextColor="TextColor.Secondary" /> @(context.ThumbUpHistories.Count==0?" ":context.ThumbUpHistories.Count)
