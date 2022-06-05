@@ -41,5 +41,7 @@ namespace Ray.Blog.Posts
         public List<TagLookupDto> Tags { get; set; } = new();
 
         public List<PostThumbUpHistoryDto> ThumbUpHistories { get; set; } = new();
+
+        public int CommentCount { get; set; }
     }
 }

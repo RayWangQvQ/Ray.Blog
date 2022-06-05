@@ -9,14 +9,16 @@
     <JumbotronSubtitle TextAlignment="TextAlignment.Center"
                        TextWeight="TextWeight.Light"
                        TextColor="TextColor.Secondary">
-        <Icon Name="IconName.Clock" IconSize="IconSize.ExtraSmall" />
-        <Text>
-            @PostDto.CreationTime.ToString("yyyy-M-d dddd")
-        </Text>
-        <Icon Name="IconName.ThumbsUp" IconSize="IconSize.ExtraSmall" />
-        <Text>@PostDto.ThumbUpHistories.Count</Text>
-        <Icon Name="IconName.Comment" IconSize="IconSize.ExtraSmall" />
-        <Text>2</Text>
+        <Paragraph>
+            <Icon Name="IconName.Clock" IconSize="IconSize.ExtraSmall"/>
+            <Small>
+                @PostDto.CreationTime.ToString("yyyy-M-d dddd")
+            </Small>
+            <Icon Name="IconName.ThumbsUp" IconSize="IconSize.ExtraSmall" />
+            <Small>@PostDto.ThumbUpHistories.Count</Small>
+            <Icon Name="IconName.Comment" IconSize="IconSize.ExtraSmall" />
+            <Small>@PostDto.CommentCount</Small>
+        </Paragraph>
     </JumbotronSubtitle>
     <Divider/>
     <Paragraph>

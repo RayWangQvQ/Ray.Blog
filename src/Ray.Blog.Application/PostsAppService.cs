@@ -8,6 +8,7 @@ using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Text;
 using System.Threading.Tasks;
+using Ray.Blog.Comments;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Entities;
@@ -22,14 +23,17 @@ namespace Ray.Blog
     {
         private readonly IRepository<Category, Guid> _categoryRepository;
         private readonly IRepository<Tag, Guid> _tagRepository;
+        private readonly IRepository<Comment, Guid> _commentRepository;
 
         public PostsAppService(
             IRepository<Post, Guid> repository,
             IRepository<Category, Guid> categoryRepository,
-            IRepository<Tag, Guid> tagRepository) : base(repository)
+            IRepository<Tag, Guid> tagRepository, 
+            IRepository<Comment, Guid> commentRepository) : base(repository)
         {
             _categoryRepository = categoryRepository;
             _tagRepository = tagRepository;
+            _commentRepository = commentRepository;
         }
 
         [AllowAnonymous]
@@ -52,6 +56,7 @@ namespace Ray.Blog
             var dto = await MapToGetOutputDtoAsync(queryResult);
 
             await SetTagsOfPost(dto, queryResult.RelatePostTags.Select(x => x.TagId));
+            await SetCommentCountOfPost(dto);
 
             return dto;
         }
@@ -88,13 +93,16 @@ namespace Ray.Blog
             //Execute the query and get a list
             var queryResult = await AsyncExecuter.ToListAsync(query);
 
+
             //Convert the query result to a list of BookDto objects
-            var dtos = queryResult.Select(x =>
+            var dtoTasks = queryResult.Select(async x =>
             {
                 var postDto = ObjectMapper.Map<Post, PostDto>(x);
-                SetTagsOfPost(postDto, x.RelatePostTags.Select(r => r.TagId)).Wait();
+                await SetTagsOfPost(postDto, x.RelatePostTags.Select(r => r.TagId));
+                await SetCommentCountOfPost(postDto);
                 return postDto;
             }).ToList();
+            var dtos = await Task.WhenAll(dtoTasks);
 
             //Get the total count with another query
             var totalCount = await Repository.GetCountAsync();
@@ -202,6 +210,12 @@ namespace Ray.Blog
                 .ToList();
 
             postDto.Tags = ObjectMapper.Map<List<Tag>, List<TagLookupDto>>(tags);
+        }
+
+        private async Task SetCommentCountOfPost(PostDto postDto)
+        {
+            var count=await _commentRepository.CountAsync(x=>x.PostId==postDto.Id);
+            postDto.CommentCount = count;
         }
 
         private static string NormalizeSorting(string sorting)

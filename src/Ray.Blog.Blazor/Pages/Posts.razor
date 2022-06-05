@@ -57,9 +57,13 @@
                     </Heading>
                 </Div>
                 <Small>@context.BriefIntroduction</Small>
-                <Paragraph Margin="Margin.Is1.FromBottom">
+                <Paragraph Margin="Margin.Is1" TextColor="TextColor.Secondary">
+                    <Icon Name="IconName.Clock" IconSize="IconSize.ExtraSmall" />
                     <Small>@context.CreationTime.ToString("yyyy-M-d dddd")</Small>
-                    <Icon Name="IconName.ThumbsUp" TextColor="TextColor.Secondary" /> @(context.ThumbUpHistories.Count==0?" ":context.ThumbUpHistories.Count)
+                    <Icon Name="IconName.ThumbsUp" IconSize="IconSize.ExtraSmall" />
+                    <Small>@context.ThumbUpHistories.Count</Small>
+                    <Icon Name="IconName.Comment" IconSize="IconSize.ExtraSmall" />
+                    <Small>@context.CommentCount</Small>
                 </Paragraph>
                 <Div>
                     @foreach (var tag in context.Tags)
@@ -86,7 +90,7 @@
         @*点赞排行*@
         <Row Margin="Margin.Is4.FromTop">
             <Div>
-                <Icon Name="IconName.ThumbsUp" TextColor="TextColor.Success" />
+                <Icon Name="IconName.ThumbsUp" TextColor="TextColor.Secondary" />
                 <Text TextColor="TextColor.Secondary"> 点赞排行</Text>
             </Div>
         </Row>
