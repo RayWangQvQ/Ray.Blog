@@ -39,13 +39,13 @@ namespace Ray.Blog.Data
 
         public async Task SeedAsync(DataSeedContext context)
         {
-            var user = await _identityUseRepository.FirstOrDefaultAsync();
+            IdentityUser user = await _identityUseRepository.FirstOrDefaultAsync();
 
             //分类
-            Category foodCategory = await _categoryRepository.FirstOrDefaultAsync(x => x.Name == "Food");
-            if (foodCategory == null)
+            Category sketchCategory = await _categoryRepository.FirstOrDefaultAsync(x => x.Name == "Sketch");
+            if (sketchCategory == null)
             {
-                foodCategory = await _categoryRepository.InsertAsync(new Category("Food", "美食区", ""), true);
+                sketchCategory = await _categoryRepository.InsertAsync(new Category("Sketch", "随想", ""), true);
             }
 
             //标签
@@ -54,33 +54,36 @@ namespace Ray.Blog.Data
             {
                 dotNetTag = await _tagRepository.InsertAsync(new Tag("DotNet", "DotNet"), true);
             }
-            Tag tag = await _tagRepository.FirstOrDefaultAsync(x => x.Name == "Food");
-            if (tag == null)
+            Tag dddTag = await _tagRepository.FirstOrDefaultAsync(x => x.Name == "DDD");
+            if (dotNetTag == null)
             {
-                tag = await _tagRepository.InsertAsync(new Tag("Food", "美食"), true);
+                dddTag = await _tagRepository.InsertAsync(new Tag("DDD", "DDD"), true);
+            }
+            Tag otherTag = await _tagRepository.FirstOrDefaultAsync(x => x.Name == "Other");
+            if (otherTag == null)
+            {
+                otherTag = await _tagRepository.InsertAsync(new Tag("Other", "其他"), true);
             }
 
             //博文
-            var post = await _postRepository.FirstOrDefaultAsync(x => x.Title == "美食日记（1）");
+            Post post = await _postRepository.FirstOrDefaultAsync(x => x.Title == "Hello word!");
             if (post == null)
             {
-                post = new Post(foodCategory.Id, "美食日记（1）");
-                post.Markdown = "这是一篇美食博客";
+                post = new Post(sketchCategory.Id, "Hello word!");
+                post.Markdown = "这是我的第一篇博文，你好世界！";
                 post = await _postRepository.InsertAsync(post, true);
 
-                post.AddTag(tag.Id);
+                post.AddTag(otherTag.Id);
                 post.ThumbUp(user.Id);
                 await _postRepository.UpdateAsync(post, true);
             }
 
             //评论
-            if (await _commentRepository.FirstOrDefaultAsync(x => x.PostId == post.Id && x.Text == "太棒了") == null)
+            if (await _commentRepository.CountAsync(x=>x.PostId== post.Id) == 0)
             {
-                await _commentRepository.InsertAsync(new Comment(post.Id, "太棒了"), true);
-            }
-            if (await _commentRepository.FirstOrDefaultAsync(x => x.PostId == post.Id && x.Text == "赞") == null)
-            {
-                var comment = await _commentRepository.InsertAsync(new Comment(post.Id, "赞"), true);
+                await _commentRepository.InsertAsync(new Comment(post.Id, "这是第一条评论~"), true);
+
+                var comment = await _commentRepository.InsertAsync(new Comment(post.Id, "评论也可以点赞哦"), true);
                 comment.ThumbUp(user.Id);
                 await _commentRepository.UpdateAsync(comment);
             }

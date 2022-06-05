@@ -82,10 +82,10 @@ public class BlogDbContext :
 
         /* Include modules to your migration db context */
 
-        //builder.ConfigurePermissionManagement();
-        //builder.ConfigureSettingManagement();
+        builder.ConfigurePermissionManagement();
+        builder.ConfigureSettingManagement();
         builder.ConfigureBackgroundJobs();
-        //builder.ConfigureAuditLogging();
+        builder.ConfigureAuditLogging();
         builder.ConfigureIdentity();
         builder.ConfigureIdentityServer();
         builder.ConfigureFeatureManagement();
@@ -101,5 +101,5 @@ public class BlogDbContext :
         //});
         builder.ConfigureBlog();
         builder.ConfigureBlobStoring();
-        }
+    }
 }

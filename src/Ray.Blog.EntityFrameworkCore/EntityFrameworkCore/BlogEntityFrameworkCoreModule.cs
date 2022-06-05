@@ -50,9 +50,6 @@ public class BlogEntityFrameworkCoreModule : AbpModule
             options.AddDefaultRepositories(includeAllEntities: true);
         });
 
-        context.Services.AddAbpDbContext<BlogSecondDbContext>();
-        context.Services.AddAbpDbContext<BlogBlobDbContext>();
-
         Configure<AbpDbContextOptions>(options =>
         {
             /* The main point to change your DBMS.
